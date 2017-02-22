@@ -1,0 +1,5 @@
+- Swing pour l'IG (Observer/Observable)
+- La mer demande aux bateaux si ils se sont fait toucher
+- Strategy * 2 pour le placment des bateaux et la manière de tirer
+- Strategy pour les epoques
+- Singleton pour le game / pour l'époque ?
