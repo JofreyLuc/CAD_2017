@@ -1,0 +1,10 @@
+# Editors files
+*.swp
+*.bkp
+
+# LaTeX files
+*.aux
+*.log
+*.out
+*.pdf
+*.toc
