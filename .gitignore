@@ -8,3 +8,9 @@
 *.out
 *.pdf
 *.toc
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
