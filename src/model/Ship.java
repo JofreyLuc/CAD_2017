@@ -46,10 +46,26 @@ public class Ship {
 		this.hits = new boolean[size];
 	}
 	
-	public void setPosition(int x, int y) {
-		this.position = new Position(x, y);
+	/**
+	 * Positionne le bateau.
+	 * @param x L'abscisse.
+	 * @param y L'ordonnée.
+	 */
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 	
+	/**
+	 * Change l'orientation du bateau
+	 */
+	public void changeOrientation() {
+		this.horizontal = !this.horizontal;
+	}
+	
+	/**
+	 * Renvoie si le bateau est détruit.
+	 * @return Vrai si le bateau est détruit, faux sinon.
+	 */
 	public boolean isDead() {
 		return dead;
 	}
