@@ -65,4 +65,73 @@ public class Game {
 		this.computerController = new ComputerController(players[COMPUTER_TURN]);
 	}
 	
+	/**
+	 * Traite l'événement d'un clic sur une certaine case.
+	 * @param x Abscisse de la case.
+	 * @param y Ordonnée de la case.
+	 */
+	public void receiveClickEvent(int x, int y) {
+		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		if (gameState != GameState.RUNNING || playerTurn == COMPUTER_TURN)
+			return;	// on ne fait rien
+		
+		Player player = players[0]; // le joueur
+		// Si la phase de positionnement n'est pas terminée
+		if(!player.getSelfGrid().areShipsAllPlaced()) {
+			if (player.placeShip(new Position(x, y)))		// si le positionnement est validée
+				player.getSelfGrid().putNextShipToPlace();	// on prépare le bateau suivant à être positionné
+		}	// Si la phase de positionnement est terminée
+		else {
+			if (player.shoot(new Position(x, y)))			// si le tir est validée
+				endTurn();									// on termine le tour du joueur
+		}
+	}
+	
+	/**
+	 * Vérifie si la partie est terminée.
+	 * @return L'état du jeu (selon qui a gagné).
+	 */
+	private GameState checkGameOver() {
+		if (this.grids[0].areShipsAllDead())
+			return GameState.COMPUTER_WINS;
+		
+		if (this.grids[1].areShipsAllDead())
+			return GameState.PLAYER_WINS;
+		
+		return GameState.RUNNING;
+	}
+	
+	/**
+	 * Change de tour.
+	 */
+	private void changeTurn() {
+		this.playerTurn = 1 - playerTurn;
+	}
+	
+	/**
+	 * Termine le tour du joueur courant.
+	 */
+	private void endTurn() {
+		boolean gameOver = checkGameOver() != GameState.RUNNING;
+		if (gameOver)	// Si la partie est terminée,
+			return;		// on ne fait rien
+		
+		changeTurn();
+		if (playerTurn == COMPUTER_TURN) {	// Si c'est le tour de l'ordinateur,
+			playComputerTurn();				// on le fait jouer
+			endTurn();						// et on termine son tour
+		}
+	}
+	
+	/**
+	 * Joue le tour de l'ordinateur.
+	 */
+	private void playComputerTurn() {
+		// Si la phase de positionnement n'est pas terminée
+		if (!players[COMPUTER_TURN].getSelfGrid().areShipsAllPlaced())
+			computerController.placeAllShips();
+		else
+			computerController.playShoot();
+	}
+	
 }
