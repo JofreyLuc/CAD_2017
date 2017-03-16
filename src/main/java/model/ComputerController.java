@@ -10,6 +10,9 @@ public class ComputerController {
 	 */
 	private Player computer;
 	
+	/**
+	 * La stratégie par défaut.
+	 */
 	private final static ShootingStrategy DEFAULT_SHOOTING_STRATEGY = new RandomShooting();
 	
 	/**
@@ -31,6 +34,14 @@ public class ComputerController {
 	 */
 	public void placeAllShips() {
 		//TODO
+		// Temporaire
+		Sea sea = this.computer.getSelfGrid();
+		int i = 0;
+		while (!sea.areShipsAllPlaced()) {
+			computer.placeShip(new Position(i, 0));
+			sea.putNextShipToPlace();
+			i++;
+		}
 	}
 
 	/**

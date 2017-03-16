@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 /**
  * Classe principale du modèle qui contient tous les autres éléments du jeu
  * et qui représente l'état d'une partie.
@@ -59,7 +61,9 @@ public class Game {
 		this.grids = new Sea[2];
 		this.players = new Player[2];
 		this.grids[0] = new Sea(epoch);
+		this.grids[0].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
 		this.grids[1] = new Sea(epoch);
+		this.grids[1].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
 		this.players[0] = new Player(this.grids[0], this.grids[1]);
 		this.players[1] = new Player(this.grids[1], this.grids[0]);
 		this.computerController = new ComputerController(players[COMPUTER_TURN]);
@@ -88,6 +92,32 @@ public class Game {
 	}
 	
 	/**
+	 * Termine le tour du joueur courant.
+	 */
+	public void endTurn() {
+		boolean gameOver = checkGameOver() != GameState.RUNNING;
+		if (gameOver)	// Si la partie est terminée,
+			return;		// on ne fait rien
+		
+		changeTurn();
+		if (playerTurn == COMPUTER_TURN) {	// Si c'est le tour de l'ordinateur,
+			playComputerTurn();				// on le fait jouer
+			endTurn();						// et on termine son tour
+		}
+	}
+	
+	/**
+	 * Joue le tour de l'ordinateur.
+	 */
+	public void playComputerTurn() {
+		// Si la phase de positionnement n'est pas terminée
+		if (!players[COMPUTER_TURN].getSelfGrid().areShipsAllPlaced())
+			computerController.placeAllShips();
+		else
+			computerController.playShoot();
+	}
+	
+	/**
 	 * Vérifie si la partie est terminée.
 	 * @return L'état du jeu (selon qui a gagné).
 	 */
@@ -107,31 +137,10 @@ public class Game {
 	private void changeTurn() {
 		this.playerTurn = 1 - playerTurn;
 	}
-	
-	/**
-	 * Termine le tour du joueur courant.
-	 */
-	private void endTurn() {
-		boolean gameOver = checkGameOver() != GameState.RUNNING;
-		if (gameOver)	// Si la partie est terminée,
-			return;		// on ne fait rien
-		
-		changeTurn();
-		if (playerTurn == COMPUTER_TURN) {	// Si c'est le tour de l'ordinateur,
-			playComputerTurn();				// on le fait jouer
-			endTurn();						// et on termine son tour
-		}
-	}
-	
-	/**
-	 * Joue le tour de l'ordinateur.
-	 */
-	private void playComputerTurn() {
-		// Si la phase de positionnement n'est pas terminée
-		if (!players[COMPUTER_TURN].getSelfGrid().areShipsAllPlaced())
-			computerController.placeAllShips();
-		else
-			computerController.playShoot();
+
+	@Override
+	public String toString() {
+		return "Game [\ngrille joueur : " + grids[0] + "\n\ngrille ordi : " + grids[1] + "]";
 	}
 	
 }

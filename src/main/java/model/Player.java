@@ -69,8 +69,8 @@ public class Player {
 			validPlace = this.selfGrid.isSeaBoxFree(boxesOccupied[i]);	// si elle est libre
 			i++;
 		}
-		
-		if (validPlace)							// Si l'emplacement est valide,
+
+		if (validPlace)								// Si l'emplacement est valide,
 			this.selfGrid.validateShipPlacement();	// on valide le positionnement du bateau
 		
 		return validPlace;

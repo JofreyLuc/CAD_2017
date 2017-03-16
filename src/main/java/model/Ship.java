@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 /**
  * Classe représentant un bateau.
  */
@@ -47,6 +49,14 @@ public class Ship {
 	}
 	
 	/**
+	 * Retourne la longueur du bateau.
+	 * @return La longueur du bateau.
+	 */
+	public int getSize() {
+		return this.size;
+	}
+	
+	/**
 	 * Positionne le bateau.
 	 * @param x L'abscisse.
 	 * @param y L'ordonnée.
@@ -76,12 +86,15 @@ public class Ship {
 	 * @return Les positions occupées.
 	 */
 	public Position[] getSeaBoxesOccupied() {
+		if (position == null)
+			return new Position[0];
+		
 		Position[] boxesOccupied = new Position[size];
 		for (int i = 0 ; i < size ; i++) {
 			if (horizontal)
-				boxesOccupied[i] = position.add(i, 0);
+				boxesOccupied[i] = new Position(position.getX()+i, position.getY());
 			else
-				boxesOccupied[i] = position.add(0, i);
+				boxesOccupied[i] = new Position(position.getX(), position.getY()+i);
 		}
 		return boxesOccupied;
 	}
@@ -101,9 +114,32 @@ public class Ship {
 		if(touched) {		// Si le bateau est touché,
 			hits[i] = true;	// on enregistre les dégâts
 			if (!dead)		// et si le bateau n'est pas déjà détruit,
-				this.dead = epoch.takeDamage(size, hits);
+				this.dead = epoch.takeDamage(size, getHitCount());
 		}					// on délègue la gestion de l'état du bateau à l'époque
 		return touched;
+	}
+	
+	/**
+	 * Compte le nombre de tirs qui ont touchés le bateau.
+	 * @return Nombre de "touchés".
+	 */
+	private int getHitCount() {
+		int count = 0;
+		for (int i = 0 ; i < hits.length ; i++)
+			if (hits[i])
+				count++;
+		
+		return count;
+	}
+
+	@Override
+	public String toString() {
+		String posOcc = " ";
+		for (Position pos : this.getSeaBoxesOccupied())
+			posOcc+= pos + " , ";
+		return "\nShip [position=" + position + ", posOcc=" + posOcc + ", size=" + size
+				+ ", horizontal=" + horizontal + ", dead=" + dead + ", hits="
+				+ Arrays.toString(hits) + ", epoch=" + epoch + "]";
 	}
 	
 }

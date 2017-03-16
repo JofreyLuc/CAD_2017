@@ -20,9 +20,9 @@ public abstract class Epoch {
 	 * Méthode indiquant le comportement à adopter à un bateau
 	 * selon le bateau (sa taille) et l'époque lorsque qu'il subit un tir.
 	 * @param size La longueur du bateau, permet de déterminer de quel type de bateau il s'agit.
-	 * @param hits Les dégâts déjà subis par le bateau.
+	 * @param hitCount Le nombre de "touchés" du bateau.
 	 * @return L'état du bateau après avoir subi le tir, à vrai si le bateau est détruit.
 	 */
-	protected abstract boolean takeDamage(int size, boolean[] hits);
+	protected abstract boolean takeDamage(int size, int hitCount);
 	
 }

@@ -48,7 +48,8 @@ public class Sea {
 	public Sea(Epoch epoch) {
 		// Initialisation de la grille
 		this.grid = new SeaBoxState[GRID_WIDTH][GRID_HEIGHT];
-		Arrays.fill(this.grid, SeaBoxState.NORMAL);
+		for (int i = 0 ; i < grid.length ; i++)
+			Arrays.fill(this.grid[i], SeaBoxState.NORMAL);
 		// Initialisation des bateaux
 		shipsToPlace = new ArrayList<Ship>(SHIPS_SIZES.length);
 		ships = new ArrayList<Ship>(SHIPS_SIZES.length);
@@ -69,7 +70,7 @@ public class Sea {
 	 * @return Vrai si tous les bateaux sont placés sur la grille, faux sinon.
 	 */
 	public boolean areShipsAllPlaced() {
-		return shipsToPlace.isEmpty();
+		return shipsToPlace.isEmpty() && shipOnPlacing == null;
 	}
 	
 	/**
@@ -91,18 +92,36 @@ public class Sea {
 	
 	/**
 	 * Regarde si la case à cette position est libre.
+	 * Retourne faux si la case est hors des limites de la grille.
 	 * @param position La position de la case.
 	 * @return Vrai si la case à cette position est libre, faux sinon.
 	 */
 	public boolean isSeaBoxFree(Position position) {
+		if (position.isOutOfBounds(0, grid.length-1, 0, grid[0].length-1))
+			return false;
+		
 		boolean boxFree = true;
 		Iterator<Ship> iter = ships.iterator();
 		while (iter.hasNext() && boxFree) {
 			Ship ship = iter.next();
-			boxFree = Arrays.asList(ship.getSeaBoxesOccupied()).contains(position);
+			boxFree = !Arrays.asList(ship.getSeaBoxesOccupied()).contains(position);
 			// On vérifie si la case est occupée par le bateau
 		}
 		return boxFree;
+	}
+	
+	/**
+	 * Renvoie la liste des positions où aucun tir n'a été effectué.
+	 * @return La liste des positions où aucun tir n'a été effectué.
+	 */
+	public List<Position> getAllNormalPositions() {
+		List<Position> possibleShots = new ArrayList<Position>(grid.length * grid[0].length);
+		for (int i = 0 ; i < grid.length ; i++)
+			for (int j = 0 ; i < grid[0].length ; j++)
+				if (grid[i][j] == SeaBoxState.NORMAL)
+					possibleShots.add(new Position(i, j));
+		
+		return possibleShots;
 	}
 	
 	/**
@@ -110,8 +129,8 @@ public class Sea {
 	 * en tant que bateau en cours de positionnement s'il n'y en a pas déjà un.
 	 */
 	public void putNextShipToPlace() {
-		if (shipOnPlacing != null && !shipsToPlace.isEmpty())
-			shipOnPlacing = shipsToPlace.get(0);
+		if (shipOnPlacing == null && !shipsToPlace.isEmpty())
+			shipOnPlacing = shipsToPlace.remove(0);
 	}
 	
 	/**
@@ -132,8 +151,7 @@ public class Sea {
 	 */
 	public boolean receiveShot(Position shotPos) {
 		// Coordonnées du tir non valide
-		if (shotPos.getX() < 0 || shotPos.getY() < 0 ||
-			shotPos.getX() >= grid.length || shotPos.getY() >= grid[0].length)
+		if (shotPos.isOutOfBounds(0, grid.length-1, 0, grid[0].length-1))
 			return false;
 		// Si un tir à cette position a déjà été effectué
 		if (grid[shotPos.getX()][shotPos.getY()] != SeaBoxState.NORMAL)
@@ -159,6 +177,18 @@ public class Sea {
 	 */
 	private void updateBoxState(Position position, boolean touched) {
 		grid[position.getX()][position.getY()] = touched ? SeaBoxState.TOUCHED : SeaBoxState.SHOT; 
+	}
+
+	@Override
+	public String toString() {
+		String s = "Sea [shipsToPlace : ";
+		for (Ship ship : shipsToPlace)
+			s += ship + " , ";
+		s+= "\nshipOnPlacing : " + shipOnPlacing;
+		s+= "\nships : ";
+		for (Ship ship : ships)
+			s += ship + " , ";
+		return s;
 	}
 	
 }
