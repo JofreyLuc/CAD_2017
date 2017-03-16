@@ -110,9 +110,10 @@ public class Ship {
 		Position[] boxesOccupied = getSeaBoxesOccupied();
 		while (i < size && !touched) {
 			touched = boxesOccupied[i].equals(shotPosition);
+			i++;
 		}
 		if(touched) {		// Si le bateau est touché,
-			hits[i] = true;	// on enregistre les dégâts
+			hits[i-1] = true;	// on enregistre les dégâts
 			if (!dead)		// et si le bateau n'est pas déjà détruit,
 				this.dead = epoch.takeDamage(size, getHitCount());
 		}					// on délègue la gestion de l'état du bateau à l'époque
@@ -123,7 +124,7 @@ public class Ship {
 	 * Compte le nombre de tirs qui ont touchés le bateau.
 	 * @return Nombre de "touchés".
 	 */
-	private int getHitCount() {
+	public int getHitCount() {
 		int count = 0;
 		for (int i = 0 ; i < hits.length ; i++)
 			if (hits[i])

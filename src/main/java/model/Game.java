@@ -19,14 +19,19 @@ public class Game {
 	private GameState gameState; 
 	
 	/**
-	 * Tour de l'ordinateur.
+	 * Numéro du joueur
 	 */
-	private static final int COMPUTER_TURN = 1;
+	public static final int PLAYER = 0;
+	
+	/**
+	 * Numéro de l'ordinateur.
+	 */
+	public static final int COMPUTER = 1;
 	
 	/**
 	 * Entier correspondant au tour courant du joueur.
-	 * 0 : joueur1
-	 * 1 : joueur2
+	 * 0 : joueur1 (joueur)
+	 * 1 : joueur2 (ordinateur
 	 */
 	private int playerTurn;
 	
@@ -56,17 +61,34 @@ public class Game {
 	 */
 	public Game(Epoch epoch) {
 		this.gameState = GameState.RUNNING;
-		this.playerTurn = COMPUTER_TURN;
+		this.playerTurn = COMPUTER;
 		this.epoch = epoch;
 		this.grids = new Sea[2];
 		this.players = new Player[2];
-		this.grids[0] = new Sea(epoch);
-		this.grids[0].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
-		this.grids[1] = new Sea(epoch);
-		this.grids[1].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
-		this.players[0] = new Player(this.grids[0], this.grids[1]);
-		this.players[1] = new Player(this.grids[1], this.grids[0]);
-		this.computerController = new ComputerController(players[COMPUTER_TURN]);
+		this.grids[PLAYER] = new Sea(epoch);
+		this.grids[COMPUTER] = new Sea(epoch);
+		this.players[PLAYER] = new Player(this.grids[PLAYER], this.grids[COMPUTER]);
+		this.players[COMPUTER] = new Player(this.grids[COMPUTER], this.grids[PLAYER]);
+		this.computerController = new ComputerController(players[COMPUTER]);
+	}
+	
+	/**
+	 * Démarre la partie.
+	 * @param startingPlayer Le joueur qui commence.
+	 */
+	public void startGame(int startingPlayer) {
+		this.grids[COMPUTER].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
+		this.grids[PLAYER].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
+		switch(startingPlayer) {
+			case PLAYER:
+				break;
+			case COMPUTER:
+				playComputerTurn();
+				endTurn();
+			break;
+			default:
+				// Problème
+		}
 	}
 	
 	/**
@@ -76,10 +98,10 @@ public class Game {
 	 */
 	public void receiveClickEvent(int x, int y) {
 		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
-		if (gameState != GameState.RUNNING || playerTurn == COMPUTER_TURN)
+		if (gameState != GameState.RUNNING || playerTurn == COMPUTER)
 			return;	// on ne fait rien
 		
-		Player player = players[0]; // le joueur
+		Player player = players[PLAYER]; // le joueur
 		// Si la phase de positionnement n'est pas terminée
 		if(!player.getSelfGrid().areShipsAllPlaced()) {
 			if (player.placeShip(new Position(x, y)))		// si le positionnement est validée
@@ -95,12 +117,12 @@ public class Game {
 	 * Termine le tour du joueur courant.
 	 */
 	public void endTurn() {
-		boolean gameOver = checkGameOver() != GameState.RUNNING;
+		boolean gameOver = checkGameState() != GameState.RUNNING;
 		if (gameOver)	// Si la partie est terminée,
 			return;		// on ne fait rien
 		
 		changeTurn();
-		if (playerTurn == COMPUTER_TURN) {	// Si c'est le tour de l'ordinateur,
+		if (playerTurn == COMPUTER) {	// Si c'est le tour de l'ordinateur,
 			playComputerTurn();				// on le fait jouer
 			endTurn();						// et on termine son tour
 		}
@@ -109,9 +131,9 @@ public class Game {
 	/**
 	 * Joue le tour de l'ordinateur.
 	 */
-	public void playComputerTurn() {
+	private void playComputerTurn() {
 		// Si la phase de positionnement n'est pas terminée
-		if (!players[COMPUTER_TURN].getSelfGrid().areShipsAllPlaced())
+		if (!players[COMPUTER].getSelfGrid().areShipsAllPlaced())
 			computerController.placeAllShips();
 		else
 			computerController.playShoot();
@@ -121,11 +143,11 @@ public class Game {
 	 * Vérifie si la partie est terminée.
 	 * @return L'état du jeu (selon qui a gagné).
 	 */
-	private GameState checkGameOver() {
-		if (this.grids[0].areShipsAllDead())
+	private GameState checkGameState() {
+		if (this.grids[PLAYER].areShipsAllDead())
 			return GameState.COMPUTER_WINS;
 		
-		if (this.grids[1].areShipsAllDead())
+		if (this.grids[COMPUTER].areShipsAllDead())
 			return GameState.PLAYER_WINS;
 		
 		return GameState.RUNNING;
@@ -140,7 +162,7 @@ public class Game {
 
 	@Override
 	public String toString() {
-		return "Game [\ngrille joueur : " + grids[0] + "\n\ngrille ordi : " + grids[1] + "]";
+		return "Game [\ngrille joueur : " + grids[PLAYER] + "\n\ngrille ordi : " + grids[COMPUTER] + "]";
 	}
 	
 }

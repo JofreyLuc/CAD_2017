@@ -58,6 +58,22 @@ public class Sea {
 	}
 	
 	/**
+	 * Retourne la largeur de la grille.
+	 * @return La largeur de la grille.
+	 */
+	public int getGridWidth() {
+		return grid.length;
+	}
+	
+	/**
+	 * Retourne la hauteur de la grille.
+	 * @return La hauteur de la grille.
+	 */
+	public int getGridHeight() {
+		return grid[0].length;
+	}
+	
+	/**
 	 * Retourne le bateau en cours de placement.
 	 * @return Le bateau en cours de placement.
 	 */
@@ -117,7 +133,7 @@ public class Sea {
 	public List<Position> getAllNormalPositions() {
 		List<Position> possibleShots = new ArrayList<Position>(grid.length * grid[0].length);
 		for (int i = 0 ; i < grid.length ; i++)
-			for (int j = 0 ; i < grid[0].length ; j++)
+			for (int j = 0 ; j < grid[0].length ; j++)
 				if (grid[i][j] == SeaBoxState.NORMAL)
 					possibleShots.add(new Position(i, j));
 		
