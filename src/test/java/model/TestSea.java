@@ -42,7 +42,7 @@ public class TestSea {
 		assertFalse("Doit être déclaré invalide", res);
 	}
 	
-	public void testReceiveShotAlreayShot() {
+	public void testReceiveShotAlreadyShot() {
 		Position pos = new Position(0, 0);
 		sea.receiveShot(pos);
 		boolean res = sea.receiveShot(pos);
