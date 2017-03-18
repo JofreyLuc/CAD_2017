@@ -17,7 +17,8 @@ public class Player {
 	
 	/**
 	 * Crée un joueur à partir de sa grille.
-	 * @param grid La grille du joueur.
+	 * @param selfGrid La grille du joueur.
+	 * @param opponentGrid La grille de l'adversaire.
 	 */
 	public Player(Sea selfGrid, Sea opponentGrid) {
 		this.selfGrid = selfGrid;
