@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Arrays;
-
 /**
  * Classe principale du modèle qui contient tous les autres éléments du jeu
  * et qui représente l'état d'une partie.
@@ -73,6 +71,22 @@ public class Game {
 	}
 	
 	/**
+	 * Retourne la grille du joueur.
+	 * @return La grille du joueur.
+	 */
+	public Sea getPlayerSea() {
+		return this.grids[PLAYER];
+	}
+	
+	/**
+	 * Retourne la grille du joueur.
+	 * @return La grille du joueur.
+	 */
+	public Sea getComputerSea() {
+		return this.grids[COMPUTER];
+	}
+	
+	/**
 	 * Démarre la partie.
 	 * @param startingPlayer Le joueur qui commence.
 	 */
@@ -98,18 +112,19 @@ public class Game {
 	 */
 	public void receiveClickEvent(int x, int y) {
 		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
-		if (gameState != GameState.RUNNING || playerTurn == COMPUTER)
+		if (gameState != GameState.RUNNING || playerTurn == COMPUTER) {
 			return;	// on ne fait rien
+		}
 		
 		Player player = players[PLAYER]; // le joueur
 		// Si la phase de positionnement n'est pas terminée
 		if(!player.getSelfGrid().areShipsAllPlaced()) {
-			if (player.placeShip(new Position(x, y)))		// si le positionnement est validée
-				player.getSelfGrid().putNextShipToPlace();	// on prépare le bateau suivant à être positionné
+			player.placeShip(new Position(x, y));			// on tente de placer un bateau
 		}	// Si la phase de positionnement est terminée
 		else {
-			if (player.shoot(new Position(x, y)))			// si le tir est validée
+			if (player.shoot(new Position(x, y))) {			// si le tir est validée
 				endTurn();									// on termine le tour du joueur
+			}
 		}
 	}
 	
@@ -118,8 +133,9 @@ public class Game {
 	 */
 	public void endTurn() {
 		boolean gameOver = checkGameState() != GameState.RUNNING;
-		if (gameOver)	// Si la partie est terminée,
+		if (gameOver) {	// Si la partie est terminée,
 			return;		// on ne fait rien
+		}
 		
 		changeTurn();
 		if (playerTurn == COMPUTER) {	// Si c'est le tour de l'ordinateur,
@@ -133,10 +149,12 @@ public class Game {
 	 */
 	private void playComputerTurn() {
 		// Si la phase de positionnement n'est pas terminée
-		if (!players[COMPUTER].getSelfGrid().areShipsAllPlaced())
+		if (!players[COMPUTER].getSelfGrid().areShipsAllPlaced()) {
 			computerController.placeAllShips();
-		else
+		}
+		else {
 			computerController.playShoot();
+		}
 	}
 	
 	/**
@@ -144,11 +162,13 @@ public class Game {
 	 * @return L'état du jeu (selon qui a gagné).
 	 */
 	private GameState checkGameState() {
-		if (this.grids[PLAYER].areShipsAllDead())
+		if (this.grids[PLAYER].areShipsAllDead()) {
 			return GameState.COMPUTER_WINS;
+		}
 		
-		if (this.grids[COMPUTER].areShipsAllDead())
+		if (this.grids[COMPUTER].areShipsAllDead()) {
 			return GameState.PLAYER_WINS;
+		}
 		
 		return GameState.RUNNING;
 	}

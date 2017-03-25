@@ -46,8 +46,9 @@ public class Player {
 	 */
 	public void rotateShip() {
 		Ship ship = this.selfGrid.getShipOnPlacing();
-		if (ship == null)	// Si il n'y a pas de bateau en cours de placement,
+		if (ship == null) {	// Si il n'y a pas de bateau en cours de placement,
 			return;			// on ne fait rien
+		}
 		
 		ship.changeOrientation();
 	}
@@ -59,20 +60,16 @@ public class Player {
 	 */
 	public boolean placeShip(Position position) {
 		Ship ship = this.selfGrid.getShipOnPlacing();
-		if (ship == null)	// Si il n'y a pas de bateau en cours de placement,
+		if (ship == null) {	// Si il n'y a pas de bateau en cours de placement,
 			return false;	// on ne fait rien
+		}
 		
 		ship.setPosition(position);								// on place le bateau
-		Position[] boxesOccupied = ship.getSeaBoxesOccupied();	// et on récupère les cases qu'il occupe
-		boolean validPlace = true;
-		int i = 0;										// on regarde pour chaque case occupée par le bateau
-		while (i < boxesOccupied.length && validPlace) {
-			validPlace = this.selfGrid.isSeaBoxFree(boxesOccupied[i]);	// si elle est libre
-			i++;
+		// on regarde si son positionnement est ok
+		boolean validPlace = this.selfGrid.isShipOnPlacingInValidPosition();
+		if (validPlace) {								// Si l'emplacement est valide,
+			this.selfGrid.validateShipPlacement();		// on valide le positionnement du bateau
 		}
-
-		if (validPlace)								// Si l'emplacement est valide,
-			this.selfGrid.validateShipPlacement();	// on valide le positionnement du bateau
 		
 		return validPlace;
 	}

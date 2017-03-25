@@ -93,4 +93,30 @@ public class TestSea {
 		assertEquals("Le nombre de positions normales est incorrect", sea.getGridHeight()*sea.getGridWidth()-positions.length, sea.getAllNormalPositions().size());
 	}
 	
+	// Tests isShipOnPlacingInValidPosition
+	@Test
+	public void testisShipOnPlacingInValidPositionOutOfBounds() {
+		sea.getShipOnPlacing().setPosition(new Position(-1, 0));
+		boolean validPos = sea.isShipOnPlacingInValidPosition();
+		assertFalse("La position devrait être invalide", validPos);
+	}
+
+	@Test
+	public void testPlaceShipFirstShip() {
+		sea.getShipOnPlacing().setPosition(new Position(0, 0));
+		boolean validPos = sea.isShipOnPlacingInValidPosition();
+		assertTrue("La position devrait être valide", validPos);
+	}
+	
+	@Test
+	public void testPlaceShipShipOnOtherShip() {
+		Position pos = new Position(0, 0);
+		sea.getShipOnPlacing().setPosition(pos);
+		sea.validateShipPlacement();
+		sea.putNextShipToPlace();
+		sea.getShipOnPlacing().setPosition(pos);
+		boolean validPos = sea.isShipOnPlacingInValidPosition();
+		assertFalse("La position devrait être invalide", validPos);
+	}
+
 }

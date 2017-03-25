@@ -17,7 +17,6 @@ public class RandomShooting implements ShootingStrategy {
     
 	@Override
 	public Position playShoot(Sea sea) {
-		// On récupère toutes les positions de tirs possibles
 		List<Position> possibleShots = sea.getAllNormalPositions();
 		int randomIndex = RNG.nextInt(possibleShots.size());
 		return possibleShots.get(randomIndex);

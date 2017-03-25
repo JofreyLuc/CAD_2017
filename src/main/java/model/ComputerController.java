@@ -39,7 +39,6 @@ public class ComputerController {
 		int i = 0;
 		while (!sea.areShipsAllPlaced()) {
 			computer.placeShip(new Position(i, 0));
-			sea.putNextShipToPlace();
 			i++;
 		}
 	}
@@ -48,9 +47,10 @@ public class ComputerController {
 	 * Effectue un tir pour le joueur (l'ordinateur).
 	 */
 	public void playShoot() {
-		if(shootingStrategy != null)
+		if(shootingStrategy != null) {
 			// Tire à la position renvoyée par la stratégie de tir
 			computer.shoot(shootingStrategy.playShoot(computer.getOpponentGrid()));
+		}
 	}
 	
 }

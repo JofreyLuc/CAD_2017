@@ -57,6 +57,14 @@ public class Ship {
 	}
 	
 	/**
+	 * Retourne la position du bateau.
+	 * @return La position du bateau.
+	 */
+	public Position getPosition() {
+		return this.position;
+	}
+	
+	/**
 	 * Positionne le bateau.
 	 * @param x L'abscisse.
 	 * @param y L'ordonnée.
@@ -86,15 +94,18 @@ public class Ship {
 	 * @return Les positions occupées.
 	 */
 	public Position[] getSeaBoxesOccupied() {
-		if (position == null)
+		if (position == null) {
 			return new Position[0];
+		}
 		
 		Position[] boxesOccupied = new Position[size];
 		for (int i = 0 ; i < size ; i++) {
-			if (horizontal)
+			if (horizontal) {
 				boxesOccupied[i] = new Position(position.getX()+i, position.getY());
-			else
+			}
+			else {
 				boxesOccupied[i] = new Position(position.getX(), position.getY()+i);
+			}
 		}
 		return boxesOccupied;
 	}
@@ -112,11 +123,12 @@ public class Ship {
 			touched = boxesOccupied[i].equals(shotPosition);
 			i++;
 		}
-		if(touched) {		// Si le bateau est touché,
+		if(touched) {			// Si le bateau est touché,
 			hits[i-1] = true;	// on enregistre les dégâts
-			if (!dead)		// et si le bateau n'est pas déjà détruit,
+			if (!dead) {		// et si le bateau n'est pas déjà détruit,
 				this.dead = epoch.takeDamage(size, getHitCount());
-		}					// on délègue la gestion de l'état du bateau à l'époque
+			}					// on délègue la gestion de l'état du bateau à l'époque
+		}
 		return touched;
 	}
 	
@@ -126,18 +138,20 @@ public class Ship {
 	 */
 	public int getHitCount() {
 		int count = 0;
-		for (int i = 0 ; i < hits.length ; i++)
-			if (hits[i])
+		for (int i = 0 ; i < hits.length ; i++) {
+			if (hits[i]){
 				count++;
-		
+			}
+		}
 		return count;
 	}
 
 	@Override
 	public String toString() {
 		String posOcc = " ";
-		for (Position pos : this.getSeaBoxesOccupied())
+		for (Position pos : this.getSeaBoxesOccupied()) {
 			posOcc+= pos + " , ";
+		}
 		return "\nShip [position=" + position + ", posOcc=" + posOcc + ", size=" + size
 				+ ", horizontal=" + horizontal + ", dead=" + dead + ", hits="
 				+ Arrays.toString(hits) + ", epoch=" + epoch + "]";
