@@ -1,11 +1,12 @@
 package model;
 
 import java.util.Arrays;
+import java.util.Observable;
 
 /**
  * Classe représentant un bateau.
  */
-public class Ship {
+public class Ship extends Observable {
 	
 	/**
 	 * Position du bateau sur la grille du jeu.
@@ -17,10 +18,12 @@ public class Ship {
 	 */
 	private int size;
 	
+	public enum Orientation { HORIZONTAL, VERTICAL }
+	
 	/**
-	 * L'orientation du bateau, à vrai si il est orienté horizontalement.
+	 * L'orientation du bateau.
 	 */
-	private boolean horizontal;
+	private Orientation orientation;
 	
 	/**
 	 * L'état du bateau, à vrai si il est détruit.
@@ -44,6 +47,7 @@ public class Ship {
 	 */
 	public Ship(int size, Epoch epoch) {
 		this.size = size;
+		this.orientation = Orientation.HORIZONTAL;
 		this.epoch = epoch;
 		this.hits = new boolean[size];
 	}
@@ -74,10 +78,36 @@ public class Ship {
 	}
 	
 	/**
+	 * Retourne l'orientation du bateau.
+	 * @return L'orientation du bateau.
+	 */
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	
+	/**
+	 * Met l'orientation du bateau à la valeur passée en paramètre
+	 * @param orientation La nouvelle orientaion du bateau.
+	 */
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
+	/**
 	 * Change l'orientation du bateau
 	 */
 	public void changeOrientation() {
-		this.horizontal = !this.horizontal;
+		switch(orientation) {
+			case HORIZONTAL:
+				orientation = Orientation.VERTICAL;
+				break;
+			case VERTICAL:
+				orientation = Orientation.HORIZONTAL;
+				break;
+			default:
+				throw new AssertionError("Orientation inconnu " + orientation);
+		}
 	}
 	
 	/**
@@ -86,6 +116,28 @@ public class Ship {
 	 */
 	public boolean isDead() {
 		return dead;
+	}
+	
+	/**
+	 * Retourne l'époque du bateau.
+	 * @return L'époque du bateau.
+	 */
+	public Epoch getEpoch() {
+		return epoch;
+	}
+	
+	/**
+	 * Compte le nombre de tirs qui ont touchés le bateau.
+	 * @return Nombre de "touchés".
+	 */
+	public int getHitCount() {
+		int count = 0;
+		for (int i = 0 ; i < hits.length ; i++) {
+			if (hits[i]){
+				count++;
+			}
+		}
+		return count;
 	}
 	
 	/**
@@ -100,11 +152,15 @@ public class Ship {
 		
 		Position[] boxesOccupied = new Position[size];
 		for (int i = 0 ; i < size ; i++) {
-			if (horizontal) {
-				boxesOccupied[i] = new Position(position.getX()+i, position.getY());
-			}
-			else {
-				boxesOccupied[i] = new Position(position.getX(), position.getY()+i);
+			switch(orientation) {
+				case HORIZONTAL:
+					boxesOccupied[i] = new Position(position.getX()+i, position.getY());
+					break;
+				case VERTICAL:
+					boxesOccupied[i] = new Position(position.getX(), position.getY()+i);
+					break;
+				default:
+					throw new AssertionError("Orientation inconnu " + orientation);
 			}
 		}
 		return boxesOccupied;
@@ -129,21 +185,9 @@ public class Ship {
 				this.dead = epoch.takeDamage(size, getHitCount());
 			}					// on délègue la gestion de l'état du bateau à l'époque
 		}
+		setChanged();
+		notifyObservers();
 		return touched;
-	}
-	
-	/**
-	 * Compte le nombre de tirs qui ont touchés le bateau.
-	 * @return Nombre de "touchés".
-	 */
-	public int getHitCount() {
-		int count = 0;
-		for (int i = 0 ; i < hits.length ; i++) {
-			if (hits[i]){
-				count++;
-			}
-		}
-		return count;
 	}
 
 	@Override
@@ -153,7 +197,7 @@ public class Ship {
 			posOcc+= pos + " , ";
 		}
 		return "\nShip [position=" + position + ", posOcc=" + posOcc + ", size=" + size
-				+ ", horizontal=" + horizontal + ", dead=" + dead + ", hits="
+				+ ", horizontal=" + (orientation==Orientation.HORIZONTAL) + ", dead=" + dead + ", hits="
 				+ Arrays.toString(hits) + ", epoch=" + epoch + "]";
 	}
 	

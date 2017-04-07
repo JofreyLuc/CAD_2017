@@ -25,4 +25,11 @@ public abstract class Epoch {
 	 */
 	protected abstract boolean takeDamage(int size, int hitCount);
 	
+	/**
+	 * Retourne le nom de l'époque.
+	 * @return Le nom de l'époque.
+	 */
+	public EpochName getEpochName() {
+		return name;
+	}
 }

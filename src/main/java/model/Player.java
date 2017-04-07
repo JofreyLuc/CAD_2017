@@ -49,7 +49,6 @@ public class Player {
 		if (ship == null) {	// Si il n'y a pas de bateau en cours de placement,
 			return;			// on ne fait rien
 		}
-		
 		ship.changeOrientation();
 	}
 

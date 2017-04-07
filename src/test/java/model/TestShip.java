@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import model.Ship.Orientation;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,9 +25,10 @@ public class TestShip {
 	//Tests getSeaBoxesOccupied
 	@Test
 	public void testGetSeaBoxesOccupiedVertical() {
-		ship.setPosition(new Position(0, 0));
 		// Position : 0, 0
 		// Orientation : vertical
+		ship.setPosition(new Position(0, 0));
+		ship.setOrientation(Orientation.VERTICAL);
 		Position[] positionsExpected = {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(0, 3)};
 		Position[] results = ship.getSeaBoxesOccupied();
 		assertTrue("Différents des positions attendues", Arrays.asList(positionsExpected).containsAll(
@@ -35,10 +38,10 @@ public class TestShip {
 	
 	@Test
 	public void testGetSeaBoxesOccupiedHorizontal() {
-		ship.setPosition(new Position(0, 0));
-		ship.changeOrientation();
 		// Position : 0, 0
 		// Orientation : horizontal
+		ship.setPosition(new Position(0, 0));
+		ship.setOrientation(Orientation.HORIZONTAL);
 		Position[] positionsExpected = {new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0)};
 		Position[] results = ship.getSeaBoxesOccupied();
 		assertTrue("Différents des positions attendues", Arrays.asList(positionsExpected).containsAll(
@@ -70,6 +73,7 @@ public class TestShip {
 		// Orientation : vertical
 		// Taille : 4
 		Position pos = new Position(0, 0);
+		ship.setOrientation(Orientation.VERTICAL);
 		ship.setPosition(pos);
 		ship.checkShot(pos);
 		boolean res = ship.checkShot(new Position(0, 0+SIZE-1));
@@ -84,7 +88,7 @@ public class TestShip {
 		// Taille : 4
 		Position pos = new Position(0, 0);
 		ship.setPosition(pos);
-		ship.changeOrientation();
+		ship.setOrientation(Orientation.HORIZONTAL);
 		ship.checkShot(pos);
 		boolean res = ship.checkShot(new Position(0+SIZE-1, 0));
 		assertTrue("Doit être touché", res);

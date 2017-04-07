@@ -1,5 +1,7 @@
 package model;
 
+import model.Ship.Orientation;
+
 /**
  * Entité contrôlant les actions d'un joueur (l'ordinateur).
  */
@@ -38,6 +40,7 @@ public class ComputerController {
 		Sea sea = this.computer.getSelfGrid();
 		int i = 0;
 		while (!sea.areShipsAllPlaced()) {
+			sea.getShipOnPlacing().setOrientation(Orientation.VERTICAL);
 			computer.placeShip(new Position(i, 0));
 			i++;
 		}

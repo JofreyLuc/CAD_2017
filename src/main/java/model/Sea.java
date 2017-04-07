@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Classe représentant la grille d'un joueur.
  */
-public class Sea {
+public class Sea extends Observable {
 
 	private final static int GRID_WIDTH = 10;
 	
@@ -74,6 +75,32 @@ public class Sea {
 	 */
 	public int getGridHeight() {
 		return grid[0].length;
+	}
+	
+	/**
+	 * Retourne l'état de la case à une certaine position.
+	 * @param x L'abscisse de la case.
+	 * @param y L'ordonnée de la case.
+	 * @return L'état de la case.
+	 */
+	public SeaBoxState getGridBoxState(int x, int y) {
+		return grid[x][y];
+	}
+	
+	/**
+	 * Retourne la liste des bateaux placés sur la grille.
+	 * @return La liste des bateaux placés sur la grille.
+	 */
+	public List<Ship> getShips() {
+		return ships;
+	}
+	
+	/**
+	 * Retourne la liste des bateaux à placer sur la grille.
+	 * @return La liste des bateaux à placer sur la grille.
+	 */
+	public List<Ship> getShipsToPlace() {
+		return shipsToPlace;
 	}
 	
 	/**
@@ -192,6 +219,8 @@ public class Sea {
 		}
 		shipOnPlacing = null;
 		putNextShipToPlace();
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -214,6 +243,9 @@ public class Sea {
 		}
 		
 		updateBoxState(shotPos, touched);		// on met à jour l'état de la position du tir
+		setChanged();
+		notifyObservers();
+
 		
 		return true;							// on indique que le tir est valide
 	}

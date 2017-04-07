@@ -101,7 +101,7 @@ public class Game {
 				endTurn();
 			break;
 			default:
-				// Problème
+				throw new AssertionError("Joueur inconnu " + startingPlayer);
 		}
 	}
 	
@@ -129,11 +129,26 @@ public class Game {
 	}
 	
 	/**
+	 * Traite l'événement de changement d'orientation du bateau en cours de placement.
+	 */
+	public void receiveRotateShipEvent() {
+		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		if (gameState != GameState.RUNNING || playerTurn == COMPUTER) {
+			return;	// on ne fait rien
+		}
+		Player player = players[PLAYER]; // le joueur
+		// Si la phase de positionnement n'est pas terminée
+		if(!player.getSelfGrid().areShipsAllPlaced()) {
+			player.rotateShip();	// on fait la rotation
+		}
+	}
+	
+	/**
 	 * Termine le tour du joueur courant.
 	 */
 	public void endTurn() {
-		boolean gameOver = checkGameState() != GameState.RUNNING;
-		if (gameOver) {	// Si la partie est terminée,
+		updateGameState();
+		if (gameState != GameState.RUNNING) {	// Si la partie est terminée,
 			return;		// on ne fait rien
 		}
 		
@@ -161,16 +176,16 @@ public class Game {
 	 * Vérifie si la partie est terminée.
 	 * @return L'état du jeu (selon qui a gagné).
 	 */
-	private GameState checkGameState() {
+	private void updateGameState() {
 		if (this.grids[PLAYER].areShipsAllDead()) {
-			return GameState.COMPUTER_WINS;
+			gameState = GameState.COMPUTER_WINS;
 		}
-		
-		if (this.grids[COMPUTER].areShipsAllDead()) {
-			return GameState.PLAYER_WINS;
+		else if (this.grids[COMPUTER].areShipsAllDead()) {
+			gameState = GameState.PLAYER_WINS;
 		}
-		
-		return GameState.RUNNING;
+		else {
+			gameState = GameState.RUNNING;
+		}
 	}
 	
 	/**
