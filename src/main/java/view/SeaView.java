@@ -11,8 +11,12 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import controller.GridBoxListener;
+
 import model.Game;
 import model.Sea;
+import model.Game.PlayerId;
+import model.Ship;
 
 /**
  * Vue abstraite d'une grille de jeu héritant de JPanel.
@@ -24,17 +28,12 @@ import model.Sea;
  */
 @SuppressWarnings("serial")
 public abstract class SeaView extends JPanel implements Observer {
-
-	/**
-	 * La grille représentée (modèle).
-	 */
-	protected Sea sea;
-	
+		
 	/**
 	 * Les vues de chaque case de la grille.
 	 * Hérite de JComponent.
 	 */
-	protected GridBoxView[][] gridView;
+	protected GridBoxView[][] gridBoxViews;
 		
 	/**
 	 * Les vues des bateaux placés sur la grille.
@@ -42,21 +41,33 @@ public abstract class SeaView extends JPanel implements Observer {
 	 */
 	protected List<ShipView> shipViews;
 	
-	public SeaView(Game game, Sea sea) {
+	/**
+	 * La vue du bateau en cours de positionnement.
+	 * Pareil que ShipView.
+	 */
+	protected ShipOnPlacingView shipOnPlacingView;
+	
+	/**
+	 * Le dernier bateau en cours de positionnement.
+	 * Permet de gérer les changements de bateau.
+	 */
+	protected Ship lastShipOnPlacing;
+	
+	public SeaView(Game game) {
 		super();
-		this.sea = sea;
-		sea.addObserver(this);
+		game.addObserver(this);
+		Sea sea = getSelfSea(game);
 		
 		// Initialisation de la vue de la grille (une vue par case)
-		gridView = new GridBoxView[sea.getGridWidth()][sea.getGridHeight()];
-		GridLayout layout = new GridLayout(gridView.length, gridView[0].length);
+		gridBoxViews = new GridBoxView[sea.getGridWidth()][sea.getGridHeight()];
+		GridLayout layout = new GridLayout(gridBoxViews.length, gridBoxViews[0].length);
 		this.setLayout(layout);
 		// Parcours ordonnée puis abscisse pour l'ajout dans le gridlayout
-		for (int y = 0 ; y < gridView[0].length ; y++) {
-			for (int x = 0 ; x < gridView.length ; x++) {
-				gridView[x][y] = new GridBoxView(sea.getGridBoxState(x, y));
-				setGridBoxViewInteractability(gridView[x][y], x, y, game);	// on rend la case cliquable ou non
-				this.add(gridView[x][y]);
+		for (int y = 0 ; y < gridBoxViews[0].length ; y++) {
+			for (int x = 0 ; x < gridBoxViews.length ; x++) {
+				gridBoxViews[x][y] = new GridBoxView(getPlayerOwner(), sea.getGridBoxState(x, y));
+				gridBoxViews[x][y].addMouseListener(new GridBoxListener(game, x, y, gridBoxViews[x][y]));		
+				this.add(gridBoxViews[x][y]);
 				
 			}
 		}
@@ -83,19 +94,34 @@ public abstract class SeaView extends JPanel implements Observer {
 	 */
 	private void drawShips(Graphics g) {
 		for(ShipView shipView : shipViews) {
-			shipView.draw(g, this.getWidth()/gridView.length);
+			shipView.draw(g, this.getWidth()/gridBoxViews.length);
+		}
+		if (shipOnPlacingView != null) {
+			shipOnPlacingView.draw(g, this.getWidth()/gridBoxViews.length);
 		}
 	}
 	
 	/**
-	 * Rend la case cliquable ou non (ainsi que la gestion du hover)
-	 * selon le type de la vue (celle du joueur courant ou de l'adversaire).
-	 * @param gridBoxView La vue de la case.
-	 * @param x L'abscisse de la case.
-	 * @param y L'ordonnée de la case.
-	 * @param game La classe modèle du jeu (pour faire le lien avec le contrôleur).
+	 * Retourne le joueur propriétaire de la grille.
+	 * @return Le joueur propriétaire de la grille.
 	 */
-	protected abstract void setGridBoxViewInteractability(GridBoxView gridBoxView, int x, int y, Game game);
+	protected abstract PlayerId getPlayerOwner();
+	
+	/**
+	 * Retourne la grille représentée.
+	 * @param game Le jeu.
+	 * @return La grille représentée.
+	 */
+	protected Sea getSelfSea(Game game) {
+		return game.getPlayer(getPlayerOwner()).getSelfGrid();
+	}
+	
+	/**
+	 * Indique si le viseur peut-être affiché si une case de la grille est hover.
+	 * @param game Le jeu.
+	 * @return Booléen indiquant si le viseur peut-être affiché si une case de la grille est hover.
+	 */
+	protected abstract boolean canBoxesDisplayHoverImage(Game game);
 	
 	/**
 	 * Change les conditions de visibilité du bateau
@@ -118,6 +144,7 @@ public abstract class SeaView extends JPanel implements Observer {
 	public Dimension getPreferredSize() {
 	    return new Dimension(263, 263);
 	}
+	
 	/*
 	@Override
     public Dimension getPreferredSize() {
@@ -140,18 +167,34 @@ public abstract class SeaView extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
+		Game game = (Game) o;
+		Sea sea = getSelfSea(game);
+
 		// Met à jour les vues des cases de la grille
-		for (int row = 0 ; row < gridView.length ; row++) {
-			for (int col = 0 ; col < gridView[0].length ; col++) {
-				gridView[row][col].setState(sea.getGridBoxState(row, col));
+		for (int row = 0 ; row < gridBoxViews.length ; row++) {
+			for (int col = 0 ; col < gridBoxViews[0].length ; col++) {
+				gridBoxViews[row][col].setState(sea.getGridBoxState(row, col));
+				gridBoxViews[row][col].setCanDisplayHoverImage(canBoxesDisplayHoverImage(game));
 			}
 		}
 		
 		// Pour chaque bateau placé dans le modèle qui n'a pas de vue associée
-		for (int i = sea.getShips().size()-1 ; sea.getShips().size() != shipViews.size() ; i++) {
+		for (int i = shipViews.size() ; sea.getShips().size() != shipViews.size() ; i++) {
+			sea.getShips().get(i).deleteObserver(shipOnPlacingView);
 			ShipView shipView = new ShipView(sea.getShips().get(i));
 			setShipVisiblity(shipView);	// on change les conditions d'affichage du bateau
 			shipViews.add(shipView);
+		}
+		
+		if (sea.getShipOnPlacing() == null) {
+			shipOnPlacingView = null;
+		}
+		else if (sea.getShipOnPlacing() != lastShipOnPlacing) {
+				shipOnPlacingView = new ShipOnPlacingView(sea.getShipOnPlacing());
+		}
+		
+		if (shipOnPlacingView != null) {
+			shipOnPlacingView.setValidPlacement(sea.isShipOnPlacingInValidPosition());
 		}
 	}
 	

@@ -1,10 +1,13 @@
 package model;
 
+import java.util.EnumMap;
+import java.util.Observable;
+
 /**
  * Classe principale du modèle qui contient tous les autres éléments du jeu
  * et qui représente l'état d'une partie.
  */
-public class Game {
+public class Game extends Observable {
 
 	/**
 	 * Enumération des différens états possibles de la partie.
@@ -17,31 +20,19 @@ public class Game {
 	private GameState gameState; 
 	
 	/**
-	 * Numéro du joueur
+	 * Identifiants des joueurs.
 	 */
-	public static final int PLAYER = 0;
+	public enum PlayerId { PLAYER, COMPUTER }
 	
 	/**
-	 * Numéro de l'ordinateur.
+	 * Représente le joueur dont c'est le tour de jouer.
 	 */
-	public static final int COMPUTER = 1;
-	
-	/**
-	 * Entier correspondant au tour courant du joueur.
-	 * 0 : joueur1 (joueur)
-	 * 1 : joueur2 (ordinateur
-	 */
-	private int playerTurn;
-	
-	/**
-	 * Les grilles de la partie.
-	 */
-	private Sea[] grids;
+	private PlayerId playerTurn;
 	
 	/**
 	 * Les deux joueurs.
 	 */
-	private Player[] players;
+	private EnumMap <PlayerId, Player> players;
 	
 	/**
 	 * L'époque à laquelle se déroule la partie.
@@ -59,40 +50,64 @@ public class Game {
 	 */
 	public Game(Epoch epoch) {
 		this.gameState = GameState.RUNNING;
-		this.playerTurn = COMPUTER;
+		this.playerTurn = PlayerId.COMPUTER;
 		this.epoch = epoch;
-		this.grids = new Sea[2];
-		this.players = new Player[2];
-		this.grids[PLAYER] = new Sea(epoch);
-		this.grids[COMPUTER] = new Sea(epoch);
-		this.players[PLAYER] = new Player(this.grids[PLAYER], this.grids[COMPUTER]);
-		this.players[COMPUTER] = new Player(this.grids[COMPUTER], this.grids[PLAYER]);
-		this.computerController = new ComputerController(players[COMPUTER]);
+		this.players = new EnumMap<PlayerId, Player>(PlayerId.class);
+		Sea playerSea = new Sea(epoch);
+		Sea computerSea = new Sea(epoch);
+		this.players.put(PlayerId.PLAYER, new Player(playerSea, computerSea));
+		this.players.put(PlayerId.COMPUTER, new Player(computerSea, playerSea));
+		this.computerController = new ComputerController(players.get(PlayerId.COMPUTER));
+	}
+	
+	/**
+	 * Retourne l'identifiant du joueur dont c'est le tour de jouer.
+	 * @return L'identifiant du joueur dont c'est le tour de jouer.
+	 */
+	public PlayerId getPlayerTurn() {
+		return playerTurn;
+	}
+	
+	/**
+	 * Retourne le joueur possédant cet identifiant.
+	 * @param player Identifiant du joueur.
+	 * @return Le joueur possédant cet identifiant.
+	 */
+	public Player getPlayer(PlayerId player) {
+		return players.get(player);
 	}
 	
 	/**
 	 * Retourne la grille du joueur.
 	 * @return La grille du joueur.
 	 */
-	public Sea getPlayerSea() {
-		return this.grids[PLAYER];
+	private Sea getPlayerSea() {
+		return this.players.get(PlayerId.PLAYER).getSelfGrid();
 	}
 	
 	/**
 	 * Retourne la grille du joueur.
 	 * @return La grille du joueur.
 	 */
-	public Sea getComputerSea() {
-		return this.grids[COMPUTER];
+	private Sea getComputerSea() {
+		return this.players.get(PlayerId.COMPUTER).getSelfGrid();
+	}
+	
+	/**
+	 * Indique si la phase de positionnement est terminée.
+	 * @return Booléen indiquant si la phase de positionnement est terminée.
+	 */
+	public boolean isPositionningPhaseOver() {
+		return getPlayerSea().areShipsAllPlaced() && getComputerSea().areShipsAllPlaced();
 	}
 	
 	/**
 	 * Démarre la partie.
 	 * @param startingPlayer Le joueur qui commence.
 	 */
-	public void startGame(int startingPlayer) {
-		this.grids[COMPUTER].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
-		this.grids[PLAYER].putNextShipToPlace();	// On place le premier bateau en phase de positionnement
+	public void startGame(PlayerId startingPlayer) {
+		getPlayerSea().putNextShipToPlace();	// On place le premier bateau en phase de positionnement
+		getComputerSea().putNextShipToPlace();	// On place le premier bateau en phase de positionnement
 		switch(startingPlayer) {
 			case PLAYER:
 				break;
@@ -103,29 +118,88 @@ public class Game {
 			default:
 				throw new AssertionError("Joueur inconnu " + startingPlayer);
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
-	 * Traite l'événement d'un clic sur une certaine case.
+	 * Traite l'événement d'un clic sur une certaine case de la grille du joueur.
 	 * @param x Abscisse de la case.
 	 * @param y Ordonnée de la case.
 	 */
-	public void receiveClickEvent(int x, int y) {
+	public void receiveClickEventOnPlayerGrid(int x, int y) {
 		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
-		if (gameState != GameState.RUNNING || playerTurn == COMPUTER) {
+		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
 			return;	// on ne fait rien
 		}
 		
-		Player player = players[PLAYER]; // le joueur
 		// Si la phase de positionnement n'est pas terminée
-		if(!player.getSelfGrid().areShipsAllPlaced()) {
-			player.placeShip(new Position(x, y));			// on tente de placer un bateau
+		if(!getPlayerSea().areShipsAllPlaced()) {
+			players.get(PlayerId.PLAYER).placeShip(new Position(x, y));	// on tente de placer un bateau
 		}	// Si la phase de positionnement est terminée
-		else {
-			if (player.shoot(new Position(x, y))) {			// si le tir est validée
-				endTurn();									// on termine le tour du joueur
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * Traite l'événement d'un clic sur une certaine case de la grille de l'ordinateur.
+	 * @param x Abscisse de la case.
+	 * @param y Ordonnée de la case.
+	 */
+	public void receiveClickEventOnComputerGrid(int x, int y) {
+		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
+			return;	// on ne fait rien
+		}
+		
+		// Si la phase de positionnement est terminée
+		if(getPlayerSea().areShipsAllPlaced()) {
+			if (players.get(PlayerId.PLAYER).shoot(new Position(x, y))) {	// si le tir est validée
+				endTurn();													// on termine le tour du joueur
 			}
 		}
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * Traite l'événement d'un hover on sur une certaine case de la grille du joueur.
+	 * @param x Abscisse de la case.
+	 * @param y Ordonnée de la case.
+	 */
+	public void receiveHoverOnEventOnPlayerGrid(int x, int y) {
+		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
+			return;	// on ne fait rien
+		}
+		
+		// Si la phase de positionnement n'est pas terminée
+		if(!getPlayerSea().areShipsAllPlaced()) {
+			// On place le bateau en cours de positionnement
+			players.get(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing().setPosition(new Position(x, y));
+		}	// Si la phase de positionnement est terminée
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * Traite l'événement d'un hover off sur une certaine case de la grille du joueur.
+	 * @param x Abscisse de la case.
+	 * @param y Ordonnée de la case.
+	 */
+	public void receiveHoverOffEventOnPlayerGrid(int x, int y) {
+		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
+			return;	// on ne fait rien
+		}
+		
+		// Si la phase de positionnement n'est pas terminée
+		if(!getPlayerSea().areShipsAllPlaced()) {
+			// On place le bateau en cours de positionnement
+			players.get(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing().setPosition(null);
+		}	// Si la phase de positionnement est terminée
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -133,27 +207,29 @@ public class Game {
 	 */
 	public void receiveRotateShipEvent() {
 		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
-		if (gameState != GameState.RUNNING || playerTurn == COMPUTER) {
+		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
 			return;	// on ne fait rien
 		}
-		Player player = players[PLAYER]; // le joueur
+		
 		// Si la phase de positionnement n'est pas terminée
-		if(!player.getSelfGrid().areShipsAllPlaced()) {
-			player.rotateShip();	// on fait la rotation
+		if(!getPlayerSea().areShipsAllPlaced()) {
+			players.get(PlayerId.PLAYER).rotateShip();	// on fait la rotation
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
 	 * Termine le tour du joueur courant.
 	 */
-	public void endTurn() {
+	private void endTurn() {
 		updateGameState();
 		if (gameState != GameState.RUNNING) {	// Si la partie est terminée,
 			return;		// on ne fait rien
 		}
 		
 		changeTurn();
-		if (playerTurn == COMPUTER) {	// Si c'est le tour de l'ordinateur,
+		if (playerTurn == PlayerId.COMPUTER) {	// Si c'est le tour de l'ordinateur,
 			playComputerTurn();				// on le fait jouer
 			endTurn();						// et on termine son tour
 		}
@@ -164,7 +240,7 @@ public class Game {
 	 */
 	private void playComputerTurn() {
 		// Si la phase de positionnement n'est pas terminée
-		if (!players[COMPUTER].getSelfGrid().areShipsAllPlaced()) {
+		if (!getComputerSea().areShipsAllPlaced()) {
 			computerController.placeAllShips();
 		}
 		else {
@@ -177,10 +253,10 @@ public class Game {
 	 * @return L'état du jeu (selon qui a gagné).
 	 */
 	private void updateGameState() {
-		if (this.grids[PLAYER].areShipsAllDead()) {
+		if (getPlayerSea().areShipsAllDead()) {
 			gameState = GameState.COMPUTER_WINS;
 		}
-		else if (this.grids[COMPUTER].areShipsAllDead()) {
+		else if (getComputerSea().areShipsAllDead()) {
 			gameState = GameState.PLAYER_WINS;
 		}
 		else {
@@ -192,12 +268,21 @@ public class Game {
 	 * Change de tour.
 	 */
 	private void changeTurn() {
-		this.playerTurn = 1 - playerTurn;
+		switch(playerTurn) {
+		case COMPUTER:
+			playerTurn = PlayerId.PLAYER;
+			break;
+		case PLAYER:
+			playerTurn = PlayerId.COMPUTER;
+			break;
+		default:
+			throw new AssertionError("Joueur inconnu " + playerTurn);
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "Game [\ngrille joueur : " + grids[PLAYER] + "\n\ngrille ordi : " + grids[COMPUTER] + "]";
+		return "Game [\ngrille joueur : " + getPlayerSea() + "\n\ngrille ordi : " + getComputerSea() + "]";
 	}
 	
 }

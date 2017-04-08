@@ -1,18 +1,23 @@
 package view;
 
 import model.Game;
-import model.Sea;
+import model.Game.PlayerId;
 
 @SuppressWarnings("serial")
 public class PlayerSeaView extends SeaView {
 
-	public PlayerSeaView(Game game, Sea sea) {
-		super(game, sea);
+	public PlayerSeaView(Game game) {
+		super(game);
 	}
 
 	@Override
-	protected void setGridBoxViewInteractability(GridBoxView gridBoxView, int x, int y, Game game) {
-		// On ne fait rien car les cases de sa propre grille ne sont pas cliquables
+	protected PlayerId getPlayerOwner() {
+		return PlayerId.PLAYER;
+	}
+	
+	@Override
+	protected boolean canBoxesDisplayHoverImage(Game game) {
+		return false;	// jamais pour la grille du joueur
 	}
 	
 	@Override

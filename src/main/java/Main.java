@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import view.OpponentSeaView;
+import view.ComputerSeaView;
 import view.PlayerSeaView;
 
 import model.EpochXX;
@@ -32,8 +32,8 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel container = new JPanel();
         frame.add(container);
-        container.add(new PlayerSeaView(game, game.getPlayerSea()));
-        container.add(new OpponentSeaView(game, game.getComputerSea()));
+        container.add(new PlayerSeaView(game));
+        container.add(new ComputerSeaView(game));
         frame.pack();
         frame.setVisible(true);
         
@@ -47,11 +47,11 @@ public class Main {
         });
         timer.start();
         
-        game.startGame(Game.COMPUTER);
-		for (int i = 0 ; i < 5 ; i++) {
+        game.startGame(Game.PlayerId.COMPUTER);
+		/*for (int i = 0 ; i < 5 ; i++) {
 			game.receiveRotateShipEvent();
-			game.receiveClickEvent(i, 0);
-		}
+			game.receiveClickEventOnPlayerGrid(i, 0);
+		}*/
 		System.out.println(game);
 	}
 

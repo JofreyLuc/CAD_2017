@@ -48,7 +48,7 @@ public class ShipView implements Observer {
 	 * Place l'image à null si le bateau ne doit pas être affiché.
 	 */
 	protected void attachImage() {
-		if (shipOnlyVisibleWhenDead && !ship.isDead()) {
+		if (ship == null || (shipOnlyVisibleWhenDead && !ship.isDead()) ) {
 			shipImage = null;
 			return;
 		}

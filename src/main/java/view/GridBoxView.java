@@ -2,11 +2,9 @@ package view;
 
 import java.awt.Graphics;
 import javax.swing.JComponent;
-import model.Game;
+import model.Game.PlayerId;
 import model.Sea;
 import model.Sea.SeaBoxState;
-
-import controller.GridBoxListener;
 
 /**
  * Vue d'une case de la grille.
@@ -14,11 +12,16 @@ import controller.GridBoxListener;
  */
 @SuppressWarnings("serial")
 public class GridBoxView extends JComponent {
-	
+		
 	/**
 	 * L'état de cette case de la grille.
 	 */
 	private Sea.SeaBoxState state;
+	
+	/**
+	 * Le joueur propriétaire de la grille dont cette case provient.
+	 */
+	private PlayerId playerOwner;
 	
 	/**
 	 * L'image à dessiner pour cette case.
@@ -30,11 +33,27 @@ public class GridBoxView extends JComponent {
 	 */
 	private boolean isHover;
 	
-	public GridBoxView(SeaBoxState state) {
+	/**
+	 * Indique si le viseur peut-être affiché si une case est hover.
+	 */
+	private boolean canDisplayHoverImage;
+	
+	public GridBoxView(PlayerId playerOwner, SeaBoxState state) {
+		this.playerOwner = playerOwner;
 		this.state = state;
+		this.isHover = false;
+		this.canDisplayHoverImage = false;
 		attachImage();
 	}
 	
+	/**
+	 * Retourne le joueur propriétaire de la grille dont cette case provient.
+	 * @return Le joueur propriétaire de la grille dont cette case provient.
+	 */
+	public PlayerId getPlayerOwner() {
+		return playerOwner;
+	}
+
 	/**
 	 * Prend l'image correspondante à l'état de la case.
 	 * Place l'image à null si rien ne doit pas être affiché.
@@ -75,16 +94,13 @@ public class GridBoxView extends JComponent {
 	public void setIsHover(boolean isHover) {
 		this.isHover = isHover;
 	}
-	
+
 	/**
-	 * Crée un gridBoxListener et "l'attache à la vue".
-	 * Permet de lier le contrôleur de la grille au jeu.
-	 * @param game Le jeu.
-	 * @param x L'abscisse de la case.
-	 * @param y L'ordonnée de la case.
+	 * Place le booléen indiquant si le viseur peut-être affiché si une case est hover.
+	 * @param displayHoverImage Le booléen indiquant si le viseur peut-être affiché si une case est hover.
 	 */
-	public void attachGridBoxListener(Game game, int x, int y) {
-		this.addMouseListener(new GridBoxListener(game, x, y, this));
+	public void setCanDisplayHoverImage(boolean displayHoverImage) {
+		this.canDisplayHoverImage = displayHoverImage;
 	}
 	
 	/**
@@ -99,8 +115,8 @@ public class GridBoxView extends JComponent {
         	int shift = 25;
         	boxImage.draw(g, -shift, -shift);
         }
-        // Si la souris est hover et qu'un tir est encore possible sur cette case
-        if (isHover && state == SeaBoxState.NORMAL) {
+        // Si la souris est hover et que les conditions d'affichage sont remplies
+        if (canDisplayHoverImage && isHover && state == SeaBoxState.NORMAL) {
         	g.drawImage(ImageFactory.getInstance().getSightImage(), 0, 0, this);	// on dessine un viseur
         }
 	}

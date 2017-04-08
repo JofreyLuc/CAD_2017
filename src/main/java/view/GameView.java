@@ -12,14 +12,12 @@ public class GameView extends JPanel implements Observer {
 
 	private SeaView playerGridView;
 	
-	private SeaView opponentGridView;
-	
-	private Game game;
-	
+	private SeaView computerGridView;
+		
 	public GameView(Game game) {
-		this.game = game;
-		this.playerGridView = new PlayerSeaView(game, game.getPlayerSea());
-		this.opponentGridView = new OpponentSeaView(game, game.getComputerSea());
+		game.addObserver(this);
+		this.playerGridView = new PlayerSeaView(game);
+		this.computerGridView = new ComputerSeaView(game);
 	}
 
 	@Override
