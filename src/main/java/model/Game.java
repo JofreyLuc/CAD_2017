@@ -118,8 +118,7 @@ public class Game extends Observable {
 			default:
 				throw new AssertionError("Joueur inconnu " + startingPlayer);
 		}
-		setChanged();
-		notifyObservers();
+		playerTurn = PlayerId.PLAYER;
 	}
 	
 	/**
@@ -135,10 +134,11 @@ public class Game extends Observable {
 		
 		// Si la phase de positionnement n'est pas terminée
 		if(!getPlayerSea().areShipsAllPlaced()) {
-			players.get(PlayerId.PLAYER).placeShip(new Position(x, y));	// on tente de placer un bateau
-		}	// Si la phase de positionnement est terminée
-		setChanged();
-		notifyObservers();
+			if (players.get(PlayerId.PLAYER).placeShip(new Position(x, y))	// on tente de placer un bateau
+					&& getPlayerSea().areShipsAllPlaced()) {				// et si ils sont tous placés,
+				endTurn();													// on finit le tour
+			}
+		}
 	}
 	
 	/**
@@ -158,8 +158,6 @@ public class Game extends Observable {
 				endTurn();													// on termine le tour du joueur
 			}
 		}
-		setChanged();
-		notifyObservers();
 	}
 	
 	/**
@@ -177,7 +175,7 @@ public class Game extends Observable {
 		if(!getPlayerSea().areShipsAllPlaced()) {
 			// On place le bateau en cours de positionnement
 			players.get(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing().setPosition(new Position(x, y));
-		}	// Si la phase de positionnement est terminée
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -197,7 +195,7 @@ public class Game extends Observable {
 		if(!getPlayerSea().areShipsAllPlaced()) {
 			// On place le bateau en cours de positionnement
 			players.get(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing().setPosition(null);
-		}	// Si la phase de positionnement est terminée
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -233,6 +231,8 @@ public class Game extends Observable {
 			playComputerTurn();				// on le fait jouer
 			endTurn();						// et on termine son tour
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
