@@ -21,8 +21,9 @@ public class ImageFactory {
 	
 	// Images
 	private BufferedImage gridImage;
+	private BufferedImage activeBorderImage;
 	private BufferedImage sightImage;
-	
+
 	private BufferedImage shipCarrierImage;
 	private BufferedImage shipCarrierRedImage;
 	private BufferedImage shipCarrierHilightImage;
@@ -47,6 +48,7 @@ public class ImageFactory {
 	private ImageFactory() {
 		try {
 			gridImage = loadImage("/images/grid.png");
+			activeBorderImage = loadImage("/images/gridActiveBorder.png");
 			sightImage = loadImage("/images/sight.png");
 			
 			shipCarrierImage = loadImage("/images/shipCarrier.png");
@@ -79,6 +81,10 @@ public class ImageFactory {
 	// Getters
 	public BufferedImage getGridImage() {
 		return gridImage;
+	}
+	
+	public BufferedImage getActiveBorderImage() {
+		return activeBorderImage;
 	}
 	
 	public BufferedImage getSightImage() {

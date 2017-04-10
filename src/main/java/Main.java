@@ -10,7 +10,6 @@ public class Main {
 	public static void main(String[] args) {
 		Game game = new Game(new EpochXX());
 		GameView gameView = new GameView(game);
-		
 		final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(gameView);

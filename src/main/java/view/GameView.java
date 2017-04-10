@@ -16,7 +16,6 @@ import javax.swing.Timer;
 import controller.EndShotAnimationListener;
 
 import model.Game;
-import model.Game.PlayerId;
 
 @SuppressWarnings("serial")
 public class GameView extends JPanel implements Observer {
@@ -69,7 +68,7 @@ public class GameView extends JPanel implements Observer {
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		this.add(instructionLabel, gbc);
-				
+						
 		// Raffraîchit l'affichage toutes les 17ms ~ 60 fps
 		Timer timer = new Timer(17, new ActionListener() {
 			@Override

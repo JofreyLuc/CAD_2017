@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -55,6 +54,12 @@ public abstract class SeaView extends JPanel implements Observer {
 	 * Permet de gérer les changements de bateau.
 	 */
 	protected Ship lastShipOnPlacing;
+	
+	/**
+	 * Indique si cette grille est active.
+	 * C'est-à-dire si elle attend une action.
+	 */
+	protected boolean active;
 	
 	public SeaView(Game game, final EndShotAnimationListener endShotAnimationListener) {
 		super();
@@ -152,26 +157,34 @@ public abstract class SeaView extends JPanel implements Observer {
         drawShips(g);
 	}
 	
+	/**
+	 * Dessine le cadre indiquant que la grille est active si c'est le cas.
+	 * Override la méthode paint afin de dessiner au-dessus des composants du panel.
+	 */
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		if (this.active) {
+			int shift = 3;
+	    	g.setClip(-shift, -shift, this.getWidth()+shift+2, this.getWidth()+shift+2);	// pour pouvoir dessiner en dehors des limites du composant
+			g.drawImage(ImageFactory.getInstance().getActiveBorderImage(), -shift, -shift, this.getWidth()+shift+2, this.getHeight()+shift+2, this);
+		}
+	}
+
 	@Override
 	public Dimension getPreferredSize() {
 	    return new Dimension(263, 263);
 	}
-	
-	/*
+
 	@Override
-    public Dimension getPreferredSize() {
-        Dimension d = super.getPreferredSize();
-        Container c = getParent();
-        if (c != null) {
-            d = c.getSize();
-        } else {
-            return new Dimension(10, 10);
-        }
-        int w = (int) d.getWidth();
-        int h = (int) d.getHeight();
-        int s = (w < h ? w : h);
-        return new Dimension(s, s);
-    }*/
+	public Dimension getMaximumSize() {
+		return getPreferredSize();
+	}
+	
+	@Override
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
+	}
 
 	/**
 	 * Met à jour la vue.

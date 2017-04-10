@@ -73,6 +73,22 @@ public class Animation {
     }
     
     /**
+     * Retourne la largeur de l'image courante.
+     * @return La largeur de l'image courante.
+     */
+    public int getWidth() {
+    	return frames[index].getWidth();
+    }
+    
+    /**
+     * Retourne la hauteur de l'image courante.
+     * @return La hauteur de l'image courante.
+     */
+    public int getHeight() {
+    	return frames[index].getHeight();
+    }
+    
+    /**
      * Met à jour l'animation.
      */
     protected void update() {
