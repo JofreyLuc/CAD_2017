@@ -8,32 +8,32 @@ public class Animation {
 	/**
 	 * Les images qui composent l'animation.
 	 */
-    private BufferedImage[] frames; 
+    protected BufferedImage[] frames; 
 	    
     /**
      * Booléen indiquant si l'animation est en cours ou non.
      */
-    private boolean stopped;
+    protected boolean stopped;
     
     /**
      * Booléen indiquant si l'animation doit s'effectuer en continu.
      */
-    private boolean loop;
+    protected boolean loop;
     
     /**
      * Le nombre de tick avant de changer d'image.
      */
-    private int frameDuration;
+    protected int frameDuration;
     
     /**
      * Compteur de tick
      */
-    private int tickCount;
+    protected int tickCount;
 
     /**
      * Index de l'image courante de l'animation.
      */
-    private int index;
+    protected int index;
 
     /**
      * Construit une animation à partir d'un tableau d'images et durée d'affichage par image.
@@ -75,7 +75,7 @@ public class Animation {
     /**
      * Met à jour l'animation.
      */
-    private void update() {
+    protected void update() {
     	// Si l'animation n'est pas activée
     	// ou si l'animation est à la dernière image et ne doit pas boucler
         if (stopped || (index >= frames.length - 1 && !loop)) {
@@ -99,22 +99,23 @@ public class Animation {
      * Active l'animation.
      */
     public void start() {
-        stopped = false;
+        this.stopped = false;
     }
     
     /**
      * Stoppe l'animation.
      */
     public void stop() {
-        stopped = true;
+    	this.stopped = true;
     }
 
     /**
      * Recommence l'animation
      */
     public void restart() {
-        stopped = false;
-        index = 0;
+    	this.stopped = false;
+    	this.index = 0;
+        this.tickCount = 0;
     }
 
     /**
@@ -122,8 +123,8 @@ public class Animation {
      */
     public void reset() {
         this.stopped = true;
-        this.tickCount = 0;
         this.index = 0;
+        this.tickCount = 0;
     }
 
     /**

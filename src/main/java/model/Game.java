@@ -3,6 +3,8 @@ package model;
 import java.util.EnumMap;
 import java.util.Observable;
 
+import model.Game.GameState;
+
 /**
  * Classe principale du modèle qui contient tous les autres éléments du jeu
  * et qui représente l'état d'une partie.
@@ -12,7 +14,7 @@ public class Game extends Observable {
 	/**
 	 * Enumération des différens états possibles de la partie.
 	 */
-	public enum GameState { RUNNING, PLAYER_WINS, COMPUTER_WINS}
+	public enum GameState { RUNNING, PLAYER_WINS, COMPUTER_WINS }
 	
 	/**
 	 * Etat courant de la partie.
@@ -45,6 +47,21 @@ public class Game extends Observable {
 	private ComputerController computerController;
 	
 	/**
+	 * Booléen indiquant si le tour doit se terminer seulement à la fin des animations de tir.
+	 */
+	private boolean endTurnAfterShotAnimation;
+	
+	/**
+	 * Le nombre de tirs par tour.
+	 */
+	private int numberOfShotsPerTurn;
+	
+	/**
+	 * Compte du nombre de tirs par tour.
+	 */
+	private int countNumberOfShots;
+	
+	/**
 	 * Crée une partie à partir de l'époque choisie au préalable.
 	 * @param epoque L'époque choisie.
 	 */
@@ -58,8 +75,19 @@ public class Game extends Observable {
 		this.players.put(PlayerId.PLAYER, new Player(playerSea, computerSea));
 		this.players.put(PlayerId.COMPUTER, new Player(computerSea, playerSea));
 		this.computerController = new ComputerController(players.get(PlayerId.COMPUTER));
+		this.endTurnAfterShotAnimation = true;
+		this.numberOfShotsPerTurn = 1;
+		this.countNumberOfShots = 0;
 	}
 	
+	/**
+	 * Retourne le booléen indiquant si le tour doit se terminer seulement à la fin des animations de tir.
+	 * @return
+	 */
+	public boolean isEndTurnAfterShotAnimation() {
+		return endTurnAfterShotAnimation;
+	}
+
 	/**
 	 * Retourne l'identifiant du joueur dont c'est le tour de jouer.
 	 * @return L'identifiant du joueur dont c'est le tour de jouer.
@@ -94,11 +122,27 @@ public class Game extends Observable {
 	}
 	
 	/**
+	 * Retourne l'état courant du jeu.
+	 * @return L'état courant du jeu.
+	 */
+	public GameState getGameState() {
+		return gameState;
+	}
+	
+	/**
 	 * Indique si la phase de positionnement est terminée.
 	 * @return Booléen indiquant si la phase de positionnement est terminée.
 	 */
 	public boolean isPositionningPhaseOver() {
 		return getPlayerSea().areShipsAllPlaced() && getComputerSea().areShipsAllPlaced();
+	}
+	
+	/**
+	 * Indique si tous les tirs du tour ont été tirés.
+	 * @return Vrai si tous les tirs du tour ont été tirés, faux sinon.
+	 */
+	public boolean areAllShotsDone() {
+		return countNumberOfShots == numberOfShotsPerTurn;
 	}
 	
 	/**
@@ -113,12 +157,13 @@ public class Game extends Observable {
 				break;
 			case COMPUTER:
 				playComputerTurn();
-				endTurn();
 			break;
 			default:
 				throw new AssertionError("Joueur inconnu " + startingPlayer);
 		}
 		playerTurn = PlayerId.PLAYER;
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -139,6 +184,8 @@ public class Game extends Observable {
 				endTurn();													// on finit le tour
 			}
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -154,10 +201,17 @@ public class Game extends Observable {
 		
 		// Si la phase de positionnement est terminée
 		if(getPlayerSea().areShipsAllPlaced()) {
-			if (players.get(PlayerId.PLAYER).shoot(new Position(x, y))) {	// si le tir est validée
-				endTurn();													// on termine le tour du joueur
+			// si tous les tirs n'ont pas été effectué
+			if (!areAllShotsDone() && players.get(PlayerId.PLAYER).shoot(new Position(x, y))) {	// si le tir est validée
+				countNumberOfShots++;
+				// Si tous les tirs ont été effectué et la fin du tour ne se déclenche pas à la fin des animations
+				if (areAllShotsDone() && !endTurnAfterShotAnimation) {
+					endTurn();												// on termine le tour du joueur
+				}
 			}
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -220,7 +274,7 @@ public class Game extends Observable {
 	/**
 	 * Termine le tour du joueur courant.
 	 */
-	private void endTurn() {
+	public void endTurn() {
 		updateGameState();
 		if (gameState != GameState.RUNNING) {	// Si la partie est terminée,
 			return;		// on ne fait rien
@@ -228,8 +282,7 @@ public class Game extends Observable {
 		
 		changeTurn();
 		if (playerTurn == PlayerId.COMPUTER) {	// Si c'est le tour de l'ordinateur,
-			playComputerTurn();				// on le fait jouer
-			endTurn();						// et on termine son tour
+			playComputerTurn();					// on le fait jouer
 		}
 		setChanged();
 		notifyObservers();
@@ -242,9 +295,17 @@ public class Game extends Observable {
 		// Si la phase de positionnement n'est pas terminée
 		if (!getComputerSea().areShipsAllPlaced()) {
 			computerController.placeAllShips();
+			endTurn();
 		}
 		else {
-			computerController.playShoot();
+			while(!areAllShotsDone()) {	// tant que tous les tirs n'ont pas été effectués
+				computerController.playShoot();
+				countNumberOfShots++;
+			}
+			// Si tous les tirs ont été effectué et la fin du tour ne se déclenche pas à la fin des animations
+			if (!endTurnAfterShotAnimation) {
+				endTurn();												// on termine le tour du joueur
+			}
 		}
 	}
 	
@@ -262,12 +323,15 @@ public class Game extends Observable {
 		else {
 			gameState = GameState.RUNNING;
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
 	 * Change de tour.
 	 */
 	private void changeTurn() {
+		this.countNumberOfShots = 0;
 		switch(playerTurn) {
 		case COMPUTER:
 			playerTurn = PlayerId.PLAYER;

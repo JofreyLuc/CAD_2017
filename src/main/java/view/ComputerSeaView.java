@@ -5,25 +5,25 @@ import model.Game;
 import model.Game.PlayerId;
 
 @SuppressWarnings("serial")
-public class PlayerSeaView extends SeaView {
+public class ComputerSeaView extends SeaView {
 
-	public PlayerSeaView(Game game, EndShotAnimationListener endShotAnimationListener) {
+	public ComputerSeaView(Game game, EndShotAnimationListener endShotAnimationListener) {
 		super(game, endShotAnimationListener);
 	}
-
+	
 	@Override
 	protected PlayerId getPlayerOwner() {
-		return PlayerId.PLAYER;
+		return PlayerId.COMPUTER;
 	}
 	
 	@Override
 	protected boolean canBoxesDisplayHoverImage(Game game) {
-		return false;	// jamais pour la grille du joueur
+		return game.getPlayerTurn() == PlayerId.PLAYER && game.isPositionningPhaseOver() && !game.areAllShotsDone();
 	}
 	
 	@Override
 	protected void setShipVisiblity(ShipView shipView) {
-		shipView.setShipVisibleOnlyWhenDead(false);
+		shipView.setShipVisibleOnlyWhenDead(true);
 	}
-
+	
 }

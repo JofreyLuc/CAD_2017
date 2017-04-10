@@ -11,6 +11,9 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import view.AnimationWithCallback.Callback;
+
+import controller.EndShotAnimationListener;
 import controller.GridBoxListener;
 
 import model.Game;
@@ -53,10 +56,19 @@ public abstract class SeaView extends JPanel implements Observer {
 	 */
 	protected Ship lastShipOnPlacing;
 	
-	public SeaView(Game game) {
+	public SeaView(Game game, final EndShotAnimationListener endShotAnimationListener) {
 		super();
 		game.addObserver(this);
 		Sea sea = getSelfSea(game);
+		
+		Callback tirAnimCallback = new Callback() {
+
+			@Override
+			public void completed(Animation source) {
+				endShotAnimationListener.onEndShotAnimation();
+			}
+			
+		};
 		
 		// Initialisation de la vue de la grille (une vue par case)
 		gridBoxViews = new GridBoxView[sea.getGridWidth()][sea.getGridHeight()];
@@ -65,7 +77,7 @@ public abstract class SeaView extends JPanel implements Observer {
 		// Parcours ordonnée puis abscisse pour l'ajout dans le gridlayout
 		for (int y = 0 ; y < gridBoxViews[0].length ; y++) {
 			for (int x = 0 ; x < gridBoxViews.length ; x++) {
-				gridBoxViews[x][y] = new GridBoxView(getPlayerOwner(), sea.getGridBoxState(x, y));
+				gridBoxViews[x][y] = new GridBoxView(getPlayerOwner(), sea.getGridBoxState(x, y), tirAnimCallback);
 				gridBoxViews[x][y].addMouseListener(new GridBoxListener(game, x, y, gridBoxViews[x][y]));		
 				this.add(gridBoxViews[x][y]);
 				

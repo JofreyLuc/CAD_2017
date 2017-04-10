@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Graphics;
 import javax.swing.JComponent;
+
+import view.AnimationWithCallback.Callback;
 import model.Game.PlayerId;
 import model.Sea;
 import model.Sea.SeaBoxState;
@@ -38,9 +40,15 @@ public class GridBoxView extends JComponent {
 	 */
 	private boolean canDisplayHoverImage;
 	
-	public GridBoxView(PlayerId playerOwner, SeaBoxState state) {
+	/**
+	 * Callback appelé à la fin de l'animation de tir sur cette case.
+	 */
+	private Callback animationCallback;
+	
+	public GridBoxView(PlayerId playerOwner, SeaBoxState state, Callback animationCallback) {
 		this.playerOwner = playerOwner;
 		this.state = state;
+		this.animationCallback = animationCallback;
 		this.isHover = false;
 		this.canDisplayHoverImage = false;
 		attachImage();
@@ -53,7 +61,7 @@ public class GridBoxView extends JComponent {
 	public PlayerId getPlayerOwner() {
 		return playerOwner;
 	}
-
+	
 	/**
 	 * Prend l'image correspondante à l'état de la case.
 	 * Place l'image à null si rien ne doit pas être affiché.
@@ -64,10 +72,14 @@ public class GridBoxView extends JComponent {
 	    		boxImage = null;
 	    		break;
 	    	case TOUCHED:
-	    		boxImage = new Animation(ImageFactory.getInstance().getHitAnimation());
+	    		boxImage = new AnimationWithCallback(
+	    				new Animation(ImageFactory.getInstance().getHitAnimation()), 
+	    				animationCallback);
 	    		break;
 	    	case SHOT:
-	    		boxImage = new Animation(ImageFactory.getInstance().getMissAnimation());
+	    		boxImage = new AnimationWithCallback(
+	    				new Animation(ImageFactory.getInstance().getMissAnimation()),
+	    				animationCallback);
 	    		break;
 	    	default:
 	    		throw new AssertionError("Etat inconnnu " + state);
