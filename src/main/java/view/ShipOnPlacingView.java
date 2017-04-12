@@ -79,34 +79,34 @@ public class ShipOnPlacingView extends ShipView {
 				switch(ship.getSize()) {
 					case 5: 
 						if (!validPlacement) {
-							
+							shipImage = imgFac.getOldShip5RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip5HilightImage();
 						}
 						break;
 					case 4: 
 						if (!validPlacement) {
-							
+							shipImage = imgFac.getOldShip4RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip4HilightImage();
 						}
 						break;
 					case 3: 
 						if (!validPlacement) {
-							
+							shipImage = imgFac.getOldShip3RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip3HilightImage();
 						}
 						break;
 					case 2: 
 						if (!validPlacement) {
-							
+							shipImage = imgFac.getOldShip2RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip2HilightImage();
 						}
 						break;
 					default:
@@ -118,9 +118,9 @@ public class ShipOnPlacingView extends ShipView {
 	}
 
 	@Override
-	public void draw(Graphics g, int seaBoxViewSize) {
+	public void draw(Graphics g, int seaTileViewSize) {
 		if (ship != null && ship.getPosition() != null) {
-			super.draw(g, seaBoxViewSize);
+			super.draw(g, seaTileViewSize);
 		}
 	}
 }

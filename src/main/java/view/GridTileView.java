@@ -6,19 +6,19 @@ import javax.swing.JComponent;
 import view.AnimationWithCallback.Callback;
 import model.Game.PlayerId;
 import model.Sea;
-import model.Sea.SeaBoxState;
+import model.Sea.SeaTileState;
 
 /**
  * Vue d'une case de la grille.
  * Permet d'afficher l'état de la case (si touché ou manqué).
  */
 @SuppressWarnings("serial")
-public class GridBoxView extends JComponent {
+public class GridTileView extends JComponent {
 		
 	/**
 	 * L'état de cette case de la grille.
 	 */
-	private Sea.SeaBoxState state;
+	private Sea.SeaTileState state;
 	
 	/**
 	 * Le joueur propriétaire de la grille dont cette case provient.
@@ -28,7 +28,7 @@ public class GridBoxView extends JComponent {
 	/**
 	 * L'image à dessiner pour cette case.
 	 */
-	private Animation boxImage;
+	private Animation tileImage;
 	
 	/**
 	 * Booléen indiquant si la souris est au-dessus de la case.
@@ -45,7 +45,7 @@ public class GridBoxView extends JComponent {
 	 */
 	private Callback animationCallback;
 	
-	public GridBoxView(PlayerId playerOwner, SeaBoxState state, Callback animationCallback) {
+	public GridTileView(PlayerId playerOwner, SeaTileState state, Callback animationCallback) {
 		this.playerOwner = playerOwner;
 		this.state = state;
 		this.animationCallback = animationCallback;
@@ -69,15 +69,15 @@ public class GridBoxView extends JComponent {
 	private void attachImage() {
         switch(state) {
 	    	case NORMAL:
-	    		boxImage = null;
+	    		tileImage = null;
 	    		break;
 	    	case TOUCHED:
-	    		boxImage = new AnimationWithCallback(
+	    		tileImage = new AnimationWithCallback(
 	    				new Animation(ImageFactory.getInstance().getHitAnimation()), 
 	    				animationCallback);
 	    		break;
 	    	case SHOT:
-	    		boxImage = new AnimationWithCallback(
+	    		tileImage = new AnimationWithCallback(
 	    				new Animation(ImageFactory.getInstance().getMissAnimation()),
 	    				animationCallback);
 	    		break;
@@ -91,7 +91,7 @@ public class GridBoxView extends JComponent {
 	 * et change l'image en conséquence.
 	 * @param state Le nouvel état de la case.
 	 */
-	public void setState(SeaBoxState state) {
+	public void setState(SeaTileState state) {
 		// Si l'état de la case a changé
 		if (this.state != state) {
 			this.state = state;
@@ -123,12 +123,12 @@ public class GridBoxView extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     	g.setClip(-100, -100, 200, 200);	// pour pouvoir dessiner en dehors des limites du composant
-        if (boxImage != null) {
+        if (tileImage != null) {
         	int shift = 25;
-        	boxImage.draw(g, -shift, -shift);
+        	tileImage.draw(g, -shift, -shift);
         }
         // Si la souris est hover et que les conditions d'affichage sont remplies
-        if (canDisplayHoverImage && isHover && state == SeaBoxState.NORMAL) {
+        if (canDisplayHoverImage && isHover && state == SeaTileState.NORMAL) {
         	g.drawImage(ImageFactory.getInstance().getSightImage(), 0, 0, this);	// on dessine un viseur
         }
 	}

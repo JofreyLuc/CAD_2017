@@ -19,7 +19,7 @@ public class ComputerSeaView extends SeaView {
 	}
 	
 	@Override
-	protected boolean canBoxesDisplayHoverImage(Game game) {
+	protected boolean canTileesDisplayHoverImage(Game game) {
 		return game.getPlayerTurn() == PlayerId.PLAYER && game.isPositionningPhaseOver() && !game.areAllShotsDone();
 	}
 	

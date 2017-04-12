@@ -22,28 +22,28 @@ public class TestShip {
 		ship = new Ship(SIZE, EPOCH);
 	}
 
-	//Tests getSeaBoxesOccupied
+	//Tests getSeaTileesOccupied
 	@Test
-	public void testGetSeaBoxesOccupiedVertical() {
+	public void testGetSeaTileesOccupiedVertical() {
 		// Position : 0, 0
 		// Orientation : vertical
 		ship.setPosition(new Position(0, 0));
 		ship.setOrientation(Orientation.VERTICAL);
 		Position[] positionsExpected = {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(0, 3)};
-		Position[] results = ship.getSeaBoxesOccupied();
+		Position[] results = ship.getSeaTileesOccupied();
 		assertTrue("Différents des positions attendues", Arrays.asList(positionsExpected).containsAll(
 				Arrays.asList(results))
 				&& positionsExpected.length == results.length);
 	}
 	
 	@Test
-	public void testGetSeaBoxesOccupiedHorizontal() {
+	public void testGetSeaTileesOccupiedHorizontal() {
 		// Position : 0, 0
 		// Orientation : horizontal
 		ship.setPosition(new Position(0, 0));
 		ship.setOrientation(Orientation.HORIZONTAL);
 		Position[] positionsExpected = {new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0)};
-		Position[] results = ship.getSeaBoxesOccupied();
+		Position[] results = ship.getSeaTileesOccupied();
 		assertTrue("Différents des positions attendues", Arrays.asList(positionsExpected).containsAll(
 				Arrays.asList(results))
 				&& positionsExpected.length == results.length);

@@ -19,7 +19,7 @@ public class PlayerSeaView extends SeaView {
 	}
 	
 	@Override
-	protected boolean canBoxesDisplayHoverImage(Game game) {
+	protected boolean canTileesDisplayHoverImage(Game game) {
 		return false;	// jamais pour la grille du joueur
 	}
 	

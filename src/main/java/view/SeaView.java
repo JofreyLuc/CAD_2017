@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import view.AnimationWithCallback.Callback;
 
 import controller.EndShotAnimationListener;
-import controller.GridBoxListener;
+import controller.GridTileListener;
 
 import model.Game;
 import model.Sea;
@@ -35,7 +35,7 @@ public abstract class SeaView extends JPanel implements Observer {
 	 * Les vues de chaque case de la grille.
 	 * Hérite de JComponent.
 	 */
-	protected GridBoxView[][] gridBoxViews;
+	protected GridTileView[][] gridTileViews;
 		
 	/**
 	 * Les vues des bateaux placés sur la grille.
@@ -61,6 +61,11 @@ public abstract class SeaView extends JPanel implements Observer {
 	 */
 	protected boolean active;
 	
+	/**
+	 * Animation de fond de la mer.
+	 */
+	protected Animation backgroundAnim;
+	
 	public SeaView(Game game, final EndShotAnimationListener endShotAnimationListener) {
 		super();
 		game.addObserver(this);
@@ -76,21 +81,32 @@ public abstract class SeaView extends JPanel implements Observer {
 		};
 		
 		// Initialisation de la vue de la grille (une vue par case)
-		gridBoxViews = new GridBoxView[sea.getGridWidth()][sea.getGridHeight()];
-		GridLayout layout = new GridLayout(gridBoxViews.length, gridBoxViews[0].length);
+		gridTileViews = new GridTileView[sea.getGridWidth()][sea.getGridHeight()];
+		GridLayout layout = new GridLayout(gridTileViews.length, gridTileViews[0].length);
 		this.setLayout(layout);
 		// Parcours ordonnée puis abscisse pour l'ajout dans le gridlayout
-		for (int y = 0 ; y < gridBoxViews[0].length ; y++) {
-			for (int x = 0 ; x < gridBoxViews.length ; x++) {
-				gridBoxViews[x][y] = new GridBoxView(getPlayerOwner(), sea.getGridBoxState(x, y), tirAnimCallback);
-				gridBoxViews[x][y].addMouseListener(new GridBoxListener(game, x, y, gridBoxViews[x][y]));		
-				this.add(gridBoxViews[x][y]);
+		for (int y = 0 ; y < gridTileViews[0].length ; y++) {
+			for (int x = 0 ; x < gridTileViews.length ; x++) {
+				gridTileViews[x][y] = new GridTileView(getPlayerOwner(), sea.getGridTileState(x, y), tirAnimCallback);
+				gridTileViews[x][y].addMouseListener(new GridTileListener(game, x, y, gridTileViews[x][y]));		
+				this.add(gridTileViews[x][y]);
 				
 			}
 		}
 		
 		// Initialisation de la vue des bateaux placés
 		shipViews = new ArrayList<ShipView>(sea.getShipsToPlace().size());
+		
+		switch(game.getEpoch().getEpochName()) {
+		case XVI_SIECLE:
+			backgroundAnim = ImageFactory.getInstance().getSeaXVIBackgroundAnimation();
+			break;
+		case XX_SIECLE:
+			backgroundAnim = ImageFactory.getInstance().getSeaXXBackgroundAnimation();
+			break;
+		default:
+			throw new AssertionError("Epoque inconnu " + game.getEpoch().getEpochName());
+		}
 	}
 		
 	/**
@@ -100,7 +116,7 @@ public abstract class SeaView extends JPanel implements Observer {
 	private void drawBackground(Graphics g) {
 		int seaGridSize = this.getWidth();
 		// On dessine l'animation de la mer
-		ImageFactory.getInstance().getSeaBackgroundAnimation().draw(g, 0, 0, seaGridSize, seaGridSize);
+		backgroundAnim.draw(g, 0, 0, seaGridSize, seaGridSize);
 		// On dessine la grille par-dessus
 		g.drawImage(ImageFactory.getInstance().getGridImage(), 0, 0, seaGridSize, seaGridSize, null);
 	}
@@ -111,10 +127,10 @@ public abstract class SeaView extends JPanel implements Observer {
 	 */
 	private void drawShips(Graphics g) {
 		for(ShipView shipView : shipViews) {
-			shipView.draw(g, this.getWidth()/gridBoxViews.length);
+			shipView.draw(g, this.getWidth()/gridTileViews.length);
 		}
 		if (shipOnPlacingView != null) {
-			shipOnPlacingView.draw(g, this.getWidth()/gridBoxViews.length);
+			shipOnPlacingView.draw(g, this.getWidth()/gridTileViews.length);
 		}
 	}
 	
@@ -138,7 +154,7 @@ public abstract class SeaView extends JPanel implements Observer {
 	 * @param game Le jeu.
 	 * @return Booléen indiquant si le viseur peut-être affiché si une case de la grille est hover.
 	 */
-	protected abstract boolean canBoxesDisplayHoverImage(Game game);
+	protected abstract boolean canTileesDisplayHoverImage(Game game);
 	
 	/**
 	 * Change les conditions de visibilité du bateau
@@ -196,10 +212,10 @@ public abstract class SeaView extends JPanel implements Observer {
 		Sea sea = getSelfSea(game);
 
 		// Met à jour les vues des cases de la grille
-		for (int row = 0 ; row < gridBoxViews.length ; row++) {
-			for (int col = 0 ; col < gridBoxViews[0].length ; col++) {
-				gridBoxViews[row][col].setState(sea.getGridBoxState(row, col));
-				gridBoxViews[row][col].setCanDisplayHoverImage(canBoxesDisplayHoverImage(game));
+		for (int row = 0 ; row < gridTileViews.length ; row++) {
+			for (int col = 0 ; col < gridTileViews[0].length ; col++) {
+				gridTileViews[row][col].setState(sea.getGridTileState(row, col));
+				gridTileViews[row][col].setCanDisplayHoverImage(canTileesDisplayHoverImage(game));
 			}
 		}
 		

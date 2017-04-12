@@ -8,17 +8,18 @@ public class EpochXVI extends Epoch {
 
 	@Override
 	protected boolean takeDamage(int size, int hitCount) {
-		boolean shipIsDead;
 		switch(size) {
-			case 4 :	// Galion
-				// Touché = coulé
-				shipIsDead = hitCount > 0;
-				break;
-			default :
-				// si le bateau est "touché partout", il est détruit 
-				shipIsDead = size == hitCount;
+			case 5:
+				return hitCount >= 3;
+			case 4:
+				return  hitCount >= 2;
+			case 3:
+				return hitCount >= 2;
+			case 2:
+				return hitCount >= 1;
+			default:
+				return super.takeDamage(size, hitCount);
 		}
-		return shipIsDead;
 	}
 
 }

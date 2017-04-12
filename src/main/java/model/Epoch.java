@@ -23,7 +23,10 @@ public abstract class Epoch {
 	 * @param hitCount Le nombre de "touchés" du bateau.
 	 * @return L'état du bateau après avoir subi le tir, à vrai si le bateau est détruit.
 	 */
-	protected abstract boolean takeDamage(int size, int hitCount);
+	protected boolean takeDamage(int size, int hitCount) {
+		// si le bateau est "touché partout", il est détruit 
+		return size == hitCount;
+	}
 	
 	/**
 	 * Retourne le nom de l'époque.

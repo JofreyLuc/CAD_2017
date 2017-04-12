@@ -20,12 +20,12 @@ public class Sea extends Observable {
 	/**
 	 * Enumération des états d'une case de la grille.
 	 */
-	public enum SeaBoxState { NORMAL, SHOT, TOUCHED }
+	public enum SeaTileState { NORMAL, SHOT, TOUCHED }
 	
 	/**
 	 * Etats de la grille.
 	 */
-	private SeaBoxState[][] grid;
+	private SeaTileState[][] grid;
 	
 	/**
 	 * Les bateaux qui ne sont pas encore placé sur la grille.
@@ -48,9 +48,9 @@ public class Sea extends Observable {
 	 */
 	public Sea(Epoch epoch) {
 		// Initialisation de la grille
-		this.grid = new SeaBoxState[GRID_WIDTH][GRID_HEIGHT];
+		this.grid = new SeaTileState[GRID_WIDTH][GRID_HEIGHT];
 		for (int i = 0 ; i < grid.length ; i++) {
-			Arrays.fill(this.grid[i], SeaBoxState.NORMAL);
+			Arrays.fill(this.grid[i], SeaTileState.NORMAL);
 		}
 		
 		// Initialisation des bateaux
@@ -83,7 +83,7 @@ public class Sea extends Observable {
 	 * @param y L'ordonnée de la case.
 	 * @return L'état de la case.
 	 */
-	public SeaBoxState getGridBoxState(int x, int y) {
+	public SeaTileState getGridTileState(int x, int y) {
 		return grid[x][y];
 	}
 	
@@ -143,19 +143,19 @@ public class Sea extends Observable {
 	 * @param position La position de la case.
 	 * @return Vrai si la case à cette position est libre, faux sinon.
 	 */
-	public boolean isSeaBoxFree(Position position) {
+	public boolean isSeaTileFree(Position position) {
 		if (position.isOutOfBounds(0, grid.length-1, 0, grid[0].length-1)) {
 			return false;
 		}
 		
-		boolean boxFree = true;
+		boolean tileFree = true;
 		Iterator<Ship> iter = ships.iterator();
-		while (iter.hasNext() && boxFree) {
+		while (iter.hasNext() && tileFree) {
 			Ship ship = iter.next();
-			boxFree = !Arrays.asList(ship.getSeaBoxesOccupied()).contains(position);
+			tileFree = !Arrays.asList(ship.getSeaTileesOccupied()).contains(position);
 			// On vérifie si la case est occupée par le bateau
 		}
-		return boxFree;
+		return tileFree;
 	}
 	
 	/**
@@ -170,11 +170,11 @@ public class Sea extends Observable {
 			return false;							// le positionnement est invalide
 		}
 		
-		Position[] boxesOccupied = shipOnPlacing.getSeaBoxesOccupied();	// et on récupère les cases qu'il occupe
+		Position[] tileesOccupied = shipOnPlacing.getSeaTileesOccupied();	// et on récupère les cases qu'il occupe
 		boolean validPlace = true;
 		int i = 0;											// on regarde pour chaque case occupée par le bateau
-		while (i < boxesOccupied.length && validPlace) {
-			validPlace = this.isSeaBoxFree(boxesOccupied[i]);	// si elle est libre
+		while (i < tileesOccupied.length && validPlace) {
+			validPlace = this.isSeaTileFree(tileesOccupied[i]);	// si elle est libre
 			i++;
 		}
 		
@@ -189,7 +189,7 @@ public class Sea extends Observable {
 		List<Position> possibleShots = new ArrayList<Position>(grid.length * grid[0].length);
 		for (int i = 0 ; i < grid.length ; i++) {
 			for (int j = 0 ; j < grid[0].length ; j++) {
-				if (grid[i][j] == SeaBoxState.NORMAL) {
+				if (grid[i][j] == SeaTileState.NORMAL) {
 					possibleShots.add(new Position(i, j));
 				}
 			}
@@ -231,7 +231,7 @@ public class Sea extends Observable {
 	public boolean receiveShot(Position shotPos) {
 		// Coordonnées du tir non valide ou tir déjà effectué à cette position
 		if (shotPos.isOutOfBounds(0, grid.length-1, 0, grid[0].length-1)
-				|| grid[shotPos.getX()][shotPos.getY()] != SeaBoxState.NORMAL) {
+				|| grid[shotPos.getX()][shotPos.getY()] != SeaTileState.NORMAL) {
 			return false;
 		}
 		
@@ -242,7 +242,7 @@ public class Sea extends Observable {
 			touched = ship.checkShot(shotPos);	// on regarde si il est touché
 		}
 		
-		updateBoxState(shotPos, touched);		// on met à jour l'état de la position du tir
+		updateTileState(shotPos, touched);		// on met à jour l'état de la position du tir
 		setChanged();
 		notifyObservers();
 
@@ -256,8 +256,8 @@ public class Sea extends Observable {
 	 * @param position La position de la case.
 	 * @param touched A vrai si un bateau est touché à cette position, à faux sinon.
 	 */
-	private void updateBoxState(Position position, boolean touched) {
-		grid[position.getX()][position.getY()] = touched ? SeaBoxState.TOUCHED : SeaBoxState.SHOT; 
+	private void updateTileState(Position position, boolean touched) {
+		grid[position.getX()][position.getY()] = touched ? SeaTileState.TOUCHED : SeaTileState.SHOT; 
 	}
 
 	@Override

@@ -17,23 +17,23 @@ public class TestSea {
 		sea.putNextShipToPlace();
 	}
 
-	// Tests isSeaBoxFree
+	// Tests isSeaTileFree
 	@Test
-	public void testIsSeaBoxFreeBoxOutOfBounds() {
-		assertFalse("La case devrait être occupée car hors-limites", sea.isSeaBoxFree(new Position(-1, 0)));
+	public void testIsSeaTileFreeTileOutOfBounds() {
+		assertFalse("La case devrait être occupée car hors-limites", sea.isSeaTileFree(new Position(-1, 0)));
 	}
 	
 	@Test
-	public void testIsSeaBoxFreeBoxFree() {
-		assertTrue("La case devrait être libre", sea.isSeaBoxFree(new Position(0, 0)));
+	public void testIsSeaTileFreeTileFree() {
+		assertTrue("La case devrait être libre", sea.isSeaTileFree(new Position(0, 0)));
 	}
 
 	@Test
-	public void testIsSeaBoxFreeBoxOccupied() {
+	public void testIsSeaTileFreeTileOccupied() {
 		Ship ship = sea.getShipOnPlacing();
 		ship.setPosition(new Position(0, 0));
 		sea.validateShipPlacement();
-		assertFalse("La case devrait être occupée", sea.isSeaBoxFree(new Position(0, 0)));
+		assertFalse("La case devrait être occupée", sea.isSeaTileFree(new Position(0, 0)));
 	}
 	
 	// Tests receiveShot

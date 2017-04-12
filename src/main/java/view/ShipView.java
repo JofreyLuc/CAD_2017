@@ -95,34 +95,34 @@ public class ShipView implements Observer {
 				switch(ship.getSize()) {
 					case 5: 
 						if (ship.isDead()) {
-							
+							shipImage = imgFac.getOldShip5RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip5Image();
 						}
 						break;
 					case 4: 
 						if (ship.isDead()) {
-							
+							shipImage = imgFac.getOldShip4RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip4Image();
 						}
 						break;
 					case 3: 
 						if (ship.isDead()) {
-							
+							shipImage = imgFac.getOldShip3RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip3Image();
 						}
 						break;
 					case 2: 
 						if (ship.isDead()) {
-							
+							shipImage = imgFac.getOldShip2RedImage();
 						}
 						else {
-							
+							shipImage = imgFac.getOldShip2Image();
 						}
 						break;
 					default:
@@ -146,12 +146,12 @@ public class ShipView implements Observer {
 	/**
 	 * Dessine le bateau.
      * @param g L'objet Graphics.
-	 * @param seaBoxViewSize La taille d'une case de la grille.
+	 * @param seaTileViewSize La taille d'une case de la grille.
 	 */
-	public void draw(Graphics g, int seaBoxViewSize) {
+	public void draw(Graphics g, int seaTileViewSize) {
 		if (shipImage != null) {
-			int xPos = ship.getPosition().getX() * seaBoxViewSize;
-			int yPos = ship.getPosition().getY() * seaBoxViewSize;
+			int xPos = ship.getPosition().getX() * seaTileViewSize;
+			int yPos = ship.getPosition().getY() * seaTileViewSize;
 			Graphics2D g2d = (Graphics2D) g;
 			// Si il faut faire une rotation
 			if (ship.getOrientation() == Ship.Orientation.VERTICAL) {

@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
-import view.GridBoxView;
+import view.GridTileView;
 
 import model.Game;
 import model.Game.PlayerId;
@@ -13,7 +13,7 @@ import model.Game.PlayerId;
 /**
  * MouseAdapater d'une case de la grille.
  */
-public class GridBoxListener extends MouseAdapter {
+public class GridTileListener extends MouseAdapter {
 
 	/**
 	 * Le jeu.
@@ -26,15 +26,15 @@ public class GridBoxListener extends MouseAdapter {
 	private int x, y;
 	
 	/**
-	 * GridBoxView attaché (la case).
+	 * GridTileView attaché (la case).
 	 */
-	private GridBoxView gridBoxView;
+	private GridTileView gridTileView;
 	
-	public GridBoxListener(Game game, int x, int y, GridBoxView gridBoxView) {
+	public GridTileListener(Game game, int x, int y, GridTileView gridTileView) {
 		this.game = game;
 		this.x = x;
 		this.y = y;
-		this.gridBoxView = gridBoxView;
+		this.gridTileView = gridTileView;
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class GridBoxListener extends MouseAdapter {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {			// Clic gauche = placement
-			switch(gridBoxView.getPlayerOwner()) {
+			switch(gridTileView.getPlayerOwner()) {
 				case COMPUTER:
 					game.receiveClickEventOnComputerGrid(this.x, this.y);
 					break;
@@ -51,7 +51,7 @@ public class GridBoxListener extends MouseAdapter {
 					game.receiveClickEventOnPlayerGrid(this.x, this.y);
 					break;
 				default:
-					throw new AssertionError("Joueur inconnu " + gridBoxView.getPlayerOwner());		
+					throw new AssertionError("Joueur inconnu " + gridTileView.getPlayerOwner());		
 			}
 		}
 		else if (SwingUtilities.isRightMouseButton(e)) {	// Clic droit = rotation
@@ -64,8 +64,8 @@ public class GridBoxListener extends MouseAdapter {
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		gridBoxView.setIsHover(true);
-		if (gridBoxView.getPlayerOwner() == PlayerId.PLAYER) {
+		gridTileView.setIsHover(true);
+		if (gridTileView.getPlayerOwner() == PlayerId.PLAYER) {
 			game.receiveHoverOnEventOnPlayerGrid(x, y);
 		}
 	}
@@ -75,8 +75,8 @@ public class GridBoxListener extends MouseAdapter {
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {	
-		gridBoxView.setIsHover(false);
-		if (gridBoxView.getPlayerOwner() == PlayerId.PLAYER) {
+		gridTileView.setIsHover(false);
+		if (gridTileView.getPlayerOwner() == PlayerId.PLAYER) {
 			game.receiveHoverOffEventOnPlayerGrid(x, y);
 		}
 	}

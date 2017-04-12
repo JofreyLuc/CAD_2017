@@ -37,10 +37,10 @@ public class TestComputerController {
 		Player opponent = new Player(computer.getOpponentGrid(), computer.getSelfGrid());
 		ComputerController simulatedOpponent = new ComputerController(opponent);
 		simulatedOpponent.placeAllShips();
-		int nbOfNormalBoxesBefore = computer.getOpponentGrid().getAllNormalPositions().size();
+		int nbOfNormalTileesBefore = computer.getOpponentGrid().getAllNormalPositions().size();
 		computerController.playShoot();
-		int nbOfNormalBoxesAfter = computer.getOpponentGrid().getAllNormalPositions().size();
-		assertTrue("Un tir devrait avoir été effectué", nbOfNormalBoxesBefore - 1 == nbOfNormalBoxesAfter);
+		int nbOfNormalTileesAfter = computer.getOpponentGrid().getAllNormalPositions().size();
+		assertTrue("Un tir devrait avoir été effectué", nbOfNormalTileesBefore - 1 == nbOfNormalTileesAfter);
 	}
 
 }

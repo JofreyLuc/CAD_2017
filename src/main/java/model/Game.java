@@ -3,8 +3,6 @@ package model;
 import java.util.EnumMap;
 import java.util.Observable;
 
-import model.Game.GameState;
-
 /**
  * Classe principale du modèle qui contient tous les autres éléments du jeu
  * et qui représente l'état d'une partie.
@@ -89,6 +87,14 @@ public class Game extends Observable {
 	}
 
 	/**
+	 * Retourne l'époque à laquelle se déroule cette partie.
+	 * @return L'époque à laquelle se déroule cette partie.
+	 */
+	public Epoch getEpoch() {
+		return epoch;
+	}
+
+	/**
 	 * Retourne l'identifiant du joueur dont c'est le tour de jouer.
 	 * @return L'identifiant du joueur dont c'est le tour de jouer.
 	 */
@@ -147,6 +153,9 @@ public class Game extends Observable {
 	
 	/**
 	 * Démarre la partie.
+	 * Joue le tour de l'ordinateur en plaçant les bateaux 
+	 * si c'est l'ordinateur qui commence.
+	 * C'est donc toujours au joueur de jouer après l'appel à cette méthode.
 	 * @param startingPlayer Le joueur qui commence.
 	 */
 	public void startGame(PlayerId startingPlayer) {
@@ -272,7 +281,9 @@ public class Game extends Observable {
 	}
 	
 	/**
-	 * Termine le tour du joueur courant.
+	 * Termine le tour du joueur courant
+	 * et joue le tour de l'ordinateur si c'est à lui de jouer.
+	 * Vérifie l'état du jeu avant de continuer et de changer de tour.
 	 */
 	public void endTurn() {
 		updateGameState();
@@ -289,7 +300,8 @@ public class Game extends Observable {
 	}
 	
 	/**
-	 * Joue le tour de l'ordinateur.
+	 * Joue le tour de l'ordinateur
+	 * (placements ou tir(s) selon l'avancement de la partie).
 	 */
 	private void playComputerTurn() {
 		// Si la phase de positionnement n'est pas terminée

@@ -145,25 +145,25 @@ public class Ship extends Observable {
 	 * sous forme de tableau.
 	 * @return Les positions occupées.
 	 */
-	public Position[] getSeaBoxesOccupied() {
+	public Position[] getSeaTileesOccupied() {
 		if (position == null) {
 			return new Position[0];
 		}
 		
-		Position[] boxesOccupied = new Position[size];
+		Position[] tileesOccupied = new Position[size];
 		for (int i = 0 ; i < size ; i++) {
 			switch(orientation) {
 				case HORIZONTAL:
-					boxesOccupied[i] = new Position(position.getX()+i, position.getY());
+					tileesOccupied[i] = new Position(position.getX()+i, position.getY());
 					break;
 				case VERTICAL:
-					boxesOccupied[i] = new Position(position.getX(), position.getY()+i);
+					tileesOccupied[i] = new Position(position.getX(), position.getY()+i);
 					break;
 				default:
 					throw new AssertionError("Orientation inconnu " + orientation);
 			}
 		}
-		return boxesOccupied;
+		return tileesOccupied;
 	}
 	
 	/**
@@ -174,9 +174,9 @@ public class Ship extends Observable {
 	public boolean checkShot(Position shotPosition) {
 		int i = 0;
 		boolean touched = false;
-		Position[] boxesOccupied = getSeaBoxesOccupied();
+		Position[] tileesOccupied = getSeaTileesOccupied();
 		while (i < size && !touched) {
-			touched = boxesOccupied[i].equals(shotPosition);
+			touched = tileesOccupied[i].equals(shotPosition);
 			i++;
 		}
 		if(touched) {			// Si le bateau est touché,
@@ -193,7 +193,7 @@ public class Ship extends Observable {
 	@Override
 	public String toString() {
 		String posOcc = " ";
-		for (Position pos : this.getSeaBoxesOccupied()) {
+		for (Position pos : this.getSeaTileesOccupied()) {
 			posOcc+= pos + " , ";
 		}
 		return "\nShip [position=" + position + ", posOcc=" + posOcc + ", size=" + size

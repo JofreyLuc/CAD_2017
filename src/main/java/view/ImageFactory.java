@@ -40,11 +40,29 @@ public class ImageFactory {
 	private BufferedImage shipPtBoatRedImage;
 	private BufferedImage shipPtBoatHilightImage;
 	
+	private BufferedImage oldShip2Image;
+	private BufferedImage oldShip2RedImage;
+	private BufferedImage oldShip2HilightImage;
+
+	private BufferedImage oldShip3Image;
+	private BufferedImage oldShip3RedImage;
+	private BufferedImage oldShip3HilightImage;
+
+	private BufferedImage oldShip4Image;
+	private BufferedImage oldShip4RedImage;
+	private BufferedImage oldShip4HilightImage;
+	
+	private BufferedImage oldShip5Image;
+	private BufferedImage oldShip5RedImage;
+	private BufferedImage oldShip5HilightImage;
+	
 	// Animations
-	private Animation seaBackgroundAnimation;
+	private Animation seaXXBackgroundAnimation;
 	private Animation hitAnimation;
 	private Animation missAnimation;
 	
+	private Animation seaXVIBackgroundAnimation;
+
 	private ImageFactory() {
 		try {
 			gridImage = loadImage("/images/grid.png");
@@ -67,7 +85,24 @@ public class ImageFactory {
 			shipPtBoatRedImage = loadImage("/images/shipPtBoatRed.png");
 			shipPtBoatHilightImage = loadImage("/images/shipPtBoatHilight.png");
 			
-			seaBackgroundAnimation = new Animation(Sprite.loadSpriteSheet("/images/seaBackgroundSprite.png", Orientation.HORIZONTAL, 16), 6);
+			oldShip2Image = loadImage("/images/oldShip2.png");
+			oldShip2RedImage = loadImage("/images/oldShip2Red.png");
+			oldShip2HilightImage = loadImage("/images/oldShip2Hilight.png");
+
+			oldShip3Image = loadImage("/images/oldShip3.png");
+			oldShip3RedImage = loadImage("/images/oldShip3Red.png");
+			oldShip3HilightImage = loadImage("/images/oldShip3Hilight.png");
+
+			oldShip4Image = loadImage("/images/oldShip4.png");
+			oldShip4RedImage = loadImage("/images/oldShip4Red.png");
+			oldShip4HilightImage = loadImage("/images/oldShip4Hilight.png");
+
+			oldShip5Image = loadImage("/images/oldShip5.png");
+			oldShip5RedImage = loadImage("/images/oldShip5Red.png");
+			oldShip5HilightImage = loadImage("/images/oldShip5Hilight.png");
+			
+			seaXXBackgroundAnimation = new Animation(Sprite.loadSpriteSheet("/images/seaXXBackgroundSprite.png", Orientation.HORIZONTAL, 16), 6);
+			seaXVIBackgroundAnimation = new Animation(Sprite.loadSpriteSheet("/images/seaXVIBackgroundSprite.png", Orientation.HORIZONTAL, 16), 6);
 			hitAnimation = new Animation(Sprite.loadSpriteSheet("/images/gridHit.png", Orientation.HORIZONTAL, 24), 1);
 			hitAnimation.setLoop(false);
 			missAnimation = new Animation(Sprite.loadSpriteSheet("/images/gridMiss.png", Orientation.HORIZONTAL, 16), 1);
@@ -138,9 +173,57 @@ public class ImageFactory {
 	public BufferedImage getShipPtBoatHilightImage() {
 		return shipPtBoatHilightImage;
 	}
+	
+	public BufferedImage getOldShip2Image() {
+		return oldShip2Image;
+	}
 
-	public Animation getSeaBackgroundAnimation() {
-		return seaBackgroundAnimation;
+	public BufferedImage getOldShip2RedImage() {
+		return oldShip2RedImage;
+	}
+
+	public BufferedImage getOldShip2HilightImage() {
+		return oldShip2HilightImage;
+	}
+
+	public BufferedImage getOldShip3Image() {
+		return oldShip3Image;
+	}
+
+	public BufferedImage getOldShip3RedImage() {
+		return oldShip3RedImage;
+	}
+
+	public BufferedImage getOldShip3HilightImage() {
+		return oldShip3HilightImage;
+	}
+
+	public BufferedImage getOldShip4Image() {
+		return oldShip4Image;
+	}
+
+	public BufferedImage getOldShip4RedImage() {
+		return oldShip4RedImage;
+	}
+
+	public BufferedImage getOldShip4HilightImage() {
+		return oldShip4HilightImage;
+	}
+
+	public BufferedImage getOldShip5Image() {
+		return oldShip5Image;
+	}
+
+	public BufferedImage getOldShip5RedImage() {
+		return oldShip5RedImage;
+	}
+
+	public BufferedImage getOldShip5HilightImage() {
+		return oldShip5HilightImage;
+	}
+
+	public Animation getSeaXXBackgroundAnimation() {
+		return seaXXBackgroundAnimation;
 	}
 	
 	public Animation getHitAnimation() {
@@ -151,6 +234,10 @@ public class ImageFactory {
 		return missAnimation;
 	}
 
+	public Animation getSeaXVIBackgroundAnimation() {
+		return seaXVIBackgroundAnimation;
+	}
+	
 	/**
 	 * Retourne l'instance du singleton.
 	 * @return L'instance du singleton.
