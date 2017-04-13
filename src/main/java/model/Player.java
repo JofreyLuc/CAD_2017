@@ -1,17 +1,27 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Classe représentant un joueur.
  */
-public class Player {
+public class Player implements Serializable {
 
 	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
 	 * La grille du joueur.
+	 * @serial
 	 */
 	private Sea selfGrid;
 	
 	/**
 	 * La grille de l'adversaire.
+	 * @serial
 	 */
 	private Sea opponentGrid;
 	

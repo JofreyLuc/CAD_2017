@@ -1,12 +1,18 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Observable;
 
 /**
  * Classe représentant un bateau.
  */
-public class Ship extends Observable {
+public class Ship extends Observable implements Serializable {
+	
+	/**
+	 * Id pour la serialization.
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Position du bateau sur la grille du jeu.

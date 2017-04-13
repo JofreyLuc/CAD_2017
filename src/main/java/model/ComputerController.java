@@ -1,14 +1,23 @@
 package model;
 
+import java.io.Serializable;
+
 import model.Ship.Orientation;
 
 /**
  * Entité contrôlant les actions d'un joueur (l'ordinateur).
  */
-public class ComputerController {
+public class ComputerController implements Serializable {
 
 	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
 	 * Le joueur contrôlé.
+	 * @serial
 	 */
 	private Player computer;
 	
@@ -19,6 +28,7 @@ public class ComputerController {
 	
 	/**
 	 * Stratégie à adopter pour les tirs de l'ordinateur.
+	 * @serial
 	 */
 	private ShootingStrategy shootingStrategy;
 	
@@ -31,6 +41,22 @@ public class ComputerController {
 		this.shootingStrategy = DEFAULT_SHOOTING_STRATEGY;
 	}
 	
+	/**
+	 * Retourne la stratégie de tir de l'ordinateur.
+	 * @return la stratégie de tir de l'ordinateur.
+	 */
+	public ShootingStrategy getShootingStrategy() {
+		return shootingStrategy;
+	}
+	
+	/**
+	 * Prend la stratégie de tir passé en paramètre.
+	 * @param shootingStrategy La nouvelle stratégie de tir de l'ordinateur.
+	 */
+	public void setShootingStrategy(ShootingStrategy shootingStrategy) {
+		this.shootingStrategy = shootingStrategy;
+	}
+
 	/**
 	 * Place tous les bateaux du joueur (de l'ordinateur).
 	 */

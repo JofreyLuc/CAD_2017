@@ -20,23 +20,15 @@ import model.Game;
 @SuppressWarnings("serial")
 public class GameView extends JPanel implements Observer {
 
-	private SeaView playerGridView;
-	
-	private SeaView computerGridView;
-
 	private JLabel turnLabel;
 	
 	private JLabel instructionLabel;
 	
-	public GameView(Game game) {
-		game.addObserver(this);
-		
-		// Listener de fin d'animation de tir
-		EndShotAnimationListener endShotAnimListener = new EndShotAnimationListener(game);
-
-		this.playerGridView = new PlayerSeaView(game, endShotAnimListener);
-		this.computerGridView = new ComputerSeaView(game, endShotAnimListener);
-		
+	private SeaView playerGridView;
+	
+	private SeaView computerGridView;
+	
+	public GameView() {
 		this.turnLabel = new JLabel("VICTOIRE DE L'ORDINATEUR");
 		this.turnLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		this.turnLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -59,14 +51,9 @@ public class GameView extends JPanel implements Observer {
 		gbc.insets = new Insets(15, 0, 15, 0);
 		this.add(turnLabel, gbc);
 		gbc.gridwidth = 1;
-		gbc.gridy = 1;
-		gbc.insets = new Insets(0, 15, 15, 15);
-		this.add(playerGridView, gbc);
-		gbc.gridx = 1;
-		gbc.insets = new Insets(0, 15, 15, 15);
-		this.add(computerGridView, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 3;
+		gbc.insets = new Insets(0, 15, 15, 15);
 		this.add(instructionLabel, gbc);
 						
 		// Raffraîchit l'affichage toutes les 17ms ~ 60 fps
@@ -80,6 +67,30 @@ public class GameView extends JPanel implements Observer {
         timer.start();
 	}
 
+	public void setGame(Game game) {
+		game.addObserver(this);
+		// Listener de fin d'animation de tir
+		EndShotAnimationListener endShotAnimListener = new EndShotAnimationListener(game);
+		if (playerGridView != null) {
+			this.remove(playerGridView);
+		}
+		if (computerGridView != null) {
+			this.remove(computerGridView);
+		}
+		playerGridView = new PlayerSeaView(game, endShotAnimListener);
+		computerGridView = new ComputerSeaView(game, endShotAnimListener);
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridwidth = 1;
+		gbc.gridy = 1;
+		gbc.insets = new Insets(0, 15, 15, 15);
+		this.add(playerGridView, gbc);
+		gbc.gridx = 1;
+		gbc.insets = new Insets(0, 15, 15, 15);
+		this.add(computerGridView, gbc);
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		Game game = (Game) o;

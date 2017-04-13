@@ -1,10 +1,18 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Classe représentant une époque.
  * Permet de changer le comportement des bateaux du jeu ainsi que leur apparence.
  */
-public abstract class Epoch {
+public abstract class Epoch implements Serializable {
+	
+	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Enumération de nom d'époques.
@@ -13,6 +21,7 @@ public abstract class Epoch {
 	
 	/**
 	 * Le nom de l'époque.
+	 * @serial
 	 */
 	protected EpochName name;
 	

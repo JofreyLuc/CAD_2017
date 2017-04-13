@@ -2,6 +2,12 @@ package model;
 
 public class EpochXVI extends Epoch {
 
+	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public EpochXVI() {
 		this.name = EpochName.XVI_SIECLE;
 	}

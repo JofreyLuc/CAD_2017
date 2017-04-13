@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Observable;
 
@@ -7,8 +8,14 @@ import java.util.Observable;
  * Classe principale du modèle qui contient tous les autres éléments du jeu
  * et qui représente l'état d'une partie.
  */
-public class Game extends Observable {
+public class Game extends Observable implements Serializable {
 
+	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Enumération des différens états possibles de la partie.
 	 */
@@ -16,6 +23,7 @@ public class Game extends Observable {
 	
 	/**
 	 * Etat courant de la partie.
+	 * @serial
 	 */
 	private GameState gameState; 
 	
@@ -26,36 +34,48 @@ public class Game extends Observable {
 	
 	/**
 	 * Représente le joueur dont c'est le tour de jouer.
+	 * @serial
 	 */
 	private PlayerId playerTurn;
 	
 	/**
 	 * Les deux joueurs.
+	 * @serial
 	 */
 	private EnumMap <PlayerId, Player> players;
 	
 	/**
-	 * L'époque à laquelle se déroule la partie.
+	 * Les grilles des deux joueurs.
 	 */
-	private Epoch epoch;
+	private EnumMap <PlayerId, Sea> seas;
 	
 	/**
+	 * L'époque à laquelle se déroule la partie.
+	 * @serial
+	 */
+	private Epoch epoch;
+		
+	/**
 	 * L'entité qui contrôle les actions de l'ordinateur.
+	 * @serial
 	 */
 	private ComputerController computerController;
 	
 	/**
 	 * Booléen indiquant si le tour doit se terminer seulement à la fin des animations de tir.
+	 * @serial
 	 */
 	private boolean endTurnAfterShotAnimation;
 	
 	/**
 	 * Le nombre de tirs par tour.
+	 * @serial
 	 */
 	private int numberOfShotsPerTurn;
 	
 	/**
 	 * Compte du nombre de tirs par tour.
+	 * @serial
 	 */
 	private int countNumberOfShots;
 	
@@ -63,19 +83,21 @@ public class Game extends Observable {
 	 * Crée une partie à partir de l'époque choisie au préalable.
 	 * @param epoque L'époque choisie.
 	 */
-	public Game(Epoch epoch) {
-		this.gameState = GameState.RUNNING;
-		this.playerTurn = PlayerId.COMPUTER;
+	public Game(Epoch epoch, ShootingStrategy shootingStrategy) {
+		gameState = GameState.RUNNING;
+		playerTurn = PlayerId.COMPUTER;
 		this.epoch = epoch;
-		this.players = new EnumMap<PlayerId, Player>(PlayerId.class);
-		Sea playerSea = new Sea(epoch);
-		Sea computerSea = new Sea(epoch);
-		this.players.put(PlayerId.PLAYER, new Player(playerSea, computerSea));
-		this.players.put(PlayerId.COMPUTER, new Player(computerSea, playerSea));
-		this.computerController = new ComputerController(players.get(PlayerId.COMPUTER));
-		this.endTurnAfterShotAnimation = true;
-		this.numberOfShotsPerTurn = 1;
-		this.countNumberOfShots = 0;
+		players = new EnumMap<PlayerId, Player>(PlayerId.class);
+		seas = new EnumMap<PlayerId, Sea>(PlayerId.class);
+		seas.put(PlayerId.PLAYER, new Sea(epoch));
+		seas.put(PlayerId.COMPUTER, new Sea(epoch));
+		players.put(PlayerId.PLAYER, new Player(getPlayerSea(), getComputerSea()));
+		players.put(PlayerId.COMPUTER, new Player(getComputerSea(), getPlayerSea()));
+		computerController = new ComputerController(players.get(PlayerId.COMPUTER));
+		computerController.setShootingStrategy(shootingStrategy);
+		endTurnAfterShotAnimation = true;
+		numberOfShotsPerTurn = 1;
+		countNumberOfShots = 0;
 	}
 	
 	/**
@@ -116,7 +138,7 @@ public class Game extends Observable {
 	 * @return La grille du joueur.
 	 */
 	private Sea getPlayerSea() {
-		return this.players.get(PlayerId.PLAYER).getSelfGrid();
+		return seas.get(PlayerId.PLAYER);
 	}
 	
 	/**
@@ -124,7 +146,7 @@ public class Game extends Observable {
 	 * @return La grille du joueur.
 	 */
 	private Sea getComputerSea() {
-		return this.players.get(PlayerId.COMPUTER).getSelfGrid();
+		return seas.get(PlayerId.COMPUTER);
 	}
 	
 	/**
@@ -158,7 +180,7 @@ public class Game extends Observable {
 	 * C'est donc toujours au joueur de jouer après l'appel à cette méthode.
 	 * @param startingPlayer Le joueur qui commence.
 	 */
-	public void startGame(PlayerId startingPlayer) {
+	public void start(PlayerId startingPlayer) {
 		getPlayerSea().putNextShipToPlace();	// On place le premier bateau en phase de positionnement
 		getComputerSea().putNextShipToPlace();	// On place le premier bateau en phase de positionnement
 		switch(startingPlayer) {
@@ -169,6 +191,25 @@ public class Game extends Observable {
 			break;
 			default:
 				throw new AssertionError("Joueur inconnu " + startingPlayer);
+		}
+		playerTurn = PlayerId.PLAYER;
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * Reprend la partie.
+	 * Utile pour reprendre une sauvegarde.
+	 */
+	public void resume() {
+		switch(playerTurn) {
+		case PLAYER:
+			break;
+		case COMPUTER:
+			playComputerTurn();
+		break;
+		default:
+			throw new AssertionError("Joueur inconnu " + playerTurn);
 		}
 		playerTurn = PlayerId.PLAYER;
 		setChanged();

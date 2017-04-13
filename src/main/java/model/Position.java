@@ -1,12 +1,28 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Simple classe conteneur pour les coordonnées d'une position (avec des entiers). 
  */
-public class Position {
+public class Position implements Serializable {
 	
+	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Abscisse.
+	 * @serial
+	 */
 	private int x;
 	
+	/**
+	 * Ordonnée.
+	 * @serial
+	 */
 	private int y;
 	
 	public Position(int x, int y) {

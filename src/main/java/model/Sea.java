@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -9,8 +10,14 @@ import java.util.Observable;
 /**
  * Classe représentant la grille d'un joueur.
  */
-public class Sea extends Observable {
+public class Sea extends Observable implements Serializable {
 
+	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final static int GRID_WIDTH = 10;
 	
 	private final static int GRID_HEIGHT = 10;
@@ -24,23 +31,27 @@ public class Sea extends Observable {
 	
 	/**
 	 * Etats de la grille.
+	 * @serial
 	 */
 	private SeaTileState[][] grid;
 	
 	/**
 	 * Les bateaux qui ne sont pas encore placé sur la grille.
+	 * @serial
 	 */
-	List<Ship> shipsToPlace;
+	private List<Ship> shipsToPlace;
 	
 	/**
 	 * Le bateau en cours de placement.
+	 * @serial
 	 */
-	Ship shipOnPlacing;
+	private Ship shipOnPlacing;
 	
 	/**
 	 * Les bateaux placés sur la grille.
+	 * @serial
 	 */
-	List<Ship> ships;
+	private List<Ship> ships;
 	
 	/**
 	 * Crée une grille à partir de l'époque associée.
