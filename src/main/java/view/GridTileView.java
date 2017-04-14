@@ -132,5 +132,15 @@ public class GridTileView extends JComponent {
         	g.drawImage(ImageFactory.getInstance().getSightImage(), 0, 0, this);	// on dessine un viseur
         }
 	}
+
+	/**
+	 * Termine les animations qui ne bouclent pas.
+	 */
+	public void setNonLoopingAnimationsToEnd() {
+		// Termine l'animation de tir de cette case s'il y en a une
+		if (tileImage != null) {
+			tileImage.end();
+		}
+	}
 	
 }

@@ -8,6 +8,12 @@ import java.util.Random;
  */
 public class RandomShooting implements ShootingStrategy {
 
+	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
     private Random RNG;
 	
     public RandomShooting() {

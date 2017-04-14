@@ -5,6 +5,12 @@ package model;
  */
 public class CrossShooting implements ShootingStrategy {
 
+	/**
+	 * Id pour la serialization.
+	 * @serial
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	public Position playShoot(Sea sea) {
 		// TODO Auto-generated method stub

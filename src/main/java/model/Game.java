@@ -202,16 +202,19 @@ public class Game extends Observable implements Serializable {
 	 * Utile pour reprendre une sauvegarde.
 	 */
 	public void resume() {
-		switch(playerTurn) {
-		case PLAYER:
-			break;
-		case COMPUTER:
-			playComputerTurn();
-		break;
-		default:
-			throw new AssertionError("Joueur inconnu " + playerTurn);
+		updateGameState();
+		if (gameState == GameState.RUNNING) {
+			switch(playerTurn) {
+				case PLAYER:
+					break;
+				case COMPUTER:
+					playComputerTurn();
+				break;
+				default:
+					throw new AssertionError("Joueur inconnu " + playerTurn);
+			}
+			playerTurn = PlayerId.PLAYER;
 		}
-		playerTurn = PlayerId.PLAYER;
 		setChanged();
 		notifyObservers();
 	}

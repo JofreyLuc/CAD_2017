@@ -89,33 +89,19 @@ public class Animation {
     }
     
     /**
-     * Met à jour l'animation.
-     */
-    protected void update() {
-    	// Si l'animation n'est pas activée
-    	// ou si l'animation est à la dernière image et ne doit pas boucler
-        if (stopped || (index >= frames.length - 1 && !loop)) {
-        	return;
-        }
-        	
-        tickCount++;
-        if (tickCount > frameDuration) {
-            tickCount = 0;
-            
-            if (index >= frames.length - 1) {
-            	index = 0;
-            }
-            else {
-            	index ++;
-            }
-        }
-    }
-    
-    /**
      * Active l'animation.
      */
     public void start() {
         this.stopped = false;
+    }
+    
+    /**
+     * Termine l'animation.
+     * C'est-à-dire "place son état à la fin".
+     */
+    public void end() {
+    	this.index = frames.length - 1;
+    	this.tickCount = this.frameDuration;
     }
     
     /**
@@ -143,6 +129,29 @@ public class Animation {
         this.tickCount = 0;
     }
 
+    /**
+     * Met à jour l'animation.
+     */
+    protected void update() {
+    	// Si l'animation n'est pas activée
+    	// ou si l'animation est à la dernière image et ne doit pas boucler
+        if (stopped || (index >= frames.length - 1 && !loop)) {
+        	return;
+        }
+        	
+        tickCount++;
+        if (tickCount > frameDuration) {
+            tickCount = 0;
+            
+            if (index >= frames.length - 1) {
+            	index = 0;
+            }
+            else {
+            	index ++;
+            }
+        }
+    }
+    
     /**
      * Dessine l'image courante de l'animation
      * et met à jour cette dernière.

@@ -112,4 +112,12 @@ public class GameView extends JPanel implements Observer {
 				throw new AssertionError("Joueur inconnu " + game.getPlayerTurn());		
 		}
 	}
+
+	/**
+	 * Termine les animations qui ne bouclent pas.
+	 */
+	public void setNonLoopingAnimationsToEnd() {
+		playerGridView.setNonLoopingAnimationsToEnd();
+		computerGridView.setNonLoopingAnimationsToEnd();
+	}
 }

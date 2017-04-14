@@ -238,5 +238,18 @@ public abstract class SeaView extends JPanel implements Observer {
 			shipOnPlacingView.setValidPlacement(sea.isShipOnPlacingInValidPosition());
 		}
 	}
+
+	/**
+	 * Termine les animations qui ne bouclent pas.
+	 */
+	public void setNonLoopingAnimationsToEnd() {
+		// On doit uniquement terminer les animations de tir des cases
+		// Parcours ordonnée puis abscisse pour l'ajout dans le gridlayout
+		for (int x = 0 ; x < gridTileViews.length ; x++) {
+			for (int y = 0 ; y < gridTileViews[0].length ; y++) {
+				gridTileViews[x][y].setNonLoopingAnimationsToEnd();
+			}
+		}
+	}
 	
 }

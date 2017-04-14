@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Stratégie de tir.
  */
-public interface ShootingStrategy {
+public interface ShootingStrategy extends Serializable {
 
 	/**
 	 * Choisit et renvoie une position afin d'y effectuer un tir.

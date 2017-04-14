@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 
 public class GameLoader {
 
+	public final static String SAVE_EXTENSION = ".sav";
+	
 	private GameLoader() {}
 	
 	/**
@@ -38,7 +40,7 @@ public class GameLoader {
 	 * @param file Le fichier de sauvegarde.
 	 * @throws IOException
 	 */
-	public void saveGame(Game game, File file) throws IOException {
+	public static void saveGame(Game game, File file) throws IOException {
 		ObjectOutputStream out = null;
 	    try {
 			out = new ObjectOutputStream(new FileOutputStream(file));  
