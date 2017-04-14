@@ -5,11 +5,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
@@ -28,7 +32,9 @@ public class GameView extends JPanel implements Observer {
 	
 	private SeaView computerGridView;
 	
-	public GameView() {
+	private Game game;
+	
+	public GameView(final GameFrame gameFrame) {
 		this.turnLabel = new JLabel("VICTOIRE DE L'ORDINATEUR");
 		this.turnLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		this.turnLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -65,9 +71,26 @@ public class GameView extends JPanel implements Observer {
         	
         });
         timer.start();
+        
+        //Key bindings
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "OPTIONS");
+        this.getActionMap().put("OPTIONS", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                gameFrame.showPanel(GameFrame.OPTIONS_MENU_PANEL);
+            }
+        });
 	}
 
+	public Game getGame() {
+		return game;
+	}
+	
 	public void setGame(Game game) {
+		if (this.game != null) {
+			this.game.deleteObserver(this);
+		}
+		this.game = game;
 		game.addObserver(this);
 		// Listener de fin d'animation de tir
 		EndShotAnimationListener endShotAnimListener = new EndShotAnimationListener(game);

@@ -174,6 +174,14 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
+	 * Retourne le controleur de l'ordinateur.
+	 * @return Le controleur de l'ordinateur.
+	 */
+	public ComputerController getComputerController() {
+		return computerController;
+	}
+	
+	/**
 	 * Démarre la partie.
 	 * Joue le tour de l'ordinateur en plaçant les bateaux 
 	 * si c'est l'ordinateur qui commence.

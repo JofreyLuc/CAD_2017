@@ -38,7 +38,7 @@ public class MainMenuPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameFrame.showPanel(GameFrame.FILE_CHOOSER_PANEL);
+				gameFrame.showPanel(GameFrame.FILE_LOAD_PANEL);
 			}
 		});
 
