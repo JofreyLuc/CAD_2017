@@ -11,12 +11,13 @@ import model.Game;
 import model.Game.PlayerId;
 
 /**
- * MouseAdapater d'une case de la grille.
+ * Listener d'une case de la grille.
+ * Gére les évenements de la case liée provenant de la souris.
  */
 public class GridTileListener extends MouseAdapter {
 
 	/**
-	 * Le jeu.
+	 * Le jeu afin de remonter les événements si nécessaire.
 	 */
 	private Game game;
 	
@@ -26,10 +27,17 @@ public class GridTileListener extends MouseAdapter {
 	private int x, y;
 	
 	/**
-	 * GridTileView attaché (la case).
+	 * La vue de la case attachée afin de changer son apparence en cas de hover.
 	 */
 	private GridTileView gridTileView;
 	
+	/**
+	 * Crée le listener d'une case.
+	 * @param game Le jeu.
+	 * @param x L'abscisse de la case.
+	 * @param y L'ordonnée de la case.
+	 * @param gridTileView La vue de la case.
+	 */
 	public GridTileListener(Game game, int x, int y, GridTileView gridTileView) {
 		this.game = game;
 		this.x = x;
@@ -42,12 +50,12 @@ public class GridTileListener extends MouseAdapter {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (SwingUtilities.isLeftMouseButton(e)) {			// Clic gauche = placement
+		if (SwingUtilities.isLeftMouseButton(e)) {			// Clic gauche = click event
 			switch(gridTileView.getPlayerOwner()) {
-				case COMPUTER:
+				case COMPUTER:								// grille ordi
 					game.receiveClickEventOnComputerGrid(this.x, this.y);
 					break;
-				case PLAYER:
+				case PLAYER:								// grille joueur
 					game.receiveClickEventOnPlayerGrid(this.x, this.y);
 					break;
 				default:
@@ -65,6 +73,7 @@ public class GridTileListener extends MouseAdapter {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		gridTileView.setIsHover(true);
+		// On remonte les events hover seulement pour la grille du joueur (prévisualisation placement) 
 		if (gridTileView.getPlayerOwner() == PlayerId.PLAYER) {
 			game.receiveHoverOnEventOnPlayerGrid(x, y);
 		}
@@ -76,6 +85,7 @@ public class GridTileListener extends MouseAdapter {
 	@Override
 	public void mouseExited(MouseEvent e) {	
 		gridTileView.setIsHover(false);
+		// On remonte les events hover seulement pour la grille du joueur (prévisualisation placement) 
 		if (gridTileView.getPlayerOwner() == PlayerId.PLAYER) {
 			game.receiveHoverOffEventOnPlayerGrid(x, y);
 		}

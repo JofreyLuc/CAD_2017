@@ -18,18 +18,22 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 
+import model.ComputerController;
 import model.CrossShooting;
+import model.Game;
 import model.RandomShooting;
 import model.ShootingStrategy;
 
 @SuppressWarnings("serial")
 public class OptionsMenuPanel extends JPanel {
-
-	private final static String SHOOT_RAND_STR = "SHOOT_RAND";
 	
-	private final static String SHOOT_CROSS_STR = "SHOOT_CROSS";
+	private Game game;
 	
-	private final static Map<String, ShootingStrategy> SHOOT_MAP = new HashMap<String, ShootingStrategy>();
+	private static final String SHOOT_RAND_STR = "SHOOT_RAND";
+	
+	private static final String SHOOT_CROSS_STR = "SHOOT_CROSS";
+	
+	private static final Map<String, ShootingStrategy> SHOOT_MAP = new HashMap<String, ShootingStrategy>();
 		
 	private final ButtonGroup shotGroup;
 	
@@ -50,16 +54,24 @@ public class OptionsMenuPanel extends JPanel {
 		// Choix stratégie de tir de l'ordi
 		JLabel shotStrategyLabel = new JLabel("Changer la technique de tir de l'ordinateur :");
 
+		ActionListener optionChangedAction = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changeGameOptions();
+			}
+		};
+		
 		randShotButton = new JToggleButton("Tir aléatoire");
 		randShotButton.setActionCommand(SHOOT_RAND_STR);
+		randShotButton.addActionListener(optionChangedAction);
 		crossShotButton = new JToggleButton("Tir en croix");
 		crossShotButton.setActionCommand(SHOOT_CROSS_STR);
+		crossShotButton.addActionListener(optionChangedAction);
 
 		shotGroup = new ButtonGroup();
 		shotGroup.add(randShotButton);
 		shotGroup.add(crossShotButton);
-
-		randShotButton.setSelected(true);
 
 		// Bouton reprendre partie
 		JButton resumeGameButton = new JButton("Reprendre");
@@ -89,8 +101,8 @@ public class OptionsMenuPanel extends JPanel {
 		});
 		
         //Key bindings
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "OPTIONS");
-        this.getActionMap().put("OPTIONS", new AbstractAction(){
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "BACK");
+        this.getActionMap().put("BACK", new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e){
 				resumeGame(gameFrame);
@@ -120,15 +132,49 @@ public class OptionsMenuPanel extends JPanel {
 		container.add(saveGameButton, gbc);
 		gbc.insets = new Insets(0, 0, 5, 0);
 		gbc.gridy++;
-		container.add(returnButton, gbc);		
+		container.add(returnButton, gbc);	
+		
 	}
 	
-	private ShootingStrategy getChosenShootingStrategy() {
-        return SHOOT_MAP.get(shotGroup.getSelection().getActionCommand());
+	public void setGame(Game game) {
+		this.game = game;
+	}
+	
+	private void updateCurrentOptionsSelected() {
+		if (game != null) {
+			ShootingStrategy shootingStrategy = game.getComputerController().getShootingStrategy();
+			switch (shootingStrategy.getShootingStrategyName()) {
+			case CROSS:
+				crossShotButton.setSelected(true);
+				break;
+			case RANDOM:
+				randShotButton.setSelected(true);
+				break;
+			default:
+				throw new AssertionError("Stratégie de tir inconnue " + shootingStrategy.getShootingStrategyName());
+			}
+		}
+	}
+	
+	private void changeGameOptions() {
+		if (game != null) {
+			ComputerController compController = game.getComputerController();
+			ShootingStrategy chosenShootingStrategy = SHOOT_MAP.get(shotGroup.getSelection().getActionCommand());
+			if (compController != null && compController.getShootingStrategy() != chosenShootingStrategy) {
+				compController.setShootingStrategy(chosenShootingStrategy);
+			}
+		}
+
 	}
 
 	private void resumeGame(GameFrame gameFrame) {
-		gameFrame.changeGameOptions(getChosenShootingStrategy());
 		gameFrame.showPanel(GameFrame.GAME_PANEL);
+	}
+	
+	@Override
+	public void setVisible(boolean aFlag) {
+		// On met à jour les options avant d'afficher le panel
+		updateCurrentOptionsSelected();
+		super.setVisible(aFlag);
 	}
 }

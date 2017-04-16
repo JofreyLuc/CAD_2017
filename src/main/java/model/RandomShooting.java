@@ -14,12 +14,15 @@ public class RandomShooting implements ShootingStrategy {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    private Random RNG;
-	
-    public RandomShooting() {
-    	super();
-    	RNG = new Random();
-    }
+	/**
+	 * Générateur aléatoire pour générer la position du tir.
+	 */
+    private static final Random RNG = new Random();
+    
+	@Override
+	public ShootingStrategyName getShootingStrategyName() {
+		return ShootingStrategyName.RANDOM;
+	}
     
 	@Override
 	public Position playShoot(Sea sea) {
@@ -27,5 +30,5 @@ public class RandomShooting implements ShootingStrategy {
 		int randomIndex = RNG.nextInt(possibleShots.size());
 		return possibleShots.get(randomIndex);
 	}
-
+	
 }

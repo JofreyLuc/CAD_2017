@@ -5,13 +5,20 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Classe pour les tests communs à toutes les stratégies de tir.
+ */
 public abstract class TestShootingStrategy {
 
 	protected ShootingStrategy shootingStrategy;
-	
-	protected abstract ShootingStrategy createShootingStrategy();
-	
+		
 	protected Sea sea;
+	
+	/**
+	 * Crée la stratégie de tir à tester.
+	 * @return La stratégie de tir à tester.
+	 */
+	protected abstract ShootingStrategy createShootingStrategy();
 	
 	@Before
 	public void setUp() {
@@ -24,4 +31,5 @@ public abstract class TestShootingStrategy {
 		Position shotPos = shootingStrategy.playShoot(sea);
 		assertTrue("Le tir devrait être valide", sea.receiveShot(shotPos));
 	}
+	
 }

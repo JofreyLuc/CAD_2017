@@ -38,6 +38,10 @@ public class AnimationWithCallback extends Animation {
 		this.callbackDone = false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * Lance également le callback de l'animation si l'animation est terminée.
+	 */
 	@Override
 	protected void update() {
 		super.update();
@@ -54,10 +58,11 @@ public class AnimationWithCallback extends Animation {
 	public static abstract class Callback {
 		
 		/**
-		 * Méthode à implémenter lancée à l'appel du callback.
+		 * Méthode à implémenter qui est lancée à l'appel du callback.
 		 * @param source La source du callback.
 		 */
 		public abstract void completed(Animation source);
+		
 	}
 	
 }

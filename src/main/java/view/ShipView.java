@@ -11,7 +11,7 @@ import model.Ship;
 
 /**
  * Vue d'un bateau.
- * N'est pas directement un composant swing afin de pouvoir être dessiné à la position souhaité.
+ * N'hérite pas de JComponent afin de pouvoir être dessiné à la position souhaitée sur la grille.
  */
 public class ShipView implements Observer {
 	

@@ -2,6 +2,8 @@ package model;
 
 import static org.junit.Assert.*;
 
+import model.Ship.Orientation;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +18,23 @@ public class TestPlayer {
 		player.getSelfGrid().putNextShipToPlace();
 	}
 
+	//Tests rotateShip
+	@Test
+	public void testRotateShipHorizontal() {
+		Ship shipOnPlacing = player.getSelfGrid().getShipOnPlacing();
+		shipOnPlacing.setOrientation(Orientation.HORIZONTAL);
+		player.rotateShip();
+		assertEquals("Le bateau devrait être orienté verticalement", Orientation.VERTICAL, shipOnPlacing.getOrientation());
+	}
+
+	@Test
+	public void testRotateShipVertical() {
+		Ship shipOnPlacing = player.getSelfGrid().getShipOnPlacing();
+		shipOnPlacing.setOrientation(Orientation.VERTICAL);
+		player.rotateShip();
+		assertEquals("Le bateau devrait être orienté verticalement", Orientation.HORIZONTAL, shipOnPlacing.getOrientation());
+	}
+	
 	// Tests placeShip
 	@Test
 	public void testPlaceShipOutOfBounds() {

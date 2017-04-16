@@ -3,6 +3,9 @@ package view;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe représentant une animation graphique.
+ */
 public class Animation {
 
 	/**

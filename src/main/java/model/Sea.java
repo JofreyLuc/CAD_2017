@@ -18,11 +18,20 @@ public class Sea extends Observable implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final static int GRID_WIDTH = 10;
+	/**
+	 * Largeur de la grille.
+	 */
+	private static final int GRID_WIDTH = 10;
 	
-	private final static int GRID_HEIGHT = 10;
+	/**
+	 * Hauteur de la grille.
+	 */
+	private static final int GRID_HEIGHT = 10;
 	
-	private final static int[] SHIPS_SIZES = {5, 4, 3, 3, 2};
+	/**
+	 * Ensemble des bateaux avec leur taille pour une grille.
+	 */
+	private static final int[] SHIPS_SIZES = {5, 4, 3, 3, 2};
 	
 	/**
 	 * Enumération des états d'une case de la grille.
@@ -30,7 +39,7 @@ public class Sea extends Observable implements Serializable {
 	public enum SeaTileState { NORMAL, SHOT, TOUCHED }
 	
 	/**
-	 * Etats de la grille.
+	 * Etats des cases de la grille.
 	 * @serial
 	 */
 	private SeaTileState[][] grid;
@@ -163,7 +172,7 @@ public class Sea extends Observable implements Serializable {
 		Iterator<Ship> iter = ships.iterator();
 		while (iter.hasNext() && tileFree) {
 			Ship ship = iter.next();
-			tileFree = !Arrays.asList(ship.getSeaTileesOccupied()).contains(position);
+			tileFree = !Arrays.asList(ship.getSeaTilesOccupied()).contains(position);
 			// On vérifie si la case est occupée par le bateau
 		}
 		return tileFree;
@@ -181,11 +190,11 @@ public class Sea extends Observable implements Serializable {
 			return false;							// le positionnement est invalide
 		}
 		
-		Position[] tileesOccupied = shipOnPlacing.getSeaTileesOccupied();	// et on récupère les cases qu'il occupe
+		Position[] tilesOccupied = shipOnPlacing.getSeaTilesOccupied();	// et on récupère les cases qu'il occupe
 		boolean validPlace = true;
 		int i = 0;											// on regarde pour chaque case occupée par le bateau
-		while (i < tileesOccupied.length && validPlace) {
-			validPlace = this.isSeaTileFree(tileesOccupied[i]);	// si elle est libre
+		while (i < tilesOccupied.length && validPlace) {
+			validPlace = this.isSeaTileFree(tilesOccupied[i]);	// si elle est libre
 			i++;
 		}
 		
@@ -205,7 +214,6 @@ public class Sea extends Observable implements Serializable {
 				}
 			}
 		}
-		
 		return possibleShots;
 	}
 	
@@ -252,12 +260,10 @@ public class Sea extends Observable implements Serializable {
 			Ship ship = iter.next();
 			touched = ship.checkShot(shotPos);	// on regarde si il est touché
 		}
-		
 		updateTileState(shotPos, touched);		// on met à jour l'état de la position du tir
 		setChanged();
 		notifyObservers();
 
-		
 		return true;							// on indique que le tir est valide
 	}
 	
@@ -271,18 +277,4 @@ public class Sea extends Observable implements Serializable {
 		grid[position.getX()][position.getY()] = touched ? SeaTileState.TOUCHED : SeaTileState.SHOT; 
 	}
 
-	@Override
-	public String toString() {
-		String s = "Sea [shipsToPlace : ";
-		for (Ship ship : shipsToPlace) {
-			s += ship + " , ";
-		}
-		s+= "\nshipOnPlacing : " + shipOnPlacing;
-		s+= "\nships : ";
-		for (Ship ship : ships) {
-			s += ship + " , ";
-		}
-		return s;
-	}
-	
 }

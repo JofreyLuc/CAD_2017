@@ -28,7 +28,7 @@ public class TestComputerController {
 	
 	/**
 	 * On place d'abord tous les bateaux en se servant de placeAllShips pour les deux joueurs
-	 * (donc en utilisant deux computerController) puis on effectue un tir afin de vérifier
+	 * (donc en utilisant deux computerController) puis on effectue un tir et on vérifie
 	 * que le tir a bien été effectué.
 	 */
 	@Test
@@ -37,10 +37,11 @@ public class TestComputerController {
 		Player opponent = new Player(computer.getOpponentGrid(), computer.getSelfGrid());
 		ComputerController simulatedOpponent = new ComputerController(opponent);
 		simulatedOpponent.placeAllShips();
-		int nbOfNormalTileesBefore = computer.getOpponentGrid().getAllNormalPositions().size();
+		
+		int nbOfNormalTilesBefore = computer.getOpponentGrid().getAllNormalPositions().size();
 		computerController.playShoot();
-		int nbOfNormalTileesAfter = computer.getOpponentGrid().getAllNormalPositions().size();
-		assertTrue("Un tir devrait avoir été effectué", nbOfNormalTileesBefore - 1 == nbOfNormalTileesAfter);
+		int nbOfNormalTilesAfter = computer.getOpponentGrid().getAllNormalPositions().size();
+		assertTrue("Un tir devrait avoir été effectué", nbOfNormalTilesBefore - 1 == nbOfNormalTilesAfter);
 	}
 
 }

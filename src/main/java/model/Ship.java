@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Observable;
 
 /**
@@ -24,6 +23,9 @@ public class Ship extends Observable implements Serializable {
 	 */
 	private int size;
 	
+	/**
+	 * Orientations possibles d'un bateau.
+	 */
 	public enum Orientation { HORIZONTAL, VERTICAL }
 	
 	/**
@@ -117,7 +119,7 @@ public class Ship extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Renvoie si le bateau est détruit.
+	 * Renvoie vrai si le bateau est détruit.
 	 * @return Vrai si le bateau est détruit, faux sinon.
 	 */
 	public boolean isDead() {
@@ -134,7 +136,7 @@ public class Ship extends Observable implements Serializable {
 	
 	/**
 	 * Compte le nombre de tirs qui ont touchés le bateau.
-	 * @return Nombre de "touchés".
+	 * @return Le nombre de "touchés".
 	 */
 	public int getHitCount() {
 		int count = 0;
@@ -151,25 +153,25 @@ public class Ship extends Observable implements Serializable {
 	 * sous forme de tableau.
 	 * @return Les positions occupées.
 	 */
-	public Position[] getSeaTileesOccupied() {
+	public Position[] getSeaTilesOccupied() {
 		if (position == null) {
 			return new Position[0];
 		}
 		
-		Position[] tileesOccupied = new Position[size];
+		Position[] tilesOccupied = new Position[size];
 		for (int i = 0 ; i < size ; i++) {
 			switch(orientation) {
 				case HORIZONTAL:
-					tileesOccupied[i] = new Position(position.getX()+i, position.getY());
+					tilesOccupied[i] = new Position(position.getX()+i, position.getY());
 					break;
 				case VERTICAL:
-					tileesOccupied[i] = new Position(position.getX(), position.getY()+i);
+					tilesOccupied[i] = new Position(position.getX(), position.getY()+i);
 					break;
 				default:
 					throw new AssertionError("Orientation inconnu " + orientation);
 			}
 		}
-		return tileesOccupied;
+		return tilesOccupied;
 	}
 	
 	/**
@@ -180,9 +182,9 @@ public class Ship extends Observable implements Serializable {
 	public boolean checkShot(Position shotPosition) {
 		int i = 0;
 		boolean touched = false;
-		Position[] tileesOccupied = getSeaTileesOccupied();
+		Position[] tilesOccupied = getSeaTilesOccupied();
 		while (i < size && !touched) {
-			touched = tileesOccupied[i].equals(shotPosition);
+			touched = tilesOccupied[i].equals(shotPosition);
 			i++;
 		}
 		if(touched) {			// Si le bateau est touché,
@@ -194,17 +196,6 @@ public class Ship extends Observable implements Serializable {
 		setChanged();
 		notifyObservers();
 		return touched;
-	}
-
-	@Override
-	public String toString() {
-		String posOcc = " ";
-		for (Position pos : this.getSeaTileesOccupied()) {
-			posOcc+= pos + " , ";
-		}
-		return "\nShip [position=" + position + ", posOcc=" + posOcc + ", size=" + size
-				+ ", horizontal=" + (orientation==Orientation.HORIZONTAL) + ", dead=" + dead + ", hits="
-				+ Arrays.toString(hits) + ", epoch=" + epoch + "]";
 	}
 	
 }

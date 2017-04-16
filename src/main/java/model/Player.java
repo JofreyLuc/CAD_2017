@@ -26,7 +26,7 @@ public class Player implements Serializable {
 	private Sea opponentGrid;
 	
 	/**
-	 * Crée un joueur à partir de sa grille.
+	 * Crée un joueur à partir de sa grille et de la grille adverse.
 	 * @param selfGrid La grille du joueur.
 	 * @param opponentGrid La grille de l'adversaire.
 	 */
@@ -56,10 +56,9 @@ public class Player implements Serializable {
 	 */
 	public void rotateShip() {
 		Ship ship = this.selfGrid.getShipOnPlacing();
-		if (ship == null) {	// Si il n'y a pas de bateau en cours de placement,
-			return;			// on ne fait rien
+		if (ship != null) {
+			ship.changeOrientation();
 		}
-		ship.changeOrientation();
 	}
 
 	/**
@@ -73,7 +72,7 @@ public class Player implements Serializable {
 			return false;	// on ne fait rien
 		}
 		
-		ship.setPosition(position);								// on place le bateau
+		ship.setPosition(position);						// on place le bateau
 		// on regarde si son positionnement est ok
 		boolean validPlace = this.selfGrid.isShipOnPlacingInValidPosition();
 		if (validPlace) {								// Si l'emplacement est valide,

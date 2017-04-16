@@ -33,7 +33,7 @@ public class Game extends Observable implements Serializable {
 	public enum PlayerId { PLAYER, COMPUTER }
 	
 	/**
-	 * Représente le joueur dont c'est le tour de jouer.
+	 * Le joueur dont c'est le tour de jouer.
 	 * @serial
 	 */
 	private PlayerId playerTurn;
@@ -43,12 +43,7 @@ public class Game extends Observable implements Serializable {
 	 * @serial
 	 */
 	private EnumMap <PlayerId, Player> players;
-	
-	/**
-	 * Les grilles des deux joueurs.
-	 */
-	private EnumMap <PlayerId, Sea> seas;
-	
+		
 	/**
 	 * L'époque à laquelle se déroule la partie.
 	 * @serial
@@ -80,24 +75,43 @@ public class Game extends Observable implements Serializable {
 	private int countNumberOfShots;
 	
 	/**
-	 * Crée une partie à partir de l'époque choisie au préalable.
+	 * Crée une partie à partir de l'époque
+	 * et de la stratégie de tir de l'ordinateur choisies au préalable.
 	 * @param epoque L'époque choisie.
+	 * @param shootingStrategy La stratégie de tir de l'ordinateur choisie.
 	 */
 	public Game(Epoch epoch, ShootingStrategy shootingStrategy) {
 		gameState = GameState.RUNNING;
-		playerTurn = PlayerId.COMPUTER;
 		this.epoch = epoch;
+		
 		players = new EnumMap<PlayerId, Player>(PlayerId.class);
-		seas = new EnumMap<PlayerId, Sea>(PlayerId.class);
-		seas.put(PlayerId.PLAYER, new Sea(epoch));
-		seas.put(PlayerId.COMPUTER, new Sea(epoch));
-		players.put(PlayerId.PLAYER, new Player(getPlayerSea(), getComputerSea()));
-		players.put(PlayerId.COMPUTER, new Player(getComputerSea(), getPlayerSea()));
+		Sea playerSea = new Sea(epoch);
+		Sea computerSea = new Sea(epoch);
+		players.put(PlayerId.PLAYER, new Player(playerSea, computerSea));
+		players.put(PlayerId.COMPUTER, new Player(computerSea, playerSea));
+		
 		computerController = new ComputerController(players.get(PlayerId.COMPUTER));
 		computerController.setShootingStrategy(shootingStrategy);
+		
 		endTurnAfterShotAnimation = true;
 		numberOfShotsPerTurn = 1;
 		countNumberOfShots = 0;
+	}
+	
+	/**
+	 * Retourne la grille du joueur.
+	 * @return La grille du joueur.
+	 */
+	private Sea getPlayerSea() {
+		return getPlayer(PlayerId.PLAYER).getSelfGrid();
+	}
+	
+	/**
+	 * Retourne la grille du joueur.
+	 * @return La grille du joueur.
+	 */
+	private Sea getComputerSea() {
+		return getPlayer(PlayerId.COMPUTER).getSelfGrid();
 	}
 	
 	/**
@@ -131,22 +145,6 @@ public class Game extends Observable implements Serializable {
 	 */
 	public Player getPlayer(PlayerId player) {
 		return players.get(player);
-	}
-	
-	/**
-	 * Retourne la grille du joueur.
-	 * @return La grille du joueur.
-	 */
-	private Sea getPlayerSea() {
-		return seas.get(PlayerId.PLAYER);
-	}
-	
-	/**
-	 * Retourne la grille du joueur.
-	 * @return La grille du joueur.
-	 */
-	private Sea getComputerSea() {
-		return seas.get(PlayerId.COMPUTER);
 	}
 	
 	/**
@@ -195,6 +193,7 @@ public class Game extends Observable implements Serializable {
 			case PLAYER:
 				break;
 			case COMPUTER:
+				playerTurn = PlayerId.COMPUTER;
 				playComputerTurn();
 			break;
 			default:
@@ -353,7 +352,11 @@ public class Game extends Observable implements Serializable {
 	
 	/**
 	 * Joue le tour de l'ordinateur
-	 * (placements ou tir(s) selon l'avancement de la partie).
+	 * (placements ou tir(s) selon l'avancement de la partie)
+	 * et termine son tour immédiatement en phase de positionnement.
+	 * Termine son tour en phase de tir seulement si le nombre de tir par tour
+	 * est atteint et la fin du tour n'est pas déclenché
+	 * à la fin des animations {@link #endTurnAfterShotAnimation}.
 	 */
 	private void playComputerTurn() {
 		// Si la phase de positionnement n'est pas terminée
@@ -374,8 +377,7 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Vérifie si la partie est terminée.
-	 * @return L'état du jeu (selon qui a gagné).
+	 * Met à jour l'état du jeu.
 	 */
 	private void updateGameState() {
 		if (getPlayerSea().areShipsAllDead()) {
@@ -406,11 +408,6 @@ public class Game extends Observable implements Serializable {
 		default:
 			throw new AssertionError("Joueur inconnu " + playerTurn);
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "Game [\ngrille joueur : " + getPlayerSea() + "\n\ngrille ordi : " + getComputerSea() + "]";
 	}
 	
 }

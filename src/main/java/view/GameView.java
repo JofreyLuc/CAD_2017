@@ -10,6 +10,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,6 +51,12 @@ public class GameView extends JPanel implements Observer {
 		this.instructionLabel.setPreferredSize(instructionLabel.getPreferredSize());
 		this.instructionLabel.setMaximumSize(instructionLabel.getPreferredSize());
 
+		Box escapeKeyBox = Box.createHorizontalBox();
+		JLabel escapeKeyImage = new JLabel();
+		escapeKeyImage.setIcon(new ImageIcon(ImageFactory.getInstance().getEscapeKeyImage()));
+		escapeKeyBox.add(escapeKeyImage);
+		escapeKeyBox.add(new JLabel(" pour afficher les options."));
+		
 		this.setLayout(new GridBagLayout());
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -61,7 +69,11 @@ public class GameView extends JPanel implements Observer {
 		gbc.gridy = 3;
 		gbc.insets = new Insets(0, 15, 15, 15);
 		this.add(instructionLabel, gbc);
-						
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridy++;
+		gbc.insets = new Insets(0, 15, 15, 15);
+		this.add(escapeKeyBox, gbc);
+		
 		// Raffraîchit l'affichage toutes les 17ms ~ 60 fps
 		Timer timer = new Timer(17, new ActionListener() {
 			@Override

@@ -7,7 +7,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 /**
- * Classe permettant de charger des sprites et d'obtenir les images correspondantes.
+ * Classe static permettant de charger des sprites et d'obtenir les images correspondantes.
  */
 public class Sprite {
 

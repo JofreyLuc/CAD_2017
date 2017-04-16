@@ -7,11 +7,12 @@ public class EpochXVI extends Epoch {
 	 * @serial
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	public EpochXVI() {
-		this.name = EpochName.XVI_SIECLE;
-	}
 
+	@Override
+	public EpochName getEpochName() {
+		return EpochName.XVI_SIECLE;
+	}
+	
 	@Override
 	protected boolean takeDamage(int size, int hitCount) {
 		switch(size) {

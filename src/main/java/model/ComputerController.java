@@ -22,18 +22,19 @@ public class ComputerController implements Serializable {
 	private Player computer;
 	
 	/**
-	 * La stratégie par défaut.
-	 */
-	private final static ShootingStrategy DEFAULT_SHOOTING_STRATEGY = new RandomShooting();
-	
-	/**
 	 * Stratégie à adopter pour les tirs de l'ordinateur.
 	 * @serial
 	 */
 	private ShootingStrategy shootingStrategy;
 	
 	/**
-	 * Crée un computerController à partir de l'interface du joueur.
+	 * La stratégie par défaut.
+	 */
+	private static final ShootingStrategy DEFAULT_SHOOTING_STRATEGY = new RandomShooting();
+		
+	/**
+	 * Crée un computerController à partir de l'interface du joueur
+	 * et avec la stratégie de tir par défaut.
 	 * @param iPlayer L'interface du joueur.
 	 */
 	public ComputerController(Player player) {
@@ -43,7 +44,7 @@ public class ComputerController implements Serializable {
 	
 	/**
 	 * Retourne la stratégie de tir de l'ordinateur.
-	 * @return la stratégie de tir de l'ordinateur.
+	 * @return La stratégie de tir de l'ordinateur.
 	 */
 	public ShootingStrategy getShootingStrategy() {
 		return shootingStrategy;

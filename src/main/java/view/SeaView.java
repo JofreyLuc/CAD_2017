@@ -25,8 +25,9 @@ import model.Ship;
  * Celle-ci possède les vues des cases de la grille sous forme de composants
  * et les vues des bateaux qui ne sont pas des composants et délègue ainsi l'affichage
  * de ces données du modèle à ces vues.
- * Passe les mises à jour de la grille modèle aux vues de la grille
- * alors que les vues des bateaux reçoivent eux-mêmes les mises à jour des bateaux.
+ * 
+ * Passe les mises à jour de la grille (modèle) aux vues de la grille
+ * alors que les vues des bateaux reçoivent eux-mêmes les mises à jour des bateaux (modèle).
  */
 @SuppressWarnings("serial")
 public abstract class SeaView extends JPanel implements Observer {
@@ -57,7 +58,7 @@ public abstract class SeaView extends JPanel implements Observer {
 	
 	/**
 	 * Indique si cette grille est active.
-	 * C'est-à-dire si elle attend une action.
+	 * C'est-à-dire si elle attend une action (selon le tour du joueur).
 	 */
 	protected boolean active;
 	
@@ -66,18 +67,28 @@ public abstract class SeaView extends JPanel implements Observer {
 	 */
 	protected Animation backgroundAnim;
 	
+	/**
+	 * La grille a une dimension fixe afin s'adapter aux images.
+	 */
+	private static final Dimension DIMENSION = new Dimension(263, 263);
+	
+	/**
+	 * Construit la vue d'une grille à partir du jeu et du listener des animations.
+	 * @param game Le jeu.
+	 * @param endShotAnimationListener Le listener de fin d'animation.
+	 */
 	public SeaView(Game game, final EndShotAnimationListener endShotAnimationListener) {
 		super();
 		game.addObserver(this);
+		// Récupère la grille, différent selon s'il s'agit de la vue de la grille du joueur ou de l'ordinateur
 		Sea sea = getSelfSea(game);
 		
+		// Crée le callback pour les animations de tir en les liant au listener de fin d'animation
 		Callback tirAnimCallback = new Callback() {
-
 			@Override
 			public void completed(Animation source) {
 				endShotAnimationListener.onEndShotAnimation();
-			}
-			
+			}	
 		};
 		
 		// Initialisation de la vue de la grille (une vue par case)
@@ -90,13 +101,13 @@ public abstract class SeaView extends JPanel implements Observer {
 				gridTileViews[x][y] = new GridTileView(getPlayerOwner(), sea.getGridTileState(x, y), tirAnimCallback);
 				gridTileViews[x][y].addMouseListener(new GridTileListener(game, x, y, gridTileViews[x][y]));		
 				this.add(gridTileViews[x][y]);
-				
 			}
 		}
 		
 		// Initialisation de la vue des bateaux placés
 		shipViews = new ArrayList<ShipView>(sea.getShipsToPlace().size());
 		
+		// Animation de la mer en fond
 		switch(game.getEpoch().getEpochName()) {
 		case XVI_SIECLE:
 			backgroundAnim = ImageFactory.getInstance().getSeaXVIBackgroundAnimation();
@@ -109,6 +120,35 @@ public abstract class SeaView extends JPanel implements Observer {
 		}
 	}
 		
+	/**
+	 * Retourne le joueur propriétaire de la grille.
+	 * @return Le joueur propriétaire de la grille.
+	 */
+	protected abstract PlayerId getPlayerOwner();
+	
+	/**
+	 * Retourne la grille représentée.
+	 * @param game Le jeu.
+	 * @return La grille représentée.
+	 */
+	protected Sea getSelfSea(Game game) {
+		return game.getPlayer(getPlayerOwner()).getSelfGrid();
+	}
+	
+	/**
+	 * Indique si le viseur peut-être affiché si une case de la grille est hover.
+	 * @param game Le jeu.
+	 * @return Booléen indiquant si le viseur peut-être affiché si une case de la grille est hover.
+	 */
+	protected abstract boolean canTilesDisplayHoverImage(Game game);
+	
+	/**
+	 * Change les conditions de visibilité du bateau
+	 * selon le type de la vue.
+	 * @param shipView La vue du bateau.
+	 */
+	protected abstract void setShipVisiblity(ShipView shipView);
+	
 	/**
 	 * Dessine le fond du panel/de la grille.
 	 * @param g L'objet Graphics.
@@ -133,36 +173,7 @@ public abstract class SeaView extends JPanel implements Observer {
 			shipOnPlacingView.draw(g, this.getWidth()/gridTileViews.length);
 		}
 	}
-	
-	/**
-	 * Retourne le joueur propriétaire de la grille.
-	 * @return Le joueur propriétaire de la grille.
-	 */
-	protected abstract PlayerId getPlayerOwner();
-	
-	/**
-	 * Retourne la grille représentée.
-	 * @param game Le jeu.
-	 * @return La grille représentée.
-	 */
-	protected Sea getSelfSea(Game game) {
-		return game.getPlayer(getPlayerOwner()).getSelfGrid();
-	}
-	
-	/**
-	 * Indique si le viseur peut-être affiché si une case de la grille est hover.
-	 * @param game Le jeu.
-	 * @return Booléen indiquant si le viseur peut-être affiché si une case de la grille est hover.
-	 */
-	protected abstract boolean canTileesDisplayHoverImage(Game game);
-	
-	/**
-	 * Change les conditions de visibilité du bateau
-	 * selon le type de la vue.
-	 * @param shipView La vue du bateau.
-	 */
-	protected abstract void setShipVisiblity(ShipView shipView);
-	
+		
 	/**
 	 * Dessine la grille de jeu.
 	 */
@@ -175,7 +186,7 @@ public abstract class SeaView extends JPanel implements Observer {
 	
 	/**
 	 * Dessine le cadre indiquant que la grille est active si c'est le cas.
-	 * Override la méthode paint afin de dessiner au-dessus des composants du panel.
+	 * Implémenté en surchargant la méthode paint afin de dessiner au-dessus des composants du panel.
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -184,22 +195,23 @@ public abstract class SeaView extends JPanel implements Observer {
 			int shift = 3;
 	    	g.setClip(-shift, -shift, this.getWidth()+shift+2, this.getWidth()+shift+2);	// pour pouvoir dessiner en dehors des limites du composant
 			g.drawImage(ImageFactory.getInstance().getActiveBorderImage(), -shift, -shift, this.getWidth()+shift+2, this.getHeight()+shift+2, this);
+			System.out.println(this.getSize());
 		}
 	}
 
 	@Override
 	public Dimension getPreferredSize() {
-	    return new Dimension(263, 263);
+	    return DIMENSION;
 	}
 
 	@Override
 	public Dimension getMaximumSize() {
-		return getPreferredSize();
+	    return DIMENSION;
 	}
 	
 	@Override
 	public Dimension getMinimumSize() {
-		return getPreferredSize();
+	    return DIMENSION;
 	}
 
 	/**
@@ -215,7 +227,7 @@ public abstract class SeaView extends JPanel implements Observer {
 		for (int row = 0 ; row < gridTileViews.length ; row++) {
 			for (int col = 0 ; col < gridTileViews[0].length ; col++) {
 				gridTileViews[row][col].setState(sea.getGridTileState(row, col));
-				gridTileViews[row][col].setCanDisplayHoverImage(canTileesDisplayHoverImage(game));
+				gridTileViews[row][col].setCanDisplayHoverImage(canTilesDisplayHoverImage(game));
 			}
 		}
 		

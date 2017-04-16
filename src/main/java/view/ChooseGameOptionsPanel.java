@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,40 +22,94 @@ import model.EpochXVI;
 import model.EpochXX;
 import model.RandomShooting;
 import model.ShootingStrategy;
+import model.Game.PlayerId;
 
 @SuppressWarnings("serial")
 public class ChooseGameOptionsPanel extends JPanel {
+	
+	private static final String EPOCH_XVI_STR = "EPOCH_XVI";
+
+	private static final String EPOCH_XX_STR = "EPOCH_XX";
+
+	private static final Map<String, Epoch> EPOCH_MAP = new HashMap<String, Epoch>();
 		
-	private final static String EPOCH_XVI_STR = "EPOCH_XVI";
-
-	private final static String EPOCH_XX_STR = "EPOCH_XX";
-
-	private final static Map<String, Epoch> EPOCH_MAP = new HashMap<String, Epoch>();
+	private static final String SHOOT_RAND_STR = "SHOOT_RAND";
+	
+	private static final String SHOOT_CROSS_STR = "SHOOT_CROSS";
+	
+	private static final Map<String, ShootingStrategy> SHOOT_MAP = new HashMap<String, ShootingStrategy>();
+	
+	private static final String STARTING_RAND_STR = "STARTING_RAND";
+	
+	private static final String STARTING_PLAYER_STR = "STARTING_PLAYER";
+	
+	private static final String STARTING_COMPUTER_STR = "STARTING_COMPUTER";
+	
+	private enum StartingPlayer {
+				
+		RANDOM {
+			@Override
+			public PlayerId mapToPlayerId() {
+				if(RNG.nextBoolean()) {
+					return PlayerId.PLAYER;
+				}
+				else {
+					return PlayerId.COMPUTER;
+				}
+			}
+		},
 		
-	private final static String SHOOT_RAND_STR = "SHOOT_RAND";
+		PLAYER {
+			@Override
+			public PlayerId mapToPlayerId() {
+				return PlayerId.PLAYER;
+			}
+		},
+		
+		COMPUTER {
+			@Override
+			public PlayerId mapToPlayerId() {
+				return PlayerId.COMPUTER;
+			}
+		};
+		
+		private static Random RNG = new Random();
+		
+		public abstract PlayerId mapToPlayerId();
+	}
 	
-	private final static String SHOOT_CROSS_STR = "SHOOT_CROSS";
+	private static final Map<String, StartingPlayer> STARTING_MAP = new HashMap<String, StartingPlayer>();
 	
-	private final static Map<String, ShootingStrategy> SHOOT_MAP = new HashMap<String, ShootingStrategy>();
+	private final ButtonGroup epochGroup = new ButtonGroup();
 	
-	private final ButtonGroup epochGroup;
+	private final JToggleButton epochXXButton = new JToggleButton("XXème siècle");
 	
-	private final JToggleButton epochXXButton;
+	private final JToggleButton epochXVIButton  = new JToggleButton("XVIème siècle");
 	
-	private final JToggleButton epochXVIButton;
+	private final ButtonGroup shotGroup = new ButtonGroup();
 	
-	private final ButtonGroup shotGroup;
+	private final JToggleButton randShotButton = new JToggleButton("Tir aléatoire");
 	
-	private final JToggleButton randShotButton;
-	
-	private final JToggleButton crossShotButton;
+	private final JToggleButton crossShotButton = new JToggleButton("Tir en croix");
 
+	private final ButtonGroup startingPlayerGroup = new ButtonGroup();
+	
+	private final JToggleButton randStartButton = new JToggleButton("Aléatoire");
+	
+	private final JToggleButton playerStartButton = new JToggleButton("Joueur");
+	
+	private final JToggleButton computerStartButton = new JToggleButton("Ordinateur");
+	
 	public ChooseGameOptionsPanel(final GameFrame gameFrame) {
 		EPOCH_MAP.put(EPOCH_XVI_STR, new EpochXVI());
 		EPOCH_MAP.put(EPOCH_XX_STR, new EpochXX());
 
 		SHOOT_MAP.put(SHOOT_RAND_STR, new RandomShooting());
 		SHOOT_MAP.put(SHOOT_CROSS_STR, new CrossShooting());
+		
+		STARTING_MAP.put(STARTING_RAND_STR, StartingPlayer.RANDOM);
+		STARTING_MAP.put(STARTING_PLAYER_STR, StartingPlayer.PLAYER);
+		STARTING_MAP.put(STARTING_COMPUTER_STR, StartingPlayer.COMPUTER);
 		
 		this.setLayout(new GridBagLayout());
 		JPanel container = new JPanel(new GridBagLayout());
@@ -63,39 +119,34 @@ public class ChooseGameOptionsPanel extends JPanel {
 		
 		// Choix époque
 		JLabel epochLabel = new JLabel("Choisissez une époque :");
-		
-		epochXVIButton = new JToggleButton("XVIème siècle");
 		epochXVIButton.setActionCommand(EPOCH_XVI_STR);
-		epochXXButton = new JToggleButton("XXème siècle");
 		epochXXButton.setActionCommand(EPOCH_XX_STR);
-
-		epochGroup = new ButtonGroup();
 		epochGroup.add(epochXVIButton);
 		epochGroup.add(epochXXButton);
 
-		epochXXButton.setSelected(true);
-
 		// Choix stratégie de tir de l'ordi
 		JLabel shotStrategyLabel = new JLabel("Choisissez la technique de tir de l'ordinateur :");
-
-		randShotButton = new JToggleButton("Tir aléatoire");
 		randShotButton.setActionCommand(SHOOT_RAND_STR);
-		crossShotButton = new JToggleButton("Tir en croix");
 		crossShotButton.setActionCommand(SHOOT_CROSS_STR);
-
-		shotGroup = new ButtonGroup();
 		shotGroup.add(randShotButton);
 		shotGroup.add(crossShotButton);
-
-		randShotButton.setSelected(true);
-
+		
+		// Choix joueur qui commence
+		JLabel startingPlayerLabel = new JLabel("Choisissez le joueur qui débutera la partie :");
+		randStartButton.setActionCommand(STARTING_RAND_STR);
+		playerStartButton.setActionCommand(STARTING_PLAYER_STR);
+		computerStartButton.setActionCommand(STARTING_COMPUTER_STR);
+		startingPlayerGroup.add(randStartButton);
+		startingPlayerGroup.add(playerStartButton);
+		startingPlayerGroup.add(computerStartButton);
+		
 		// Bouton démarrer partie
 		JButton startGameButton = new JButton("Démarrer la partie");
 		startGameButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameFrame.newGame(getChosenEpoch(), getChosenShootingStrategy());
+				gameFrame.newGame(getChosenEpoch(), getChosenShootingStrategy(), getChosenStartingPlayer());
 				setToDefaultChoices();
 			}
 		});
@@ -120,9 +171,14 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.gridwidth = 1;
 		gbc.gridy++;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1/2;
+		gbc.insets = new Insets(0, 10, 0, 0);
 		container.add(epochXVIButton, gbc);
 		gbc.gridx++;
+		gbc.weightx = 1/2;
 		container.add(epochXXButton, gbc);
+		gbc.gridy++;
 		// Stratégies de tir
 		gbc.insets = new Insets(30, 0, 5, 0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -132,10 +188,32 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.gridwidth = 1;
 		gbc.gridy++;
+		gbc.weightx = 1/2;
+		gbc.insets = new Insets(0, 10, 0, 0);
 		container.add(randShotButton, gbc);
 		gbc.gridx++;
+		gbc.weightx = 1/2;
 		container.add(crossShotButton, gbc);
-
+		// Joueur qui commence
+		gbc.insets = new Insets(30, 0, 5, 0);
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridx = 0;
+		gbc.gridy++;
+		container.add(startingPlayerLabel, gbc);
+		gbc.insets = new Insets(0, 0, 0, 0);
+		gbc.gridwidth = 1;
+		gbc.gridy++;
+		gbc.weightx = 1/3;
+		gbc.insets = new Insets(0, 10, 0, 0);
+		container.add(randStartButton, gbc);
+		gbc.gridx++;
+		gbc.weightx = 1/3;
+		gbc.insets = new Insets(0, 10, 0, 0);
+		container.add(playerStartButton, gbc);
+		gbc.gridx++;
+		gbc.weightx = 1/3;
+		container.add(computerStartButton, gbc);	
+		
 		gbc.insets = new Insets(30, 0, 5, 0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.gridx = 0;
@@ -151,6 +229,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 	private void setToDefaultChoices() {
 		epochXXButton.setSelected(true);
 		randShotButton.setSelected(true);
+		randStartButton.setSelected(true);
 	}
 	
 	private Epoch getChosenEpoch() {
@@ -159,6 +238,10 @@ public class ChooseGameOptionsPanel extends JPanel {
 	
 	private ShootingStrategy getChosenShootingStrategy() {
         return SHOOT_MAP.get(shotGroup.getSelection().getActionCommand());
+	}
+	
+	private PlayerId getChosenStartingPlayer() {
+		return STARTING_MAP.get(startingPlayerGroup.getSelection().getActionCommand()).mapToPlayerId();
 	}
 	
 }

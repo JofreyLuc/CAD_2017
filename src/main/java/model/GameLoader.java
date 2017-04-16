@@ -8,16 +8,22 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Classe static permettant de charger et de sauvegarder une partie.
+ */
 public class GameLoader {
 
-	public final static String SAVE_EXTENSION = ".sav";
+	/**
+	 * L'extension des fichiers de sauvegarde de partie.
+	 */
+	public static final String SAVE_EXTENSION = ".sav";
 	
 	private GameLoader() {}
 	
 	/**
 	 * Charge une partie depuis un fichier
 	 * @param file Le fichier de sauvegarde.
-	 * @return La partie.
+	 * @return La partie à sauvegarder.
 	 * @throws ClassNotFoundException, IOException 
 	 */
 	public static Game loadGame(File file) throws ClassNotFoundException, IOException {
@@ -52,11 +58,15 @@ public class GameLoader {
 		}
 	}
 	
+	/**
+	 * Ferme la source sans lever d'exception.
+	 * @param c La source à fermer.
+	 */
 	private static void closeQuietly(Closeable c) {      
-	       if (c == null) return;
-	       try {
-	          c.close();
-	       } catch (IOException e) { }
-	    }
+		if (c == null) return;
+		try {
+			c.close();
+		} catch (IOException e) { }
+	}
 	
 }

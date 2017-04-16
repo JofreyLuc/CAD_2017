@@ -46,7 +46,7 @@ public class Position implements Serializable {
 	 * @param xMax Abscisse max.
 	 * @param yMin Ordonnée min.
 	 * @param yMax Ordonnée max.
-	 * @return Vrai si la posposition est en-dehors des limites, faux sinon.
+	 * @return Vrai si la position est en-dehors des limites, faux sinon.
 	 */
 	public boolean isOutOfBounds(int xMin, int xMax, int yMin, int yMax) {
 		return this.x < xMin || this.x > xMax || this.y < yMin || this.y > yMax;
@@ -55,11 +55,6 @@ public class Position implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		return this.x == ((Position) obj).x && this.y == ((Position) obj).y;
-	}
-
-	@Override
-	public String toString() {
-		return "Position [x=" + x + ", y=" + y + "]";
 	}
 	
 }

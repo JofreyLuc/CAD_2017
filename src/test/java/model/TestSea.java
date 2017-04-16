@@ -9,7 +9,7 @@ public class TestSea {
 
 	private Sea sea;
 	
-	private final static Epoch EPOCH = new EpochXVI();
+	private static final Epoch EPOCH = new EpochXVI();
 	
 	@Before
 	public void setUp() {

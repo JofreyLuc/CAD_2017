@@ -4,10 +4,15 @@ import java.awt.Graphics;
 
 import model.Ship;
 
+/**
+ * Vue spécifique du bateau en cours de placement.
+ * N'hérite pas de JComponent afin de pouvoir être dessiné à la position souhaitée sur la grille.
+ */
 public class ShipOnPlacingView extends ShipView {
 	
 	/**
-	 * Indique si le positionnement du bateau est valide
+	 * Indique si le positionnement du bateau est valide.
+	 * Permet de changer l'image du bateau selon la validité du placement.
 	 */
 	private boolean validPlacement;
 	

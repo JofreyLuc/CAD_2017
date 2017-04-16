@@ -10,38 +10,40 @@ import javax.swing.JPanel;
 
 import view.FileChooserPanel.FileChooserType;
 
-import model.ComputerController;
 import model.Epoch;
 import model.Game;
+import model.Game.PlayerId;
 import model.GameLoader;
 import model.ShootingStrategy;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame {
 	
-	public final static String MAIN_MENU_PANEL = "MAIN_MENU";
+	public static final String MAIN_MENU_PANEL = "MAIN_MENU";
 
-	public final static String FILE_LOAD_PANEL = "FILE_LOAD";
+	public static final String FILE_LOAD_PANEL = "FILE_LOAD";
 	
-	public final static String FILE_SAVE_PANEL = "FILE_SAVE";
+	public static final String FILE_SAVE_PANEL = "FILE_SAVE";
 	
-	public final static String CHOOSE_GAME_OPTIONS_PANEL = "CHOOSE_GAME_OPTIONS";
+	public static final String CHOOSE_GAME_OPTIONS_PANEL = "CHOOSE_GAME_OPTIONS";
 	
-	public final static String GAME_PANEL = "GAME";
+	public static final String GAME_PANEL = "GAME";
 	
-	public final static String OPTIONS_MENU_PANEL = "OPTIONS_MENU";
+	public static final String OPTIONS_MENU_PANEL = "OPTIONS_MENU";
 	
 	private GameView gamePanel;
+	
+	private OptionsMenuPanel gameOptionsPanel;
 	
 	private CardLayout cardLayout;
 	
 	public GameFrame() {
 		this.gamePanel = new GameView(this);
+		this.gameOptionsPanel = new OptionsMenuPanel(this);
 		JPanel menuPanel = new MainMenuPanel(this);
 		JPanel fileLoadPanel = new FileChooserPanel(this, FileChooserType.LOAD);
 		JPanel fileSavePanel = new FileChooserPanel(this, FileChooserType.SAVE);
 		JPanel chooseGameOptionsPanel = new ChooseGameOptionsPanel(this);
-		JPanel optionsMenuPanel = new OptionsMenuPanel(this);
 		
 		this.cardLayout = new CardLayout();
 		this.getContentPane().setLayout(cardLayout);
@@ -50,7 +52,7 @@ public class GameFrame extends JFrame {
 		this.getContentPane().add(fileSavePanel, FILE_SAVE_PANEL);
 		this.getContentPane().add(chooseGameOptionsPanel, CHOOSE_GAME_OPTIONS_PANEL);
 		this.getContentPane().add(gamePanel, GAME_PANEL);
-		this.getContentPane().add(optionsMenuPanel, OPTIONS_MENU_PANEL);
+		this.getContentPane().add(gameOptionsPanel, OPTIONS_MENU_PANEL);
 		this.cardLayout.show(this.getContentPane(), MAIN_MENU_PANEL);
 		
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,14 +65,15 @@ public class GameFrame extends JFrame {
 	 */
 	public void showPanel(String panelId) {
 		this.cardLayout.show(this.getContentPane(), panelId);
-		this.pack();
+		//this.pack();
 	}
 	
-	public void newGame(Epoch epoch, ShootingStrategy shootingStrategy) {
+	public void newGame(Epoch epoch, ShootingStrategy shootingStrategy, PlayerId startingPlayer) {
 		Game game = new Game(epoch, shootingStrategy);
 		gamePanel.setGame(game);
+		gameOptionsPanel.setGame(game);
 		showPanel(GAME_PANEL);
-		game.start(Game.PlayerId.COMPUTER);
+		game.start(startingPlayer);
 	}
 
 	public void saveGame(String fileName) {
@@ -114,6 +117,7 @@ public class GameFrame extends JFrame {
 		try {
 			Game game = GameLoader.loadGame(new File(fileName));
 			gamePanel.setGame(game);
+			gameOptionsPanel.setGame(game);
 			gamePanel.setNonLoopingAnimationsToEnd();
 			showPanel(GAME_PANEL);
 			game.resume();
@@ -122,16 +126,6 @@ public class GameFrame extends JFrame {
 				    "Ce fichier n'est pas un fichier de sauvegarde valide ou n'est pas accessible en lecture.",
 				    "Fichier de sauvegarde invalide ou inaccessible",
 				    JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	public void changeGameOptions(ShootingStrategy chosenShootingStrategy) {
-		Game game = gamePanel.getGame();
-		if (game != null) {
-			ComputerController compController = game.getComputerController();
-			if (compController != null && compController.getShootingStrategy() != chosenShootingStrategy) {
-				compController.setShootingStrategy(chosenShootingStrategy);
-			}
 		}
 	}
 	

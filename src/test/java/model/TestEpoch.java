@@ -6,12 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
+ * Classe pour les tests communs à toutes les époques.
  */
 public abstract class TestEpoch {
 	
 	protected Epoch epoch;
 	
+	/**
+	 * Crée l'époque à tester.
+	 * @return L'époque à tester.
+	 */
 	protected abstract Epoch createEpoch();
 	
 	@Before
@@ -27,7 +31,6 @@ public abstract class TestEpoch {
 		assertFalse("Devrait être en vie", res);
 	}
 	
-	
 	@Test
 	public void testTakeDamageFullDamage() {
 		int size = 5;
@@ -35,4 +38,5 @@ public abstract class TestEpoch {
 		boolean res = epoch.takeDamage(size, hitCount);
 		assertTrue("Devrait être détruit", res);
 	}
+	
 }

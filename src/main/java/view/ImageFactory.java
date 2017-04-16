@@ -19,7 +19,7 @@ public class ImageFactory {
 	 */
     private static ImageFactory instance = new ImageFactory();
 	
-	// Images
+	// Images battleship
 	private BufferedImage gridImage;
 	private BufferedImage activeBorderImage;
 	private BufferedImage sightImage;
@@ -56,7 +56,10 @@ public class ImageFactory {
 	private BufferedImage oldShip5RedImage;
 	private BufferedImage oldShip5HilightImage;
 	
-	// Animations
+	// Images diverses
+	private BufferedImage escapeKeyImage;
+	
+	// Animations battleship
 	private Animation seaXXBackgroundAnimation;
 	private Animation hitAnimation;
 	private Animation missAnimation;
@@ -65,47 +68,49 @@ public class ImageFactory {
 
 	private ImageFactory() {
 		try {
-			gridImage = loadImage("/images/grid.png");
-			activeBorderImage = loadImage("/images/gridActiveBorder.png");
-			sightImage = loadImage("/images/sight.png");
+			gridImage = loadImage("/images/battleship/grid.png");
+			activeBorderImage = loadImage("/images/battleship/gridActiveBorder.png");
+			sightImage = loadImage("/images/battleship/sight.png");
 			
-			shipCarrierImage = loadImage("/images/shipCarrier.png");
-			shipCarrierRedImage = loadImage("/images/shipCarrierRed.png");
-			shipCarrierHilightImage = loadImage("/images/shipCarrierHilight.png");
+			shipCarrierImage = loadImage("/images/battleship/shipCarrier.png");
+			shipCarrierRedImage = loadImage("/images/battleship/shipCarrierRed.png");
+			shipCarrierHilightImage = loadImage("/images/battleship/shipCarrierHilight.png");
 			
-			shipBattleshipImage = loadImage("/images/shipBattleship.png");
-			shipBattleshipRedImage = loadImage("/images/shipBattleshipRed.png");
-			shipBattleshipHilightImage = loadImage("/images/shipBattleshipHilight.png");
+			shipBattleshipImage = loadImage("/images/battleship/shipBattleship.png");
+			shipBattleshipRedImage = loadImage("/images/battleship/shipBattleshipRed.png");
+			shipBattleshipHilightImage = loadImage("/images/battleship/shipBattleshipHilight.png");
 
-			shipSubmarineImage = loadImage("/images/shipSubmarine.png");
-			shipSubmarineRedImage = loadImage("/images/shipSubmarineRed.png");
-			shipSubmarineHilightImage = loadImage("/images/shipSubmarineHilight.png");
+			shipSubmarineImage = loadImage("/images/battleship/shipSubmarine.png");
+			shipSubmarineRedImage = loadImage("/images/battleship/shipSubmarineRed.png");
+			shipSubmarineHilightImage = loadImage("/images/battleship/shipSubmarineHilight.png");
 
-			shipPtBoatImage = loadImage("/images/shipPtBoat.png");
-			shipPtBoatRedImage = loadImage("/images/shipPtBoatRed.png");
-			shipPtBoatHilightImage = loadImage("/images/shipPtBoatHilight.png");
+			shipPtBoatImage = loadImage("/images/battleship/shipPtBoat.png");
+			shipPtBoatRedImage = loadImage("/images/battleship/shipPtBoatRed.png");
+			shipPtBoatHilightImage = loadImage("/images/battleship/shipPtBoatHilight.png");
 			
-			oldShip2Image = loadImage("/images/oldShip2.png");
-			oldShip2RedImage = loadImage("/images/oldShip2Red.png");
-			oldShip2HilightImage = loadImage("/images/oldShip2Hilight.png");
+			oldShip2Image = loadImage("/images/battleship/oldShip2.png");
+			oldShip2RedImage = loadImage("/images/battleship/oldShip2Red.png");
+			oldShip2HilightImage = loadImage("/images/battleship/oldShip2Hilight.png");
 
-			oldShip3Image = loadImage("/images/oldShip3.png");
-			oldShip3RedImage = loadImage("/images/oldShip3Red.png");
-			oldShip3HilightImage = loadImage("/images/oldShip3Hilight.png");
+			oldShip3Image = loadImage("/images/battleship/oldShip3.png");
+			oldShip3RedImage = loadImage("/images/battleship/oldShip3Red.png");
+			oldShip3HilightImage = loadImage("/images/battleship/oldShip3Hilight.png");
 
-			oldShip4Image = loadImage("/images/oldShip4.png");
-			oldShip4RedImage = loadImage("/images/oldShip4Red.png");
-			oldShip4HilightImage = loadImage("/images/oldShip4Hilight.png");
+			oldShip4Image = loadImage("/images/battleship/oldShip4.png");
+			oldShip4RedImage = loadImage("/images/battleship/oldShip4Red.png");
+			oldShip4HilightImage = loadImage("/images/battleship/oldShip4Hilight.png");
 
-			oldShip5Image = loadImage("/images/oldShip5.png");
-			oldShip5RedImage = loadImage("/images/oldShip5Red.png");
-			oldShip5HilightImage = loadImage("/images/oldShip5Hilight.png");
+			oldShip5Image = loadImage("/images/battleship/oldShip5.png");
+			oldShip5RedImage = loadImage("/images/battleship/oldShip5Red.png");
+			oldShip5HilightImage = loadImage("/images/battleship/oldShip5Hilight.png");
 			
-			seaXXBackgroundAnimation = new Animation(Sprite.loadSpriteSheet("/images/seaXXBackgroundSprite.png", Orientation.HORIZONTAL, 16), 6);
-			seaXVIBackgroundAnimation = new Animation(Sprite.loadSpriteSheet("/images/seaXVIBackgroundSprite.png", Orientation.HORIZONTAL, 16), 6);
-			hitAnimation = new Animation(Sprite.loadSpriteSheet("/images/gridHit.png", Orientation.HORIZONTAL, 24), 1);
+			escapeKeyImage = loadImage("/images/misc/escapeKey.png");
+			
+			seaXXBackgroundAnimation = new Animation(Sprite.loadSpriteSheet("/images/battleship/seaXXBackgroundSprite.png", Orientation.HORIZONTAL, 16), 6);
+			seaXVIBackgroundAnimation = new Animation(Sprite.loadSpriteSheet("/images/battleship/seaXVIBackgroundSprite.png", Orientation.HORIZONTAL, 16), 6);
+			hitAnimation = new Animation(Sprite.loadSpriteSheet("/images/battleship/gridHit.png", Orientation.HORIZONTAL, 24), 1);
 			hitAnimation.setLoop(false);
-			missAnimation = new Animation(Sprite.loadSpriteSheet("/images/gridMiss.png", Orientation.HORIZONTAL, 16), 1);
+			missAnimation = new Animation(Sprite.loadSpriteSheet("/images/battleship/gridMiss.png", Orientation.HORIZONTAL, 16), 1);
 			missAnimation.setLoop(false);
 		} catch (IOException | ResourceNotFoundException e) {
 			e.printStackTrace();
@@ -220,6 +225,10 @@ public class ImageFactory {
 
 	public BufferedImage getOldShip5HilightImage() {
 		return oldShip5HilightImage;
+	}
+	
+	public BufferedImage getEscapeKeyImage() {
+		return escapeKeyImage;
 	}
 
 	public Animation getSeaXXBackgroundAnimation() {
