@@ -31,7 +31,7 @@ public class Sea extends Observable implements Serializable {
 	/**
 	 * Ensemble des bateaux avec leur taille pour une grille.
 	 */
-	private static final int[] SHIPS_SIZES = {2};
+	private static final int[] SHIPS_SIZES = { 5, 4, 3, 3, 2};
 	
 	/**
 	 * Enumération des états d'une case de la grille.
