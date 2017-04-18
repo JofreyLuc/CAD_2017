@@ -1,6 +1,5 @@
 # Projet CAD - Bataille navale
-
-- Équipe 3 : Lanoix Alexis, Luc Jofrey, Sonrel Quentin
+Équipe 3 : Lanoix Alexis, Luc Jofrey, Sonrel Quentin
 
 - Outils/frameworks :
   - Utilisation de Swing pour l'interface graphique
