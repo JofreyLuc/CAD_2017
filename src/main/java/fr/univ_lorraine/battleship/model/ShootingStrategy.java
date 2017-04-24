@@ -10,7 +10,7 @@ public interface ShootingStrategy extends Serializable {
 	/**
 	 * Les noms des différentes stratégies de tir.
 	 */
-	public enum ShootingStrategyName { RANDOM, CROSS }
+	public enum ShootingStrategyName { RANDOM, SEEK_THEN_DESTROY_RANDOM, SEEK_THEN_DESTROY_CROSS }
 		
 	/**
 	 * Renvoie le nom de la stratégie.

@@ -75,8 +75,9 @@ public class GameFrame extends JFrame {
 		
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        // Fixe la taille minimale
-        setMinimumSize(getMinimumSize());
+        setMinimumSize(getMinimumSize());	// fixe la taille minimale
+        setLocationRelativeTo(null);		// place la frame au centre de l'écran
+
 	}
 	
 	/**

@@ -29,7 +29,7 @@ public class Sea extends Observable implements Serializable {
 	private static final int GRID_HEIGHT = 10;
 	
 	/**
-	 * Ensemble des bateaux avec leur taille pour une grille.
+	 * Ensemble des tailles des bateaux présents sur la grille.
 	 */
 	private static final int[] SHIPS_SIZES = { 5, 4, 3, 3, 2};
 	
@@ -95,6 +95,14 @@ public class Sea extends Observable implements Serializable {
 	 */
 	public int getGridHeight() {
 		return grid[0].length;
+	}
+	
+	/**
+	 * Retourn l'ensemble de la taille des bateaux présents sur la grille.
+	 * @return Un tableau contenant l'ensemble de la taille des bateaux.
+	 */
+	public static int[] getShipsSizes() {
+		return SHIPS_SIZES;
 	}
 	
 	/**

@@ -14,12 +14,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 
-import fr.univ_lorraine.battleship.model.CrossShooting;
 import fr.univ_lorraine.battleship.model.Epoch;
 import fr.univ_lorraine.battleship.model.EpochXVI;
 import fr.univ_lorraine.battleship.model.EpochXX;
 import fr.univ_lorraine.battleship.model.RandomShooting;
+import fr.univ_lorraine.battleship.model.SeekThenDestroyCrossShooting;
+import fr.univ_lorraine.battleship.model.SeekThenDestroyRandomShooting;
 import fr.univ_lorraine.battleship.model.ShootingStrategy;
 import fr.univ_lorraine.battleship.model.Epoch.EpochName;
 import fr.univ_lorraine.battleship.model.Game.PlayerId;
@@ -70,9 +72,15 @@ public class ChooseGameOptionsPanel extends JPanel {
 	private final JToggleButton randShotButton;
 	
 	/**
-	 * Bouton de la stratégie de tir en croix.
+	 * Bouton de la stratégie de tir en seek then destroy aléatoire.
 	 */
-	private final JToggleButton crossShotButton;
+	private final JToggleButton SAndDRandShotButton;
+
+	/**
+	 * Bouton de la stratégie de tir en seek then destroy en croix.
+	 */
+	private final JToggleButton SAndDCrossShotButton;
+
 	
 	/**
 	 * Enumerations des choix possibles du joueur qui débutera la partie.
@@ -159,13 +167,15 @@ public class ChooseGameOptionsPanel extends JPanel {
 		ACTION_EPOCH_MAP.put(EpochName.XVI_SIECLE.name(), new EpochXVI());
 		ACTION_EPOCH_MAP.put(EpochName.XX_SIECLE.name(), new EpochXX());
 		
-		JLabel epochLabel = new JLabel("Choisissez une époque :");
+		JLabel epochLabel = new JLabel("Choisissez une époque :", SwingConstants.CENTER);
 		gbc.insets = new Insets(5, 0, 5, 0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = gbc.gridy = 0;
 		container.add(epochLabel, gbc);
 		
 		epochXVIButton = new JToggleButton("XVIème siècle");
+		epochXVIButton.setToolTipText("A cette époque, les bateaux sont moins résistants et coulent en moins de tirs.");
 		epochXVIButton.setActionCommand(EpochName.XVI_SIECLE.name());
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 0, 0, 10);
@@ -175,6 +185,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 		container.add(epochXVIButton, gbc);
 		
 		epochXXButton = new JToggleButton("XXème siècle");
+		epochXXButton.setToolTipText("Bataille navale classique.");
 		epochXXButton.setActionCommand(EpochName.XX_SIECLE.name());
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.gridx++;
@@ -187,17 +198,20 @@ public class ChooseGameOptionsPanel extends JPanel {
 		
 		// Choix stratégie de tir de l'ordi
 		ACTION_SHOOT_MAP.put(ShootingStrategyName.RANDOM.name(), new RandomShooting());
-		ACTION_SHOOT_MAP.put(ShootingStrategyName.CROSS.name(), new CrossShooting());
+		ACTION_SHOOT_MAP.put(ShootingStrategyName.SEEK_THEN_DESTROY_RANDOM.name(), new SeekThenDestroyRandomShooting());
+		ACTION_SHOOT_MAP.put(ShootingStrategyName.SEEK_THEN_DESTROY_CROSS.name(), new SeekThenDestroyCrossShooting());
 		
-		JLabel shotStrategyLabel = new JLabel("Choisissez la technique de tir de l'ordinateur :");
+		JLabel shotStrategyLabel = new JLabel("Choisissez la technique de tir de l'ordinateur :", SwingConstants.CENTER);
 		gbc.gridy++;
 		gbc.insets = new Insets(30, 0, 5, 0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = 0;
 		gbc.gridy++;
 		container.add(shotStrategyLabel, gbc);
 		
 		randShotButton = new JToggleButton("Tir aléatoire");
+		randShotButton.setToolTipText("Tirs entièrement aléatoires.");
 		randShotButton.setActionCommand(ShootingStrategyName.RANDOM.name());
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 0, 0, 10);
@@ -206,25 +220,40 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.weightx = 1/3;
 		container.add(randShotButton, gbc);
 		
-		crossShotButton = new JToggleButton("Tir en croix");
-		crossShotButton.setActionCommand(ShootingStrategyName.CROSS.name());
+		SAndDRandShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir aléatoire</center></html>");
+		SAndDRandShotButton.setToolTipText("<html>Avec cette stratégie, l’ordinateur débute en mode Chasse et tire au hasard jusqu’à ce qu’il trouve une cible.<br>" +
+				"Lorsqu’il a touché, il s’acharne sur les cases adjacentes.<br>" +
+				"Une fois le navire coulé, la chasse reprend jusqu’à l’acquisition d’une nouvelle cible.</html>");
+		SAndDRandShotButton.setActionCommand(ShootingStrategyName.SEEK_THEN_DESTROY_RANDOM.name());
+		gbc.insets = new Insets(0, 0, 0, 10);
+		gbc.gridx++;
+		gbc.weightx = 1/3;
+		container.add(SAndDRandShotButton, gbc);
+
+		SAndDCrossShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir en croix</center></html>");
+		SAndDCrossShotButton.setToolTipText("<html>Avec cette stratégie, l’ordinateur débute en mode Chasse et tire en croix jusqu’à ce qu’il trouve une cible.<br>" +
+				"Lorsqu’il a touché, il s’acharne sur les cases adjacentes.<br>" +
+				"Une fois le navire coulé, la chasse reprend jusqu’à l’acquisition d’une nouvelle cible.</html>");
+		SAndDCrossShotButton.setActionCommand(ShootingStrategyName.SEEK_THEN_DESTROY_CROSS.name());
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.gridx++;
 		gbc.weightx = 1/3;
-		container.add(crossShotButton, gbc);
-		
+		container.add(SAndDCrossShotButton, gbc);
+
 		shotGroup = new ButtonGroup();
 		shotGroup.add(randShotButton);
-		shotGroup.add(crossShotButton);
+		shotGroup.add(SAndDRandShotButton);
+		shotGroup.add(SAndDCrossShotButton);
 		
 		// Choix joueur qui commence
 		ACTION_STARTING_PLAYER_MAP.put(StartingPlayer.RANDOM.name(), StartingPlayer.RANDOM);
 		ACTION_STARTING_PLAYER_MAP.put(StartingPlayer.PLAYER.name(), StartingPlayer.PLAYER);
 		ACTION_STARTING_PLAYER_MAP.put(StartingPlayer.COMPUTER.name(), StartingPlayer.COMPUTER);
 		
-		JLabel startingPlayerLabel = new JLabel("Choisissez le joueur qui débutera la partie :");
+		JLabel startingPlayerLabel = new JLabel("Choisissez le joueur qui débutera la partie :", SwingConstants.CENTER);
 		gbc.insets = new Insets(30, 0, 5, 0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = 0;
 		gbc.gridy++;
 		container.add(startingPlayerLabel, gbc);
