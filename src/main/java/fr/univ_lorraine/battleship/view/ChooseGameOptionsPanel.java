@@ -35,55 +35,55 @@ import fr.univ_lorraine.battleship.model.ShootingStrategy.ShootingStrategyName;
 public class ChooseGameOptionsPanel extends JPanel {
 	
 	/**
-	 * Map liant les actions des boutons à leur époque correspondante.
+	 * Map liant les actions des boutons Ã  leur Ã©poque correspondante.
 	 */
 	private static final Map<String, Epoch> ACTION_EPOCH_MAP = new HashMap<String, Epoch>();
 
 	/**
-	 * Groupe de boutons des époques.
-	 * Permet de rendre seulement un toggleBouton sélectionnable.
+	 * Groupe de boutons des Ã©poques.
+	 * Permet de rendre seulement un toggleBouton sÃ©lectionnable.
 	 */
 	private final ButtonGroup epochGroup;
 	
 	/**
-	 * Bouton de l'époque XX.
+	 * Bouton de l'Ã©poque XX.
 	 */
 	private final JToggleButton epochXXButton;
 	
 	/**
-	 * Bouton de l'époque XVI.
+	 * Bouton de l'Ã©poque XVI.
 	 */
 	private final JToggleButton epochXVIButton;
 	
 	/**
-	 * Map liant les actions des boutons à leur stratégie de tir correspondante.
+	 * Map liant les actions des boutons Ã  leur stratÃ©gie de tir correspondante.
 	 */
 	private static final Map<String, ShootingStrategy> ACTION_SHOOT_MAP = new HashMap<String, ShootingStrategy>();
 
 	/**
-	 * Groupe de boutons des stratégies de tir.
-	 * Permet de rendre seulement un toggleBouton sélectionnable.
+	 * Groupe de boutons des stratÃ©gies de tir.
+	 * Permet de rendre seulement un toggleBouton sÃ©lectionnable.
 	 */
 	private final ButtonGroup shotGroup;
 	
 	/**
-	 * Bouton de la stratégie de tir aléatoire.
+	 * Bouton de la stratÃ©gie de tir alÃ©atoire.
 	 */
 	private final JToggleButton randShotButton;
 	
 	/**
-	 * Bouton de la stratégie de tir en seek then destroy aléatoire.
+	 * Bouton de la stratÃ©gie de tir en seek then destroy alÃ©atoire.
 	 */
 	private final JToggleButton SAndDRandShotButton;
 
 	/**
-	 * Bouton de la stratégie de tir en seek then destroy en croix.
+	 * Bouton de la stratÃ©gie de tir en seek then destroy en croix.
 	 */
 	private final JToggleButton SAndDCrossShotButton;
 
 	
 	/**
-	 * Enumerations des choix possibles du joueur qui débutera la partie.
+	 * Enumerations des choix possibles du joueur qui dÃ©butera la partie.
 	 */
 	private enum StartingPlayer {
 		
@@ -116,25 +116,25 @@ public class ChooseGameOptionsPanel extends JPanel {
 		private static Random RNG = new Random();
 		
 		/**
-		 * Retourne l'id du joueur correspondant à cette valeur de l'énumeration.
+		 * Retourne l'id du joueur correspondant Ã  cette valeur de l'Ã©numeration.
 		 * @return L'id du joueur correspondant.
 		 */
 		public abstract PlayerId mapToPlayerId();
 	}
 	
 	/**
-	 * Map liant les actions des boutons à leur option de début de partie correspondante.
+	 * Map liant les actions des boutons Ã  leur option de dÃ©but de partie correspondante.
 	 */
 	private static final Map<String, StartingPlayer> ACTION_STARTING_PLAYER_MAP = new HashMap<String, StartingPlayer>();
 
 	/**
-	 * Groupe de boutons des choix possibles du joueur qui débutera la partie.
-	 * Permet de rendre seulement un toggleBouton sélectionnable.
+	 * Groupe de boutons des choix possibles du joueur qui dÃ©butera la partie.
+	 * Permet de rendre seulement un toggleBouton sÃ©lectionnable.
 	 */
 	private final ButtonGroup startingPlayerGroup;
 	
 	/**
-	 * Bouton du choix aléatoire pour le joueur qui débutera la partie.
+	 * Bouton du choix alÃ©atoire pour le joueur qui dÃ©butera la partie.
 	 */
 	private final JToggleButton randStartButton;
 	
@@ -150,32 +150,32 @@ public class ChooseGameOptionsPanel extends JPanel {
 		
 	/**
 	 * Construit le panel.
-	 * Utilise la fenêtre principale pour certains listeners.
-	 * @param gameFrame La fenêtre principale du jeu.
+	 * Utilise la fenÃªtre principale pour certains listeners.
+	 * @param gameFrame La fenÃªtre principale du jeu.
 	 */
 	public ChooseGameOptionsPanel(final GameFrame gameFrame) {
-		// GridBagLayout afin que les composants ne s'étendent pas
+		// GridBagLayout afin que les composants ne s'Ã©tendent pas
 		this.setLayout(new GridBagLayout());
 		
-		// Contient tous les éléments du panel
+		// Contient tous les Ã©lÃ©ments du panel
 		JPanel container = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(50, 50, 50, 50);
 		this.add(container, gbc);
 
-		// Choix époque
+		// Choix Ã©poque
 		ACTION_EPOCH_MAP.put(EpochName.XVI_SIECLE.name(), new EpochXVI());
 		ACTION_EPOCH_MAP.put(EpochName.XX_SIECLE.name(), new EpochXX());
 		
-		JLabel epochLabel = new JLabel("Choisissez une époque :", SwingConstants.CENTER);
+		JLabel epochLabel = new JLabel("Choisissez une Ã©poque :", SwingConstants.CENTER);
 		gbc.insets = new Insets(5, 0, 5, 0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = gbc.gridy = 0;
 		container.add(epochLabel, gbc);
 		
-		epochXVIButton = new JToggleButton("XVIème siècle");
-		epochXVIButton.setToolTipText("A cette époque, les bateaux sont moins résistants et coulent en moins de tirs.");
+		epochXVIButton = new JToggleButton("XVIÃ¨me siÃ¨cle");
+		epochXVIButton.setToolTipText("A cette Ã©poque, les bateaux sont moins rÃ©sistants et coulent en moins de tirs.");
 		epochXVIButton.setActionCommand(EpochName.XVI_SIECLE.name());
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 0, 0, 10);
@@ -184,7 +184,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.weightx = 1/3;
 		container.add(epochXVIButton, gbc);
 		
-		epochXXButton = new JToggleButton("XXème siècle");
+		epochXXButton = new JToggleButton("XXÃ¨me siÃ¨cle");
 		epochXXButton.setToolTipText("Bataille navale classique.");
 		epochXXButton.setActionCommand(EpochName.XX_SIECLE.name());
 		gbc.insets = new Insets(0, 0, 0, 0);
@@ -196,7 +196,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 		epochGroup.add(epochXVIButton);
 		epochGroup.add(epochXXButton);
 		
-		// Choix stratégie de tir de l'ordi
+		// Choix stratÃ©gie de tir de l'ordi
 		ACTION_SHOOT_MAP.put(ShootingStrategyName.RANDOM.name(), new RandomShooting());
 		ACTION_SHOOT_MAP.put(ShootingStrategyName.SEEK_THEN_DESTROY_RANDOM.name(), new SeekThenDestroyRandomShooting());
 		ACTION_SHOOT_MAP.put(ShootingStrategyName.SEEK_THEN_DESTROY_CROSS.name(), new SeekThenDestroyCrossShooting());
@@ -210,8 +210,8 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.gridy++;
 		container.add(shotStrategyLabel, gbc);
 		
-		randShotButton = new JToggleButton("Tir aléatoire");
-		randShotButton.setToolTipText("Tirs entièrement aléatoires.");
+		randShotButton = new JToggleButton("Tir alÃ©atoire");
+		randShotButton.setToolTipText("Tirs entiÃ¨rement alÃ©atoires.");
 		randShotButton.setActionCommand(ShootingStrategyName.RANDOM.name());
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 0, 0, 10);
@@ -220,10 +220,10 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.weightx = 1/3;
 		container.add(randShotButton, gbc);
 		
-		SAndDRandShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir aléatoire</center></html>");
-		SAndDRandShotButton.setToolTipText("<html>Avec cette stratégie, l’ordinateur débute en mode Chasse et tire au hasard jusqu’à ce qu’il trouve une cible.<br>" +
-				"Lorsqu’il a touché, il s’acharne sur les cases adjacentes.<br>" +
-				"Une fois le navire coulé, la chasse reprend jusqu’à l’acquisition d’une nouvelle cible.</html>");
+		SAndDRandShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir alÃ©atoire</center></html>");
+		SAndDRandShotButton.setToolTipText("<html>Avec cette stratÃ©gie, lâ€™ordinateur dÃ©bute en mode Chasse et tire au hasard jusquâ€™Ã  ce quâ€™il trouve une cible.<br>" +
+				"Lorsquâ€™il a touchÃ©, il sâ€™acharne sur les cases adjacentes.<br>" +
+				"Une fois le navire coulÃ©, la chasse reprend jusquâ€™Ã  lâ€™acquisition dâ€™une nouvelle cible.</html>");
 		SAndDRandShotButton.setActionCommand(ShootingStrategyName.SEEK_THEN_DESTROY_RANDOM.name());
 		gbc.insets = new Insets(0, 0, 0, 10);
 		gbc.gridx++;
@@ -231,9 +231,9 @@ public class ChooseGameOptionsPanel extends JPanel {
 		container.add(SAndDRandShotButton, gbc);
 
 		SAndDCrossShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir en croix</center></html>");
-		SAndDCrossShotButton.setToolTipText("<html>Avec cette stratégie, l’ordinateur débute en mode Chasse et tire en croix jusqu’à ce qu’il trouve une cible.<br>" +
-				"Lorsqu’il a touché, il s’acharne sur les cases adjacentes.<br>" +
-				"Une fois le navire coulé, la chasse reprend jusqu’à l’acquisition d’une nouvelle cible.</html>");
+		SAndDCrossShotButton.setToolTipText("<html>Avec cette stratÃ©gie, lâ€™ordinateur dÃ©bute en mode Chasse et tire en croix jusquâ€™Ã  ce quâ€™il trouve une cible.<br>" +
+				"Lorsquâ€™il a touchÃ©, il sâ€™acharne sur les cases adjacentes.<br>" +
+				"Une fois le navire coulÃ©, la chasse reprend jusquâ€™Ã  lâ€™acquisition dâ€™une nouvelle cible.</html>");
 		SAndDCrossShotButton.setActionCommand(ShootingStrategyName.SEEK_THEN_DESTROY_CROSS.name());
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.gridx++;
@@ -250,7 +250,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 		ACTION_STARTING_PLAYER_MAP.put(StartingPlayer.PLAYER.name(), StartingPlayer.PLAYER);
 		ACTION_STARTING_PLAYER_MAP.put(StartingPlayer.COMPUTER.name(), StartingPlayer.COMPUTER);
 		
-		JLabel startingPlayerLabel = new JLabel("Choisissez le joueur qui débutera la partie :", SwingConstants.CENTER);
+		JLabel startingPlayerLabel = new JLabel("Choisissez le joueur qui dÃ©butera la partie :", SwingConstants.CENTER);
 		gbc.insets = new Insets(30, 0, 5, 0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -258,7 +258,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.gridy++;
 		container.add(startingPlayerLabel, gbc);
 		
-		randStartButton = new JToggleButton("Aléatoire");
+		randStartButton = new JToggleButton("AlÃ©atoire");
 		randStartButton.setActionCommand(StartingPlayer.RANDOM.name());
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 0, 0, 10);
@@ -286,8 +286,8 @@ public class ChooseGameOptionsPanel extends JPanel {
 		startingPlayerGroup.add(playerStartButton);
 		startingPlayerGroup.add(computerStartButton);
 		
-		// Bouton démarrer partie
-		JButton startGameButton = new JButton("Démarrer la partie");
+		// Bouton dÃ©marrer partie
+		JButton startGameButton = new JButton("DÃ©marrer la partie");
 		startGameButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -314,12 +314,12 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.gridy++;
 		container.add(returnButton, gbc);
 		
-		// Sélectionne les options par défaut
+		// SÃ©lectionne les options par dÃ©faut
 		setToDefaultChoices();
 	}
 	
 	/**
-	 * Sélectionne les options par défaut.
+	 * SÃ©lectionne les options par dÃ©faut.
 	 */
 	private void setToDefaultChoices() {
 		epochXXButton.setSelected(true);
@@ -328,23 +328,23 @@ public class ChooseGameOptionsPanel extends JPanel {
 	}
 	
 	/**
-	 * Récupère l'époque sélectionné.
-	 * @return L'époque sélectionné.
+	 * RÃ©cupÃ¨re l'Ã©poque sÃ©lectionnÃ©.
+	 * @return L'Ã©poque sÃ©lectionnÃ©.
 	 */
 	private Epoch getChosenEpoch() {
         return ACTION_EPOCH_MAP.get(epochGroup.getSelection().getActionCommand());
 	}
 	
 	/**
-	 * Récupère la stratégie de tir de l'ordinateur sélectionnée.
-	 * @return La stratégie de tir de l'ordinateur sélectionnée.
+	 * RÃ©cupÃ¨re la stratÃ©gie de tir de l'ordinateur sÃ©lectionnÃ©e.
+	 * @return La stratÃ©gie de tir de l'ordinateur sÃ©lectionnÃ©e.
 	 */
 	private ShootingStrategy getChosenShootingStrategy() {
         return ACTION_SHOOT_MAP.get(shotGroup.getSelection().getActionCommand());
 	}
 	
 	/**
-	 * Récupère le choix du joueur qui commencera la partie.
+	 * RÃ©cupÃ¨re le choix du joueur qui commencera la partie.
 	 * @return Le choix du joueur qui commencera la partie.
 	 */
 	private PlayerId getChosenStartingPlayer() {

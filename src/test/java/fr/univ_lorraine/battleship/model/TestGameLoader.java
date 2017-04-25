@@ -23,7 +23,7 @@ public class TestGameLoader {
 	private Game game;
 	
 	/**
-	 * Supprime les fichiers utilisés.
+	 * Supprime les fichiers utilisÃ©s.
 	 */
 	private void clean() {
 		VALID_FILE.delete();
@@ -32,7 +32,7 @@ public class TestGameLoader {
 	@Before
 	public void setUp() {
 		clean();
-		INEXISTING_FILE.delete();	// pour éviter un conflit si le fichier existe
+		INEXISTING_FILE.delete();	// pour Ã©viter un conflit si le fichier existe
 		game = new Game(new EpochXX(), new RandomShooting());
 	}
 	
@@ -45,14 +45,14 @@ public class TestGameLoader {
 	@Test(expected = IOException.class)
 	public void testLoadGameFromInexistingFile() throws ClassNotFoundException, IOException {
 		GameLoader.loadGame(INEXISTING_FILE);
-		fail("Une IOException aurait dû être levée");
+		fail("Une IOException aurait dÃ» Ãªtre levÃ©e");
 	}
 	
 	@Test
 	public void testLoadGameFromValidFile() throws IOException, ClassNotFoundException {
 		GameLoader.saveGame(game, VALID_FILE);
 		Game testGame = GameLoader.loadGame(VALID_FILE);
-		assertNotNull("La partie devrait être ok", testGame);
+		assertNotNull("La partie devrait Ãªtre ok", testGame);
 	}
 	
 }

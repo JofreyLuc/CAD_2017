@@ -3,25 +3,25 @@ package fr.univ_lorraine.battleship.model;
 import java.io.Serializable;
 
 /**
- * Stratégie de tir de l'ordinateur.
+ * StratÃ©gie de tir de l'ordinateur.
  */
 public interface ShootingStrategy extends Serializable {
 
 	/**
-	 * Les noms des différentes stratégies de tir.
+	 * Les noms des diffÃ©rentes stratÃ©gies de tir.
 	 */
 	public enum ShootingStrategyName { RANDOM, SEEK_THEN_DESTROY_RANDOM, SEEK_THEN_DESTROY_CROSS }
 		
 	/**
-	 * Renvoie le nom de la stratégie.
+	 * Renvoie le nom de la stratÃ©gie.
 	 * Utile pour l'UI.
-	 * @return Le nom de la stratégie.
+	 * @return Le nom de la stratÃ©gie.
 	 */
 	public ShootingStrategyName getShootingStrategyName();
 	
 	/**
 	 * Choisit et renvoie une position afin d'y effectuer un tir.
-	 * La position de tir doit toujours être valide.
+	 * La position de tir doit toujours Ãªtre valide.
 	 * @param sea La grille du joueur adverse.
 	 * @return La position de tir sur la grille.
 	 */

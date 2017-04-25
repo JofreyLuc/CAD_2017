@@ -36,7 +36,7 @@ public class TestShip {
 		ship.setOrientation(Orientation.VERTICAL);
 		Position[] positionsExpected = {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(0, 3)};
 		Position[] results = ship.getSeaTilesOccupied();
-		assertTrue("Différents des positions attendues", Arrays.asList(positionsExpected).containsAll(
+		assertTrue("DiffÃ©rents des positions attendues", Arrays.asList(positionsExpected).containsAll(
 				Arrays.asList(results))
 				&& positionsExpected.length == results.length);
 	}
@@ -49,7 +49,7 @@ public class TestShip {
 		ship.setOrientation(Orientation.HORIZONTAL);
 		Position[] positionsExpected = {new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0)};
 		Position[] results = ship.getSeaTilesOccupied();
-		assertTrue("Différents des positions attendues", Arrays.asList(positionsExpected).containsAll(
+		assertTrue("DiffÃ©rents des positions attendues", Arrays.asList(positionsExpected).containsAll(
 				Arrays.asList(results))
 				&& positionsExpected.length == results.length);
 	}
@@ -59,8 +59,8 @@ public class TestShip {
 	public void testCheckShotNotTouched() {
 		ship.setPosition(new Position(1, 2));
 		boolean res = ship.checkShot(new Position(0, 0));
-		assertFalse("Ne doit pas être touché", res);
-		assertEquals("Le nombre de touché doit être nul", 0, ship.getHitCount());
+		assertFalse("Ne doit pas Ãªtre touchÃ©", res);
+		assertEquals("Le nombre de touchÃ© doit Ãªtre nul", 0, ship.getHitCount());
 	}
 	
 	@Test
@@ -68,8 +68,8 @@ public class TestShip {
 		Position pos = new Position(0, 0);
 		ship.setPosition(pos);
 		boolean res = ship.checkShot(pos);
-		assertTrue("Doit être touché", res);
-		assertEquals("Le nombre de touché doit être de 1", 1, ship.getHitCount());
+		assertTrue("Doit Ãªtre touchÃ©", res);
+		assertEquals("Le nombre de touchÃ© doit Ãªtre de 1", 1, ship.getHitCount());
 	}
 	
 	@Test
@@ -82,8 +82,8 @@ public class TestShip {
 		ship.setPosition(pos);
 		ship.checkShot(pos);
 		boolean res = ship.checkShot(new Position(0, 0+SIZE-1));
-		assertTrue("Doit être touché", res);
-		assertEquals("Le nombre de touché doit être de 2", 2, ship.getHitCount());
+		assertTrue("Doit Ãªtre touchÃ©", res);
+		assertEquals("Le nombre de touchÃ© doit Ãªtre de 2", 2, ship.getHitCount());
 	}
 	
 	@Test
@@ -96,8 +96,8 @@ public class TestShip {
 		ship.setOrientation(Orientation.HORIZONTAL);
 		ship.checkShot(pos);
 		boolean res = ship.checkShot(new Position(0+SIZE-1, 0));
-		assertTrue("Doit être touché", res);
-		assertEquals("Le nombre de touché doit être de 2", 2, ship.getHitCount());
+		assertTrue("Doit Ãªtre touchÃ©", res);
+		assertEquals("Le nombre de touchÃ© doit Ãªtre de 2", 2, ship.getHitCount());
 	}
 	
 	@Test
@@ -106,9 +106,9 @@ public class TestShip {
 		Position pos = new Position(0, 0);
 		ship.setPosition(pos);
 		boolean res = ship.checkShot(pos);
-		assertTrue("Doit être touché", res);
-		assertEquals("Le nombre de touché doit être de 1", 1, ship.getHitCount());
-		assertTrue("Doit être détruit", ship.isDead());
+		assertTrue("Doit Ãªtre touchÃ©", res);
+		assertEquals("Le nombre de touchÃ© doit Ãªtre de 1", 1, ship.getHitCount());
+		assertTrue("Doit Ãªtre dÃ©truit", ship.isDead());
 	}
 	
 }

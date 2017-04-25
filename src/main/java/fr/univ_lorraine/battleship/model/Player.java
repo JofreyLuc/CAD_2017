@@ -3,7 +3,7 @@ package fr.univ_lorraine.battleship.model;
 import java.io.Serializable;
 
 /**
- * Classe représentant un joueur.
+ * Classe reprÃ©sentant un joueur.
  */
 public class Player implements Serializable {
 
@@ -26,7 +26,7 @@ public class Player implements Serializable {
 	private Sea opponentGrid;
 	
 	/**
-	 * Crée un joueur à partir de sa grille et de la grille adverse.
+	 * CrÃ©e un joueur Ã  partir de sa grille et de la grille adverse.
 	 * @param selfGrid La grille du joueur.
 	 * @param opponentGrid La grille de l'adversaire.
 	 */
@@ -64,7 +64,7 @@ public class Player implements Serializable {
 	/**
 	 * Tente de placer le bateau en cours de positionnement.
 	 * @param position La position de placement du bateau.
-	 * @return Vrai si le positionnement est valide et donc effectué, faux sinon.
+	 * @return Vrai si le positionnement est valide et donc effectuÃ©, faux sinon.
 	 */
 	public boolean placeShip(Position position) {
 		Ship ship = this.selfGrid.getShipOnPlacing();
@@ -83,9 +83,9 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Tente de tirer à cette position.
+	 * Tente de tirer Ã  cette position.
 	 * @param position La position du tir.
-	 * @return Vrai si le tir est valide et donc effectué, faux sinon.
+	 * @return Vrai si le tir est valide et donc effectuÃ©, faux sinon.
 	 */
 	public boolean shoot(Position position) {
 		return this.opponentGrid.receiveShot(position);

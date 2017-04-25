@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- * Classe représentant la grille d'un joueur.
+ * Classe reprÃ©sentant la grille d'un joueur.
  */
 public class Sea extends Observable implements Serializable {
 
@@ -29,12 +29,12 @@ public class Sea extends Observable implements Serializable {
 	private static final int GRID_HEIGHT = 10;
 	
 	/**
-	 * Ensemble des tailles des bateaux présents sur la grille.
+	 * Ensemble des tailles des bateaux prÃ©sents sur la grille.
 	 */
 	private static final int[] SHIPS_SIZES = { 5, 4, 3, 3, 2};
 	
 	/**
-	 * Enumération des états d'une case de la grille.
+	 * EnumÃ©ration des Ã©tats d'une case de la grille.
 	 */
 	public enum SeaTileState { NORMAL, SHOT, TOUCHED }
 	
@@ -45,7 +45,7 @@ public class Sea extends Observable implements Serializable {
 	private SeaTileState[][] grid;
 	
 	/**
-	 * Les bateaux qui ne sont pas encore placé sur la grille.
+	 * Les bateaux qui ne sont pas encore placÃ© sur la grille.
 	 * @serial
 	 */
 	private List<Ship> shipsToPlace;
@@ -57,14 +57,14 @@ public class Sea extends Observable implements Serializable {
 	private Ship shipOnPlacing;
 	
 	/**
-	 * Les bateaux placés sur la grille.
+	 * Les bateaux placÃ©s sur la grille.
 	 * @serial
 	 */
 	private List<Ship> ships;
 	
 	/**
-	 * Crée une grille à partir de l'époque associée.
-	 * @param epoch L'époque.
+	 * CrÃ©e une grille Ã  partir de l'Ã©poque associÃ©e.
+	 * @param epoch L'Ã©poque.
 	 */
 	public Sea(Epoch epoch) {
 		// Initialisation de la grille
@@ -98,7 +98,7 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Retourn l'ensemble de la taille des bateaux présents sur la grille.
+	 * Retourn l'ensemble de la taille des bateaux prÃ©sents sur la grille.
 	 * @return Un tableau contenant l'ensemble de la taille des bateaux.
 	 */
 	public static int[] getShipsSizes() {
@@ -106,26 +106,26 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Retourne l'état de la case à une certaine position.
+	 * Retourne l'Ã©tat de la case Ã  une certaine position.
 	 * @param x L'abscisse de la case.
-	 * @param y L'ordonnée de la case.
-	 * @return L'état de la case.
+	 * @param y L'ordonnÃ©e de la case.
+	 * @return L'Ã©tat de la case.
 	 */
 	public SeaTileState getGridTileState(int x, int y) {
 		return grid[x][y];
 	}
 	
 	/**
-	 * Retourne la liste des bateaux placés sur la grille.
-	 * @return La liste des bateaux placés sur la grille.
+	 * Retourne la liste des bateaux placÃ©s sur la grille.
+	 * @return La liste des bateaux placÃ©s sur la grille.
 	 */
 	public List<Ship> getShips() {
 		return ships;
 	}
 	
 	/**
-	 * Retourne la liste des bateaux à placer sur la grille.
-	 * @return La liste des bateaux à placer sur la grille.
+	 * Retourne la liste des bateaux Ã  placer sur la grille.
+	 * @return La liste des bateaux Ã  placer sur la grille.
 	 */
 	public List<Ship> getShipsToPlace() {
 		return shipsToPlace;
@@ -140,25 +140,25 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Regarde si tous les bateaux sont placés sur la grille.
-	 * @return Vrai si tous les bateaux sont placés sur la grille, faux sinon.
+	 * Regarde si tous les bateaux sont placÃ©s sur la grille.
+	 * @return Vrai si tous les bateaux sont placÃ©s sur la grille, faux sinon.
 	 */
 	public boolean areShipsAllPlaced() {
 		return shipsToPlace.isEmpty() && shipOnPlacing == null;
 	}
 	
 	/**
-	 * Regarde si tous les bateaux de la grille sont détruits.
-	 * @return Vrai si tous les bateaux sont détruits, faux sinon.
+	 * Regarde si tous les bateaux de la grille sont dÃ©truits.
+	 * @return Vrai si tous les bateaux sont dÃ©truits, faux sinon.
 	 */
 	public boolean areShipsAllDead() {
-		if (!areShipsAllPlaced()) {	// S'il reste des bateaux à placer,
-			return false;			// les bateaux ne peuvent pas être tous détruits
+		if (!areShipsAllPlaced()) {	// S'il reste des bateaux Ã  placer,
+			return false;			// les bateaux ne peuvent pas Ãªtre tous dÃ©truits
 		}
 		
 		boolean allDead = true;
 		Iterator<Ship> iter = ships.iterator();
-		while (iter.hasNext() && allDead) {	// On regarde si tous les bateaux sont détruits
+		while (iter.hasNext() && allDead) {	// On regarde si tous les bateaux sont dÃ©truits
 			Ship ship = iter.next();
 			allDead = ship.isDead();
 		}
@@ -166,10 +166,10 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Regarde si la case à cette position est libre.
+	 * Regarde si la case Ã  cette position est libre.
 	 * Retourne faux si la case est hors des limites de la grille.
 	 * @param position La position de la case.
-	 * @return Vrai si la case à cette position est libre, faux sinon.
+	 * @return Vrai si la case Ã  cette position est libre, faux sinon.
 	 */
 	public boolean isSeaTileFree(Position position) {
 		if (position.isOutOfBounds(0, grid.length-1, 0, grid[0].length-1)) {
@@ -181,7 +181,7 @@ public class Sea extends Observable implements Serializable {
 		while (iter.hasNext() && tileFree) {
 			Ship ship = iter.next();
 			tileFree = !Arrays.asList(ship.getSeaTilesOccupied()).contains(position);
-			// On vérifie si la case est occupée par le bateau
+			// On vÃ©rifie si la case est occupÃ©e par le bateau
 		}
 		return tileFree;
 	}
@@ -193,14 +193,14 @@ public class Sea extends Observable implements Serializable {
 	 */
 	public boolean isShipOnPlacingInValidPosition() {
 		if (shipOnPlacing == null					// Si il n'y a pas de bateau en cours de positionnement
-			|| shipOnPlacing.getPosition() == null	// ou que sa position n'est pas défini ou hors-limites,
+			|| shipOnPlacing.getPosition() == null	// ou que sa position n'est pas dÃ©fini ou hors-limites,
 			|| shipOnPlacing.getPosition().isOutOfBounds(0, grid.length-1, 0, grid[0].length-1)) {
 			return false;							// le positionnement est invalide
 		}
 		
-		Position[] tilesOccupied = shipOnPlacing.getSeaTilesOccupied();	// et on récupère les cases qu'il occupe
+		Position[] tilesOccupied = shipOnPlacing.getSeaTilesOccupied();	// et on rÃ©cupÃ¨re les cases qu'il occupe
 		boolean validPlace = true;
-		int i = 0;											// on regarde pour chaque case occupée par le bateau
+		int i = 0;											// on regarde pour chaque case occupÃ©e par le bateau
 		while (i < tilesOccupied.length && validPlace) {
 			validPlace = this.isSeaTileFree(tilesOccupied[i]);	// si elle est libre
 			i++;
@@ -210,8 +210,8 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Renvoie la liste des positions où aucun tir n'a été effectué.
-	 * @return La liste des positions où aucun tir n'a été effectué.
+	 * Renvoie la liste des positions oÃ¹ aucun tir n'a Ã©tÃ© effectuÃ©.
+	 * @return La liste des positions oÃ¹ aucun tir n'a Ã©tÃ© effectuÃ©.
 	 */
 	public List<Position> getAllNormalPositions() {
 		List<Position> possibleShots = new ArrayList<Position>(grid.length * grid[0].length);
@@ -226,8 +226,8 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Prend un bateau de la liste des bateaux à placer et le met
-	 * en tant que bateau en cours de positionnement s'il n'y en a pas déjà un.
+	 * Prend un bateau de la liste des bateaux Ã  placer et le met
+	 * en tant que bateau en cours de positionnement s'il n'y en a pas dÃ©jÃ  un.
 	 */
 	public void putNextShipToPlace() {
 		if (shipOnPlacing == null && !shipsToPlace.isEmpty()) {
@@ -237,7 +237,7 @@ public class Sea extends Observable implements Serializable {
 	
 	/**
 	 * Valide le placement du bateau en cours de positionnement
-	 * en l'ajoutant à la liste des bateaux actif
+	 * en l'ajoutant Ã  la liste des bateaux actif
 	 * et met le bateau suivant en cours de positionnement.
 	 */
 	public void validateShipPlacement() {
@@ -251,12 +251,12 @@ public class Sea extends Observable implements Serializable {
 	}
 
 	/**
-	 * Fait le nécessaire après le tir d'un joueur.
+	 * Fait le nÃ©cessaire aprÃ¨s le tir d'un joueur.
 	 * @param shotPos La position du tir.
 	 * @return Vrai si le tir est valide, faux sinon.
 	 */
 	public boolean receiveShot(Position shotPos) {
-		// Coordonnées du tir non valide ou tir déjà effectué à cette position
+		// CoordonnÃ©es du tir non valide ou tir dÃ©jÃ  effectuÃ© Ã  cette position
 		if (shotPos.isOutOfBounds(0, grid.length-1, 0, grid[0].length-1)
 				|| grid[shotPos.getX()][shotPos.getY()] != SeaTileState.NORMAL) {
 			return false;
@@ -266,9 +266,9 @@ public class Sea extends Observable implements Serializable {
 		Iterator<Ship> iter = ships.iterator();
 		while (iter.hasNext() && !touched) {	// Pour chaque bateau,
 			Ship ship = iter.next();
-			touched = ship.checkShot(shotPos);	// on regarde si il est touché
+			touched = ship.checkShot(shotPos);	// on regarde si il est touchÃ©
 		}
-		updateTileState(shotPos, touched);		// on met à jour l'état de la position du tir
+		updateTileState(shotPos, touched);		// on met Ã  jour l'Ã©tat de la position du tir
 		setChanged();
 		notifyObservers();
 
@@ -276,10 +276,10 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Met à jour l'état de la case de la grille selon si un bateau se trouve
-	 * à cette position et donc est touché ou non.
+	 * Met Ã  jour l'Ã©tat de la case de la grille selon si un bateau se trouve
+	 * Ã  cette position et donc est touchÃ© ou non.
 	 * @param position La position de la case.
-	 * @param touched A vrai si un bateau est touché à cette position, à faux sinon.
+	 * @param touched A vrai si un bateau est touchÃ© Ã  cette position, Ã  faux sinon.
 	 */
 	private void updateTileState(Position position, boolean touched) {
 		grid[position.getX()][position.getY()] = touched ? SeaTileState.TOUCHED : SeaTileState.SHOT; 

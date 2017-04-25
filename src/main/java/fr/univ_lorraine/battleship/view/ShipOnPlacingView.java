@@ -7,8 +7,8 @@ import fr.univ_lorraine.battleship.model.Ship;
 
 
 /**
- * Vue spécifique du bateau en cours de placement.
- * N'hérite pas de JComponent afin de pouvoir être dessiné à la position souhaitée sur la grille.
+ * Vue spÃ©cifique du bateau en cours de placement.
+ * N'hÃ©rite pas de JComponent afin de pouvoir Ãªtre dessinÃ© Ã  la position souhaitÃ©e sur la grille.
  * 
  * Observer de Ship.
  */
@@ -16,7 +16,7 @@ public class ShipOnPlacingView extends ShipView {
 	
 	/**
 	 * Indique si le positionnement du bateau est valide.
-	 * Permet de changer l'image du bateau selon la validité du placement.
+	 * Permet de changer l'image du bateau selon la validitÃ© du placement.
 	 */
 	private boolean validPlacement;
 	
@@ -25,8 +25,8 @@ public class ShipOnPlacingView extends ShipView {
 	}
 	
 	/**
-	 * Indique si le bateau en cours de positionnement est à un emplacement valide.
-	 * @param validPlacement Booléen indiquant si le bateau en cours de positionnement est à un emplacement valide.
+	 * Indique si le bateau en cours de positionnement est Ã  un emplacement valide.
+	 * @param validPlacement BoolÃ©en indiquant si le bateau en cours de positionnement est Ã  un emplacement valide.
 	 */
 	public void setValidPlacement(boolean validPlacement) {
 		this.validPlacement = validPlacement;
@@ -35,7 +35,7 @@ public class ShipOnPlacingView extends ShipView {
 	
 	@Override
 	public void setShipVisibleOnlyWhenDead(boolean b) {
-		// Variable non utilisée dans cette vue
+		// Variable non utilisÃ©e dans cette vue
 	}
 	
 	@Override

@@ -14,8 +14,8 @@ import fr.univ_lorraine.battleship.view.graphics.Sprite.Orientation;
 
 
 /**
- * Singleton permettant de récupérer les images et les animations
- * nécessaires au jeu.
+ * Singleton permettant de rÃ©cupÃ©rer les images et les animations
+ * nÃ©cessaires au jeu.
  */
 public class ImageFactory {
 
@@ -262,7 +262,7 @@ public class ImageFactory {
     }
 	
 	/**
-	 * Charge une image à partir du nom de son fichier.
+	 * Charge une image Ã  partir du nom de son fichier.
 	 * @param imgFileName Le nom du fichier de l'image.
 	 * @return L'image.
 	 * @throws IOException 

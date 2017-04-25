@@ -29,13 +29,13 @@ public class TestComputerController {
 	@Test
 	public void testPlaceAllShips() {
 		computerController.placeAllShips();
-		assertTrue("Les bateaux devraient tous être placés", computer.getSelfGrid().areShipsAllPlaced());
+		assertTrue("Les bateaux devraient tous Ãªtre placÃ©s", computer.getSelfGrid().areShipsAllPlaced());
 	}
 	
 	/**
 	 * On place d'abord tous les bateaux en se servant de placeAllShips pour les deux joueurs
-	 * (donc en utilisant deux computerController) puis on effectue un tir et on vérifie
-	 * que le tir a bien été effectué.
+	 * (donc en utilisant deux computerController) puis on effectue un tir et on vÃ©rifie
+	 * que le tir a bien Ã©tÃ© effectuÃ©.
 	 */
 	@Test
 	public void testPlayShoot() {
@@ -47,7 +47,7 @@ public class TestComputerController {
 		int nbOfNormalTilesBefore = computer.getOpponentGrid().getAllNormalPositions().size();
 		computerController.playShoot();
 		int nbOfNormalTilesAfter = computer.getOpponentGrid().getAllNormalPositions().size();
-		assertTrue("Un tir devrait avoir été effectué", nbOfNormalTilesBefore - 1 == nbOfNormalTilesAfter);
+		assertTrue("Un tir devrait avoir Ã©tÃ© effectuÃ©", nbOfNormalTilesBefore - 1 == nbOfNormalTilesAfter);
 	}
 
 }

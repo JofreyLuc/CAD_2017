@@ -15,38 +15,38 @@ import fr.univ_lorraine.battleship.view.graphics.AnimationWithCallback.Callback;
 
 /**
  * Vue d'une case de la grille.
- * Permet d'afficher l'état de la case (si touché ou manqué).
+ * Permet d'afficher l'Ã©tat de la case (si touchÃ© ou manquÃ©).
  */
 @SuppressWarnings("serial")
 public class GridTileView extends JComponent {
 		
 	/**
-	 * L'état de cette case de la grille.
+	 * L'Ã©tat de cette case de la grille.
 	 */
 	private Sea.SeaTileState state;
 	
 	/**
-	 * Le joueur propriétaire de la grille dont cette case provient.
+	 * Le joueur propriÃ©taire de la grille dont cette case provient.
 	 */
 	private PlayerId playerOwner;
 	
 	/**
-	 * L'image à dessiner pour cette case.
+	 * L'image Ã  dessiner pour cette case.
 	 */
 	private Animation tileImage;
 	
 	/**
-	 * Booléen indiquant si la souris est au-dessus de la case.
+	 * BoolÃ©en indiquant si la souris est au-dessus de la case.
 	 */
 	private boolean isHover;
 	
 	/**
-	 * Indique si le viseur peut-être affiché si une case est hover.
+	 * Indique si le viseur peut-Ãªtre affichÃ© si une case est hover.
 	 */
 	private boolean canDisplayHoverImage;
 	
 	/**
-	 * Callback appelé à la fin de l'animation de tir sur cette case.
+	 * Callback appelÃ© Ã  la fin de l'animation de tir sur cette case.
 	 */
 	private Callback animationCallback;
 	
@@ -60,16 +60,16 @@ public class GridTileView extends JComponent {
 	}
 	
 	/**
-	 * Retourne le joueur propriétaire de la grille dont cette case provient.
-	 * @return Le joueur propriétaire de la grille dont cette case provient.
+	 * Retourne le joueur propriÃ©taire de la grille dont cette case provient.
+	 * @return Le joueur propriÃ©taire de la grille dont cette case provient.
 	 */
 	public PlayerId getPlayerOwner() {
 		return playerOwner;
 	}
 	
 	/**
-	 * Prend l'image correspondante à l'état de la case.
-	 * Place l'image à null si rien ne doit pas être affiché.
+	 * Prend l'image correspondante Ã  l'Ã©tat de la case.
+	 * Place l'image Ã  null si rien ne doit pas Ãªtre affichÃ©.
 	 */
 	private void attachImage() {
         switch(state) {
@@ -92,12 +92,12 @@ public class GridTileView extends JComponent {
 	}
 	
 	/**
-	 * Met à jour l'état de la case
-	 * et change l'image en conséquence.
-	 * @param state Le nouvel état de la case.
+	 * Met Ã  jour l'Ã©tat de la case
+	 * et change l'image en consÃ©quence.
+	 * @param state Le nouvel Ã©tat de la case.
 	 */
 	public void setState(SeaTileState state) {
-		// Si l'état de la case a changé
+		// Si l'Ã©tat de la case a changÃ©
 		if (this.state != state) {
 			this.state = state;
 			attachImage();
@@ -105,23 +105,23 @@ public class GridTileView extends JComponent {
 	}
 	
 	/**
-	 * Place le booléen indiquant si la souris est au-dessus de la case.
-	 * @param isHover Le booléen indiquant si la souris est au-dessus de la case.
+	 * Place le boolÃ©en indiquant si la souris est au-dessus de la case.
+	 * @param isHover Le boolÃ©en indiquant si la souris est au-dessus de la case.
 	 */
 	public void setIsHover(boolean isHover) {
 		this.isHover = isHover;
 	}
 
 	/**
-	 * Place le booléen indiquant si le viseur peut-être affiché si une case est hover.
-	 * @param displayHoverImage Le booléen indiquant si le viseur peut-être affiché si une case est hover.
+	 * Place le boolÃ©en indiquant si le viseur peut-Ãªtre affichÃ© si une case est hover.
+	 * @param displayHoverImage Le boolÃ©en indiquant si le viseur peut-Ãªtre affichÃ© si une case est hover.
 	 */
 	public void setCanDisplayHoverImage(boolean displayHoverImage) {
 		this.canDisplayHoverImage = displayHoverImage;
 	}
 	
 	/**
-	 * Dessine l'état de la case si nécessaire
+	 * Dessine l'Ã©tat de la case si nÃ©cessaire
 	 * ainsi qu'un viseur si hover et un tir est possible. 
 	 */
 	@Override

@@ -27,7 +27,7 @@ public class TestGame {
 		game.start(PlayerId.PLAYER);
 		Ship shipOnPlacing = game.getPlayer(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing();
 		assertNotNull("Il devrait y avoir un bateau en cours de positionnement", shipOnPlacing);
-		assertEquals("Cela devait être le tour du joueur",PlayerId.PLAYER, game.getPlayerTurn());
+		assertEquals("Cela devait Ãªtre le tour du joueur",PlayerId.PLAYER, game.getPlayerTurn());
 	}
 
 	@Test
@@ -35,9 +35,9 @@ public class TestGame {
 		game.start(PlayerId.COMPUTER);
 		Ship shipOnPlacing = game.getPlayer(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing();
 		boolean computerShipsAllPlaced = game.getPlayer(PlayerId.COMPUTER).getSelfGrid().areShipsAllPlaced();
-		assertTrue("Les bateaux de l'ordinateur devraient être placés", computerShipsAllPlaced);
+		assertTrue("Les bateaux de l'ordinateur devraient Ãªtre placÃ©s", computerShipsAllPlaced);
 		assertNotNull("Il devrait y avoir un bateau en cours de positionnement", shipOnPlacing);
-		assertEquals("Cela devait être le tour du joueur",PlayerId.PLAYER, game.getPlayerTurn());
+		assertEquals("Cela devait Ãªtre le tour du joueur",PlayerId.PLAYER, game.getPlayerTurn());
 	}
 	
 }

@@ -20,15 +20,15 @@ public class MainMenuPanel extends JPanel {
 
 	/**
 	 * Construit le panel.
-	 * Utilise la fenêtre principale pour certains listeners.
-	 * @param gameFrame La fenêtre principale du jeu.
+	 * Utilise la fenÃªtre principale pour certains listeners.
+	 * @param gameFrame La fenÃªtre principale du jeu.
 	 */
 	public MainMenuPanel(final GameFrame gameFrame) {
-		// GridBagLayout afin que les composants ne s'étendent pas
+		// GridBagLayout afin que les composants ne s'Ã©tendent pas
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 
-		// Contient tous les éléments du panel
+		// Contient tous les Ã©lÃ©ments du panel
 		JPanel container = new JPanel(new GridLayout(3, 1, 0, 15));
 		gbc.insets = new Insets(50, 50, 50, 50);
 		this.add(container, gbc);

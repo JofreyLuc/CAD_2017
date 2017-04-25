@@ -1,17 +1,17 @@
 package fr.univ_lorraine.battleship.view;
 
 /**
- * Exception levée lorsqu'une ressource (image, son, etc.) est introuvable.
+ * Exception levÃ©e lorsqu'une ressource (image, son, etc.) est introuvable.
  */
 @SuppressWarnings("serial")
 public class ResourceNotFoundException extends Exception {
 
 	public ResourceNotFoundException() {
-		super("Ressource non trouvée !");
+		super("Ressource non trouvÃ©e !");
 	}
 
 	public ResourceNotFoundException(String message) {
-		super("Ressource non trouvée : " + message);
+		super("Ressource non trouvÃ©e : " + message);
 	}
 
 }

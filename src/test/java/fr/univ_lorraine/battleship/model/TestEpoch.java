@@ -8,15 +8,15 @@ import org.junit.Test;
 import fr.univ_lorraine.battleship.model.Epoch;
 
 /**
- * Classe pour les tests communs à toutes les époques.
+ * Classe pour les tests communs Ã  toutes les Ã©poques.
  */
 public abstract class TestEpoch {
 	
 	protected Epoch epoch;
 	
 	/**
-	 * Crée l'époque à tester.
-	 * @return L'époque à tester.
+	 * CrÃ©e l'Ã©poque Ã  tester.
+	 * @return L'Ã©poque Ã  tester.
 	 */
 	protected abstract Epoch createEpoch();
 	
@@ -30,7 +30,7 @@ public abstract class TestEpoch {
 		int size = 5;
 		int hitCount = 0;
 		boolean res = epoch.takeDamage(size, hitCount);
-		assertFalse("Devrait être en vie", res);
+		assertFalse("Devrait Ãªtre en vie", res);
 	}
 	
 	@Test
@@ -38,7 +38,7 @@ public abstract class TestEpoch {
 		int size = 5;
 		int hitCount = 5;
 		boolean res = epoch.takeDamage(size, hitCount);
-		assertTrue("Devrait être détruit", res);
+		assertTrue("Devrait Ãªtre dÃ©truit", res);
 	}
 	
 }

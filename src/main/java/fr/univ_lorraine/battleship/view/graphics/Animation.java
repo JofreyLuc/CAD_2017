@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- * Classe représentant une animation graphique.
+ * Classe reprÃ©sentant une animation graphique.
  */
 public class Animation {
 
@@ -14,12 +14,12 @@ public class Animation {
     protected BufferedImage[] frames; 
 	    
     /**
-     * Booléen indiquant si l'animation est en cours ou non.
+     * BoolÃ©en indiquant si l'animation est en cours ou non.
      */
     protected boolean stopped;
     
     /**
-     * Booléen indiquant si l'animation doit s'effectuer en continu.
+     * BoolÃ©en indiquant si l'animation doit s'effectuer en continu.
      */
     protected boolean loop;
     
@@ -39,9 +39,9 @@ public class Animation {
     protected int index;
 
     /**
-     * Construit une animation à partir d'un tableau d'images et durée d'affichage par image.
+     * Construit une animation Ã  partir d'un tableau d'images et durÃ©e d'affichage par image.
      * @param frames Le tableau d'images.
-     * @param frameDuration La durée d'affichage par image.
+     * @param frameDuration La durÃ©e d'affichage par image.
      */
     public Animation(BufferedImage[] frames, int frameDuration) {
         this.frames = frames;
@@ -54,8 +54,8 @@ public class Animation {
     }
 
     /**
-     * Construit une animation possédant les mêmes charactéristiques qu'une autre animation.
-     * @param animation L'animation à copier.
+     * Construit une animation possÃ©dant les mÃªmes charactÃ©ristiques qu'une autre animation.
+     * @param animation L'animation Ã  copier.
      */
     public Animation(Animation animation) {
         this.frames = animation.frames;
@@ -68,8 +68,8 @@ public class Animation {
     }
     
     /**
-     * Fixe le booléen indiquant si l'animation doit boucler.
-     * @param loop Booléen indiquant si l'animation doit boucler.
+     * Fixe le boolÃ©en indiquant si l'animation doit boucler.
+     * @param loop BoolÃ©en indiquant si l'animation doit boucler.
      */
     public void setLoop(boolean loop) {
     	this.loop = loop;
@@ -100,7 +100,7 @@ public class Animation {
     
     /**
      * Termine l'animation.
-     * C'est-à-dire "place son état à la fin".
+     * C'est-Ã -dire "place son Ã©tat Ã  la fin".
      */
     public void end() {
     	this.index = frames.length - 1;
@@ -124,7 +124,7 @@ public class Animation {
     }
 
     /**
-     * Réinitialise l'animation.
+     * RÃ©initialise l'animation.
      */
     public void reset() {
         this.stopped = true;
@@ -133,11 +133,11 @@ public class Animation {
     }
 
     /**
-     * Met à jour l'animation.
+     * Met Ã  jour l'animation.
      */
     protected void update() {
-    	// Si l'animation n'est pas activée
-    	// ou si l'animation est à la dernière image et ne doit pas boucler
+    	// Si l'animation n'est pas activÃ©e
+    	// ou si l'animation est Ã  la derniÃ¨re image et ne doit pas boucler
         if (stopped || (index >= frames.length - 1 && !loop)) {
         	return;
         }
@@ -157,10 +157,10 @@ public class Animation {
     
     /**
      * Dessine l'image courante de l'animation
-     * et met à jour cette dernière.
+     * et met Ã  jour cette derniÃ¨re.
      * @param g L'objet Graphics.
      * @param x L'abscisse.
-     * @param y L'ordonnée.
+     * @param y L'ordonnÃ©e.
      */
     public void draw(Graphics g, int x, int y){
         g.drawImage(frames[index], x, y, null);
@@ -169,10 +169,10 @@ public class Animation {
     
     /**
      * Dessine l'image courante de l'animation.
-     * et met à jour cette dernière.
+     * et met Ã  jour cette derniÃ¨re.
      * @param g L'objet Graphics.
      * @param x L'abscisse.
-     * @param y L'ordonnée.
+     * @param y L'ordonnÃ©e.
      * @param width La largeur.
      * @param height La hauteur.
      */

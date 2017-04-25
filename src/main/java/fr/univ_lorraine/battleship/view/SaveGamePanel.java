@@ -22,14 +22,14 @@ public class SaveGamePanel extends JPanel {
 
 	/**
 	 * Construit le panel.
-	 * Utilise la fenêtre principale pour certains listeners.
-	 * @param gameFrame La fenêtre principale du jeu.
+	 * Utilise la fenÃªtre principale pour certains listeners.
+	 * @param gameFrame La fenÃªtre principale du jeu.
 	 */
 	public SaveGamePanel(final GameFrame gameFrame) {
 		final JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Fichiers de sauvegarde (*.sav)", "sav"));
 		fileChooser.setApproveButtonText("Sauvegarder");
-		fileChooser.setApproveButtonToolTipText("Sauvegarde la partie dans le fichier spécifié.");
+		fileChooser.setApproveButtonToolTipText("Sauvegarde la partie dans le fichier spÃ©cifiÃ©.");
 		UIManager.put("FileChooser.cancelButtonToolTipText", "Retourne au menu principal.");
 		SwingUtilities.updateComponentTreeUI(fileChooser);
 
@@ -57,8 +57,8 @@ public class SaveGamePanel extends JPanel {
 	}
 
 	/**
-	 * Revient au panel précédent.
-	 * @param gameFrame La fenêtre principale.
+	 * Revient au panel prÃ©cÃ©dent.
+	 * @param gameFrame La fenÃªtre principale.
 	 */
 	private void backToLastPanel(GameFrame gameFrame) {
 		gameFrame.showPanel(GameFrame.PanelId.OPTIONS_MENU_PANEL);

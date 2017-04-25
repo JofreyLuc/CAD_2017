@@ -1,12 +1,12 @@
 package fr.univ_lorraine.battleship.model;
 
 /**
- * Classe implémentant une stratégie de tir de type "Recherche puis destruction" ou "Chasse/Cible".
- * Avec cette stratégie, l’ordinateur débute en mode Chasse –c’est à dire tire au hasard jusqu’à ce qu’il trouve une cible.
- * Lorsqu’il a touché, il s’acharne sur les cases adjacentes.
- * Une fois le navire coulé, la chasse reprend jusqu’à l’acquisition d’une nouvelle cible.
- * Classe abstraite qui nous permettra d'implémenter deux méthodes différentes pour la phase de chasse/recherche :
- * - tir aléatoire
+ * Classe implÃ©mentant une stratÃ©gie de tir de type "Recherche puis destruction" ou "Chasse/Cible".
+ * Avec cette stratÃ©gie, lâ€™ordinateur dÃ©bute en mode Chasse â€“câ€™est Ã  dire tire au hasard jusquâ€™Ã  ce quâ€™il trouve une cible.
+ * Lorsquâ€™il a touchÃ©, il sâ€™acharne sur les cases adjacentes.
+ * Une fois le navire coulÃ©, la chasse reprend jusquâ€™Ã  lâ€™acquisition dâ€™une nouvelle cible.
+ * Classe abstraite qui nous permettra d'implÃ©menter deux mÃ©thodes diffÃ©rentes pour la phase de chasse/recherche :
+ * - tir alÃ©atoire
  * - tir en croix
  */
 public abstract class AbstractSeekThenDestroyShooting implements ShootingStrategy {
@@ -18,19 +18,19 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Booléen indiquant la phase dans laquelle on se trouve (seek ou destroy).
+	 * BoolÃ©en indiquant la phase dans laquelle on se trouve (seek ou destroy).
 	 */
 	private boolean seekPhase = true;
 	
 	/**
-	 * Méthode de tir quand l'ordinateur est en phase seek.
+	 * MÃ©thode de tir quand l'ordinateur est en phase seek.
 	 * @param sea La grille du joueur adverse.
 	 * @return La position de tir choisie.
 	 */
 	protected abstract Position playShootInSeekPhase(Sea sea);
 	
 	/**
-	 * Méthode de tir quand l'ordinateur est en phase seek.
+	 * MÃ©thode de tir quand l'ordinateur est en phase seek.
 	 * @param sea La grille du joueur adverse.
 	 * @return La position de tir choisie.
 	 */
@@ -49,7 +49,7 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	
 	@Override
 	public Position playShoot(Sea sea) {
-		updatePhase(sea);	// change de phase si nécessaire
+		updatePhase(sea);	// change de phase si nÃ©cessaire
 		if (seekPhase) {
 			return playShootInSeekPhase(sea);
 		}

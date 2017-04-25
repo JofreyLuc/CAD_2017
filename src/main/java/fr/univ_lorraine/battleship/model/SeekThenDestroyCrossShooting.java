@@ -1,7 +1,7 @@
 package fr.univ_lorraine.battleship.model;
 
 /**
- * Stratégie de tir "Recherche puis destruction" avec une phase de recherche
+ * StratÃ©gie de tir "Recherche puis destruction" avec une phase de recherche
  * reposant sur des tirs en croix.
  */
 public class SeekThenDestroyCrossShooting extends AbstractSeekThenDestroyShooting {

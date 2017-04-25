@@ -3,7 +3,7 @@ package fr.univ_lorraine.battleship.model;
 import java.io.Serializable;
 
 /**
- * Simple classe conteneur pour les coordonnées d'une position (avec des entiers). 
+ * Simple classe conteneur pour les coordonnÃ©es d'une position (avec des entiers). 
  */
 public class Position implements Serializable {
 	
@@ -20,7 +20,7 @@ public class Position implements Serializable {
 	private int x;
 	
 	/**
-	 * Ordonnée.
+	 * OrdonnÃ©e.
 	 * @serial
 	 */
 	private int y;
@@ -44,8 +44,8 @@ public class Position implements Serializable {
 	 * 
 	 * @param xMin Abscisse min.
 	 * @param xMax Abscisse max.
-	 * @param yMin Ordonnée min.
-	 * @param yMax Ordonnée max.
+	 * @param yMin OrdonnÃ©e min.
+	 * @param yMax OrdonnÃ©e max.
 	 * @return Vrai si la position est en-dehors des limites, faux sinon.
 	 */
 	public boolean isOutOfBounds(int xMin, int xMax, int yMin, int yMax) {

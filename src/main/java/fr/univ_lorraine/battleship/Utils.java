@@ -3,7 +3,7 @@ import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * Classe static contenant des méthodes utilitaires.
+ * Classe static contenant des mÃ©thodes utilitaires.
  */
 public class Utils {
 
@@ -11,7 +11,7 @@ public class Utils {
 	
 	/**
 	 * Ferme la source sans lever d'exception.
-	 * @param c La source à fermer.
+	 * @param c La source Ã  fermer.
 	 */
 	public static void closeQuietly(Closeable c) {      
 		if (c == null) return;
@@ -21,7 +21,7 @@ public class Utils {
 	}
 	
 	/**
-	 * Méthode provenant de la libraire Apache :
+	 * MÃ©thode provenant de la libraire Apache :
 	 * https://commons.apache.org/proper/commons-io/javadocs/api-1.4/org/apache/commons/io/FilenameUtils.html#getExtension(java.lang.String)
 	 * 
 	 * Retourne l'extension d'un fichier.

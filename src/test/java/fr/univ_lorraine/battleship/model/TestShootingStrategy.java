@@ -11,7 +11,7 @@ import fr.univ_lorraine.battleship.model.Sea;
 import fr.univ_lorraine.battleship.model.ShootingStrategy;
 
 /**
- * Classe pour les tests communs à toutes les stratégies de tir.
+ * Classe pour les tests communs Ã  toutes les stratÃ©gies de tir.
  */
 public abstract class TestShootingStrategy {
 
@@ -20,8 +20,8 @@ public abstract class TestShootingStrategy {
 	protected Sea sea;
 	
 	/**
-	 * Crée la stratégie de tir à tester.
-	 * @return La stratégie de tir à tester.
+	 * CrÃ©e la stratÃ©gie de tir Ã  tester.
+	 * @return La stratÃ©gie de tir Ã  tester.
 	 */
 	protected abstract ShootingStrategy createShootingStrategy();
 	
@@ -34,7 +34,7 @@ public abstract class TestShootingStrategy {
 	@Test
 	public void testPlayShootValidPosition() {
 		Position shotPos = shootingStrategy.playShoot(sea);
-		assertTrue("Le tir devrait être valide", sea.receiveShot(shotPos));
+		assertTrue("Le tir devrait Ãªtre valide", sea.receiveShot(shotPos));
 	}
 	
 }

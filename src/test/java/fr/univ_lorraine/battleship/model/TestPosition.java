@@ -12,19 +12,19 @@ public class TestPosition {
 	@Test
 	public void testIsOutOfBoundsStrictInsideBounds() {
 		Position pos = new Position(0, 0);
-		assertFalse("Doit être dans les limites", pos.isOutOfBounds(0, 5, 0, 5));
+		assertFalse("Doit Ãªtre dans les limites", pos.isOutOfBounds(0, 5, 0, 5));
 	}
 	
 	@Test
 	public void testIsOutOfBoundsInsideBounds() {
 		Position pos = new Position(2, 3);
-		assertFalse("Doit être dans les limites", pos.isOutOfBounds(0, 5, 0, 5));
+		assertFalse("Doit Ãªtre dans les limites", pos.isOutOfBounds(0, 5, 0, 5));
 	}
 	
 	@Test
 	public void testIsOutOfBoundsOutOfBounds() {
 		Position pos = new Position(6, 0);
-		assertTrue("Doit être hors-limites", pos.isOutOfBounds(0, 5, 0, 5));
+		assertTrue("Doit Ãªtre hors-limites", pos.isOutOfBounds(0, 5, 0, 5));
 	}
 	
 	// Tests equals

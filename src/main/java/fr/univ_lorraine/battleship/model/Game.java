@@ -5,8 +5,8 @@ import java.util.EnumMap;
 import java.util.Observable;
 
 /**
- * Classe principale du modèle qui contient tous les autres éléments du jeu
- * et qui représente l'état d'une partie.
+ * Classe principale du modÃ¨le qui contient tous les autres Ã©lÃ©ments du jeu
+ * et qui reprÃ©sente l'Ã©tat d'une partie.
  */
 public class Game extends Observable implements Serializable {
 
@@ -17,7 +17,7 @@ public class Game extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Enumération des différens états possibles de la partie.
+	 * EnumÃ©ration des diffÃ©rens Ã©tats possibles de la partie.
 	 */
 	public enum GameState { RUNNING, PLAYER_WINS, COMPUTER_WINS }
 	
@@ -45,19 +45,19 @@ public class Game extends Observable implements Serializable {
 	private EnumMap <PlayerId, Player> players;
 		
 	/**
-	 * L'époque à laquelle se déroule la partie.
+	 * L'Ã©poque Ã  laquelle se dÃ©roule la partie.
 	 * @serial
 	 */
 	private Epoch epoch;
 		
 	/**
-	 * L'entité qui contrôle les actions de l'ordinateur.
+	 * L'entitÃ© qui contrÃ´le les actions de l'ordinateur.
 	 * @serial
 	 */
 	private ComputerController computerController;
 	
 	/**
-	 * Booléen indiquant si le tour doit se terminer seulement à la fin des animations de tir.
+	 * BoolÃ©en indiquant si le tour doit se terminer seulement Ã  la fin des animations de tir.
 	 * @serial
 	 */
 	private boolean endTurnAfterShotAnimation;
@@ -75,10 +75,10 @@ public class Game extends Observable implements Serializable {
 	private int countNumberOfShots;
 	
 	/**
-	 * Crée une partie à partir de l'époque
-	 * et de la stratégie de tir de l'ordinateur choisies au préalable.
-	 * @param epoque L'époque choisie.
-	 * @param shootingStrategy La stratégie de tir de l'ordinateur choisie.
+	 * CrÃ©e une partie Ã  partir de l'Ã©poque
+	 * et de la stratÃ©gie de tir de l'ordinateur choisies au prÃ©alable.
+	 * @param epoque L'Ã©poque choisie.
+	 * @param shootingStrategy La stratÃ©gie de tir de l'ordinateur choisie.
 	 */
 	public Game(Epoch epoch, ShootingStrategy shootingStrategy) {
 		gameState = GameState.RUNNING;
@@ -115,7 +115,7 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Retourne le booléen indiquant si le tour doit se terminer seulement à la fin des animations de tir.
+	 * Retourne le boolÃ©en indiquant si le tour doit se terminer seulement Ã  la fin des animations de tir.
 	 * @return
 	 */
 	public boolean isEndTurnAfterShotAnimation() {
@@ -123,8 +123,8 @@ public class Game extends Observable implements Serializable {
 	}
 
 	/**
-	 * Retourne l'époque à laquelle se déroule cette partie.
-	 * @return L'époque à laquelle se déroule cette partie.
+	 * Retourne l'Ã©poque Ã  laquelle se dÃ©roule cette partie.
+	 * @return L'Ã©poque Ã  laquelle se dÃ©roule cette partie.
 	 */
 	public Epoch getEpoch() {
 		return epoch;
@@ -139,33 +139,33 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Retourne le joueur possédant cet identifiant.
+	 * Retourne le joueur possÃ©dant cet identifiant.
 	 * @param player Identifiant du joueur.
-	 * @return Le joueur possédant cet identifiant.
+	 * @return Le joueur possÃ©dant cet identifiant.
 	 */
 	public Player getPlayer(PlayerId player) {
 		return players.get(player);
 	}
 	
 	/**
-	 * Retourne l'état courant du jeu.
-	 * @return L'état courant du jeu.
+	 * Retourne l'Ã©tat courant du jeu.
+	 * @return L'Ã©tat courant du jeu.
 	 */
 	public GameState getGameState() {
 		return gameState;
 	}
 	
 	/**
-	 * Indique si la phase de positionnement est terminée.
-	 * @return Booléen indiquant si la phase de positionnement est terminée.
+	 * Indique si la phase de positionnement est terminÃ©e.
+	 * @return BoolÃ©en indiquant si la phase de positionnement est terminÃ©e.
 	 */
 	public boolean isPositionningPhaseOver() {
 		return getPlayerSea().areShipsAllPlaced() && getComputerSea().areShipsAllPlaced();
 	}
 	
 	/**
-	 * Indique si tous les tirs du tour ont été tirés.
-	 * @return Vrai si tous les tirs du tour ont été tirés, faux sinon.
+	 * Indique si tous les tirs du tour ont Ã©tÃ© tirÃ©s.
+	 * @return Vrai si tous les tirs du tour ont Ã©tÃ© tirÃ©s, faux sinon.
 	 */
 	public boolean areAllShotsDone() {
 		return countNumberOfShots == numberOfShotsPerTurn;
@@ -180,10 +180,10 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Démarre la partie.
-	 * Joue le tour de l'ordinateur en plaçant les bateaux 
+	 * DÃ©marre la partie.
+	 * Joue le tour de l'ordinateur en plaÃ§ant les bateaux 
 	 * si c'est l'ordinateur qui commence.
-	 * C'est donc toujours au joueur de jouer après l'appel à cette méthode.
+	 * C'est donc toujours au joueur de jouer aprÃ¨s l'appel Ã  cette mÃ©thode.
 	 * @param startingPlayer Le joueur qui commence.
 	 */
 	public void start(PlayerId startingPlayer) {
@@ -227,20 +227,20 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Traite l'événement d'un clic sur une certaine case de la grille du joueur.
+	 * Traite l'Ã©vÃ©nement d'un clic sur une certaine case de la grille du joueur.
 	 * @param x Abscisse de la case.
-	 * @param y Ordonnée de la case.
+	 * @param y OrdonnÃ©e de la case.
 	 */
 	public void receiveClickEventOnPlayerGrid(int x, int y) {
-		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		// Si la partie est terminÃ©e ou si c'est le tour de l'ordinateur,
 		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
 			return;	// on ne fait rien
 		}
 		
-		// Si la phase de positionnement n'est pas terminée
+		// Si la phase de positionnement n'est pas terminÃ©e
 		if(!getPlayerSea().areShipsAllPlaced()) {
 			if (players.get(PlayerId.PLAYER).placeShip(new Position(x, y))	// on tente de placer un bateau
-					&& getPlayerSea().areShipsAllPlaced()) {				// et si ils sont tous placés,
+					&& getPlayerSea().areShipsAllPlaced()) {				// et si ils sont tous placÃ©s,
 				endTurn();													// on finit le tour
 			}
 		}
@@ -249,22 +249,22 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Traite l'événement d'un clic sur une certaine case de la grille de l'ordinateur.
+	 * Traite l'Ã©vÃ©nement d'un clic sur une certaine case de la grille de l'ordinateur.
 	 * @param x Abscisse de la case.
-	 * @param y Ordonnée de la case.
+	 * @param y OrdonnÃ©e de la case.
 	 */
 	public void receiveClickEventOnComputerGrid(int x, int y) {
-		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		// Si la partie est terminÃ©e ou si c'est le tour de l'ordinateur,
 		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
 			return;	// on ne fait rien
 		}
 		
-		// Si la phase de positionnement est terminée
+		// Si la phase de positionnement est terminÃ©e
 		if(getPlayerSea().areShipsAllPlaced()) {
-			// si tous les tirs n'ont pas été effectué
-			if (!areAllShotsDone() && players.get(PlayerId.PLAYER).shoot(new Position(x, y))) {	// si le tir est validée
+			// si tous les tirs n'ont pas Ã©tÃ© effectuÃ©
+			if (!areAllShotsDone() && players.get(PlayerId.PLAYER).shoot(new Position(x, y))) {	// si le tir est validÃ©e
 				countNumberOfShots++;
-				// Si tous les tirs ont été effectué et la fin du tour ne se déclenche pas à la fin des animations
+				// Si tous les tirs ont Ã©tÃ© effectuÃ© et la fin du tour ne se dÃ©clenche pas Ã  la fin des animations
 				if (areAllShotsDone() && !endTurnAfterShotAnimation) {
 					endTurn();												// on termine le tour du joueur
 				}
@@ -275,17 +275,17 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Traite l'événement d'un hover on sur une certaine case de la grille du joueur.
+	 * Traite l'Ã©vÃ©nement d'un hover on sur une certaine case de la grille du joueur.
 	 * @param x Abscisse de la case.
-	 * @param y Ordonnée de la case.
+	 * @param y OrdonnÃ©e de la case.
 	 */
 	public void receiveHoverOnEventOnPlayerGrid(int x, int y) {
-		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		// Si la partie est terminÃ©e ou si c'est le tour de l'ordinateur,
 		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
 			return;	// on ne fait rien
 		}
 		
-		// Si la phase de positionnement n'est pas terminée
+		// Si la phase de positionnement n'est pas terminÃ©e
 		if(!getPlayerSea().areShipsAllPlaced()) {
 			// On place le bateau en cours de positionnement
 			players.get(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing().setPosition(new Position(x, y));
@@ -295,17 +295,17 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Traite l'événement d'un hover off sur une certaine case de la grille du joueur.
+	 * Traite l'Ã©vÃ©nement d'un hover off sur une certaine case de la grille du joueur.
 	 * @param x Abscisse de la case.
-	 * @param y Ordonnée de la case.
+	 * @param y OrdonnÃ©e de la case.
 	 */
 	public void receiveHoverOffEventOnPlayerGrid(int x, int y) {
-		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		// Si la partie est terminÃ©e ou si c'est le tour de l'ordinateur,
 		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
 			return;	// on ne fait rien
 		}
 		
-		// Si la phase de positionnement n'est pas terminée
+		// Si la phase de positionnement n'est pas terminÃ©e
 		if(!getPlayerSea().areShipsAllPlaced()) {
 			// On place le bateau en cours de positionnement
 			players.get(PlayerId.PLAYER).getSelfGrid().getShipOnPlacing().setPosition(null);
@@ -315,15 +315,15 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Traite l'événement de changement d'orientation du bateau en cours de placement.
+	 * Traite l'Ã©vÃ©nement de changement d'orientation du bateau en cours de placement.
 	 */
 	public void receiveRotateShipEvent() {
-		// Si la partie est terminée ou si c'est le tour de l'ordinateur,
+		// Si la partie est terminÃ©e ou si c'est le tour de l'ordinateur,
 		if (gameState != GameState.RUNNING || playerTurn == PlayerId.COMPUTER) {
 			return;	// on ne fait rien
 		}
 		
-		// Si la phase de positionnement n'est pas terminée
+		// Si la phase de positionnement n'est pas terminÃ©e
 		if(!getPlayerSea().areShipsAllPlaced()) {
 			players.get(PlayerId.PLAYER).rotateShip();	// on fait la rotation
 		}
@@ -333,12 +333,12 @@ public class Game extends Observable implements Serializable {
 	
 	/**
 	 * Termine le tour du joueur courant
-	 * et joue le tour de l'ordinateur si c'est à lui de jouer.
-	 * Vérifie l'état du jeu avant de continuer et de changer de tour.
+	 * et joue le tour de l'ordinateur si c'est Ã  lui de jouer.
+	 * VÃ©rifie l'Ã©tat du jeu avant de continuer et de changer de tour.
 	 */
 	public void endTurn() {
 		updateGameState();
-		if (gameState != GameState.RUNNING) {	// Si la partie est terminée,
+		if (gameState != GameState.RUNNING) {	// Si la partie est terminÃ©e,
 			return;		// on ne fait rien
 		}
 		
@@ -353,23 +353,23 @@ public class Game extends Observable implements Serializable {
 	/**
 	 * Joue le tour de l'ordinateur
 	 * (placements ou tir(s) selon l'avancement de la partie)
-	 * et termine son tour immédiatement en phase de positionnement.
+	 * et termine son tour immÃ©diatement en phase de positionnement.
 	 * Termine son tour en phase de tir seulement si le nombre de tir par tour
-	 * est atteint et la fin du tour n'est pas déclenché
-	 * à la fin des animations {@link #endTurnAfterShotAnimation}.
+	 * est atteint et la fin du tour n'est pas dÃ©clenchÃ©
+	 * Ã  la fin des animations {@link #endTurnAfterShotAnimation}.
 	 */
 	private void playComputerTurn() {
-		// Si la phase de positionnement n'est pas terminée
+		// Si la phase de positionnement n'est pas terminÃ©e
 		if (!getComputerSea().areShipsAllPlaced()) {
 			computerController.placeAllShips();
 			endTurn();
 		}
 		else {
-			while(!areAllShotsDone()) {	// tant que tous les tirs n'ont pas été effectués
+			while(!areAllShotsDone()) {	// tant que tous les tirs n'ont pas Ã©tÃ© effectuÃ©s
 				computerController.playShoot();
 				countNumberOfShots++;
 			}
-			// Si tous les tirs ont été effectué et la fin du tour ne se déclenche pas à la fin des animations
+			// Si tous les tirs ont Ã©tÃ© effectuÃ© et la fin du tour ne se dÃ©clenche pas Ã  la fin des animations
 			if (!endTurnAfterShotAnimation) {
 				endTurn();												// on termine le tour du joueur
 			}
@@ -377,7 +377,7 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Met à jour l'état du jeu.
+	 * Met Ã  jour l'Ã©tat du jeu.
 	 */
 	private void updateGameState() {
 		if (getPlayerSea().areShipsAllDead()) {

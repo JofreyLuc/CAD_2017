@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Stratégie de tir aléatoire.
+ * StratÃ©gie de tir alÃ©atoire.
  */
 public class RandomShooting implements ShootingStrategy {
 
@@ -15,7 +15,7 @@ public class RandomShooting implements ShootingStrategy {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Générateur aléatoire pour générer la position du tir.
+	 * GÃ©nÃ©rateur alÃ©atoire pour gÃ©nÃ©rer la position du tir.
 	 */
     private static final Random RNG = new Random();
     

@@ -31,7 +31,7 @@ public class TestPlayer {
 		Ship shipOnPlacing = player.getSelfGrid().getShipOnPlacing();
 		shipOnPlacing.setOrientation(Orientation.HORIZONTAL);
 		player.rotateShip();
-		assertEquals("Le bateau devrait être orienté verticalement", Orientation.VERTICAL, shipOnPlacing.getOrientation());
+		assertEquals("Le bateau devrait Ãªtre orientÃ© verticalement", Orientation.VERTICAL, shipOnPlacing.getOrientation());
 	}
 
 	@Test
@@ -39,20 +39,20 @@ public class TestPlayer {
 		Ship shipOnPlacing = player.getSelfGrid().getShipOnPlacing();
 		shipOnPlacing.setOrientation(Orientation.VERTICAL);
 		player.rotateShip();
-		assertEquals("Le bateau devrait être orienté verticalement", Orientation.HORIZONTAL, shipOnPlacing.getOrientation());
+		assertEquals("Le bateau devrait Ãªtre orientÃ© verticalement", Orientation.HORIZONTAL, shipOnPlacing.getOrientation());
 	}
 	
 	// Tests placeShip
 	@Test
 	public void testPlaceShipOutOfBounds() {
 		boolean validPos = player.placeShip(new Position(-1, 0));
-		assertFalse("La position devrait être invalide", validPos);
+		assertFalse("La position devrait Ãªtre invalide", validPos);
 	}
 
 	@Test
 	public void testPlaceShipFirstShip() {
 		boolean validPos = player.placeShip(new Position(0, 0));
-		assertTrue("La position devrait être valide", validPos);
+		assertTrue("La position devrait Ãªtre valide", validPos);
 	}
 	
 	@Test
@@ -61,7 +61,7 @@ public class TestPlayer {
 		player.placeShip(pos);
 		player.getSelfGrid().putNextShipToPlace();
 		boolean validPos = player.placeShip(pos);
-		assertFalse("La position devrait être invalide", validPos);
+		assertFalse("La position devrait Ãªtre invalide", validPos);
 	}
 	
 }

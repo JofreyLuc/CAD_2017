@@ -3,7 +3,7 @@ package fr.univ_lorraine.battleship.controller;
 import fr.univ_lorraine.battleship.model.Game;
 
 /**
- * Listener des animations qui permet de changer de tour seulement à la fin des animations de tir.
+ * Listener des animations qui permet de changer de tour seulement Ã  la fin des animations de tir.
  */
 public class EndShotAnimationListener {
 	
@@ -13,7 +13,7 @@ public class EndShotAnimationListener {
 	private Game game;
 	
 	/**
-	 * Crée le listener des animations.
+	 * CrÃ©e le listener des animations.
 	 * @param game Le jeu.
 	 */
 	public EndShotAnimationListener(Game game) {
@@ -21,11 +21,11 @@ public class EndShotAnimationListener {
 	}
 
 	/**
-	 * Déclenché à la fin d'une animation de tir
+	 * DÃ©clenchÃ© Ã  la fin d'une animation de tir
 	 * afin de voir si on change de tour.
 	 */
 	public void onEndShotAnimation() {
-		// Si on doit attendre la fin des animations avant de finir le tour et que tous les tirs ont été effecuté
+		// Si on doit attendre la fin des animations avant de finir le tour et que tous les tirs ont Ã©tÃ© effecutÃ©
 		if (game.isEndTurnAfterShotAnimation() && game.areAllShotsDone())
 			game.endTurn();
 	}

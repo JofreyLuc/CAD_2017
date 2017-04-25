@@ -26,12 +26,12 @@ public class TestSea {
 	// Tests isSeaTileFree
 	@Test
 	public void testIsSeaTileFreeTileOutOfBounds() {
-		assertFalse("La case devrait être occupée car hors-limites", sea.isSeaTileFree(new Position(-1, 0)));
+		assertFalse("La case devrait Ãªtre occupÃ©e car hors-limites", sea.isSeaTileFree(new Position(-1, 0)));
 	}
 	
 	@Test
 	public void testIsSeaTileFreeTileFree() {
-		assertTrue("La case devrait être libre", sea.isSeaTileFree(new Position(0, 0)));
+		assertTrue("La case devrait Ãªtre libre", sea.isSeaTileFree(new Position(0, 0)));
 	}
 
 	@Test
@@ -39,25 +39,25 @@ public class TestSea {
 		Ship ship = sea.getShipOnPlacing();
 		ship.setPosition(new Position(0, 0));
 		sea.validateShipPlacement();
-		assertFalse("La case devrait être occupée", sea.isSeaTileFree(new Position(0, 0)));
+		assertFalse("La case devrait Ãªtre occupÃ©e", sea.isSeaTileFree(new Position(0, 0)));
 	}
 	
 	// Tests receiveShot
 	public void testReceiveShotOutOfBounds() {
 		boolean res = sea.receiveShot(new Position(100, 200));
-		assertFalse("Doit être déclaré invalide", res);
+		assertFalse("Doit Ãªtre dÃ©clarÃ© invalide", res);
 	}
 	
 	public void testReceiveShotAlreadyShot() {
 		Position pos = new Position(0, 0);
 		sea.receiveShot(pos);
 		boolean res = sea.receiveShot(pos);
-		assertFalse("Doit être déclaré invalide", res);
+		assertFalse("Doit Ãªtre dÃ©clarÃ© invalide", res);
 	}
 	
 	public void testReceiveShotValid() {
 		boolean res = sea.receiveShot(new Position(0, 0));
-		assertTrue("Doit être déclaré valide", res);
+		assertTrue("Doit Ãªtre dÃ©clarÃ© valide", res);
 	}
 	
 	// Tests getAllNormalPositions
@@ -71,7 +71,7 @@ public class TestSea {
 		Position touchedPos = new Position(0, 0);
 		sea.getShipOnPlacing().setPosition(touchedPos);
 		sea.receiveShot(touchedPos);
-		assertFalse("Cette position ne devrait pas être normale", sea.getAllNormalPositions().contains(touchedPos));
+		assertFalse("Cette position ne devrait pas Ãªtre normale", sea.getAllNormalPositions().contains(touchedPos));
 		assertEquals("Le nombre de positions normales est incorrect", sea.getGridHeight()*sea.getGridWidth()-1, sea.getAllNormalPositions().size());
 	}
 	
@@ -79,7 +79,7 @@ public class TestSea {
 	public void testGetAllNormalPositionsWithOneShot() {
 		Position shotPos = new Position(0, 0);
 		sea.receiveShot(shotPos);
-		assertFalse("Cette position ne devrait pas être normale", sea.getAllNormalPositions().contains(shotPos));
+		assertFalse("Cette position ne devrait pas Ãªtre normale", sea.getAllNormalPositions().contains(shotPos));
 		assertEquals("Le nombre de positions normales est incorrect", sea.getGridHeight()*sea.getGridWidth()-1, sea.getAllNormalPositions().size());
 	}
 		
@@ -95,7 +95,7 @@ public class TestSea {
 			containsOne = sea.getAllNormalPositions().contains(positions[i]);
 			i++;
 		}
-		assertFalse("Ces positions ne devraient pas être normale", containsOne);
+		assertFalse("Ces positions ne devraient pas Ãªtre normale", containsOne);
 		assertEquals("Le nombre de positions normales est incorrect", sea.getGridHeight()*sea.getGridWidth()-positions.length, sea.getAllNormalPositions().size());
 	}
 	
@@ -104,14 +104,14 @@ public class TestSea {
 	public void testisShipOnPlacingInValidPositionOutOfBounds() {
 		sea.getShipOnPlacing().setPosition(new Position(-1, 0));
 		boolean validPos = sea.isShipOnPlacingInValidPosition();
-		assertFalse("La position devrait être invalide", validPos);
+		assertFalse("La position devrait Ãªtre invalide", validPos);
 	}
 
 	@Test
 	public void testPlaceShipFirstShip() {
 		sea.getShipOnPlacing().setPosition(new Position(0, 0));
 		boolean validPos = sea.isShipOnPlacingInValidPosition();
-		assertTrue("La position devrait être valide", validPos);
+		assertTrue("La position devrait Ãªtre valide", validPos);
 	}
 	
 	@Test
@@ -122,7 +122,7 @@ public class TestSea {
 		sea.putNextShipToPlace();
 		sea.getShipOnPlacing().setPosition(pos);
 		boolean validPos = sea.isShipOnPlacingInValidPosition();
-		assertFalse("La position devrait être invalide", validPos);
+		assertFalse("La position devrait Ãªtre invalide", validPos);
 	}
 
 }

@@ -3,7 +3,7 @@ package fr.univ_lorraine.battleship.model;
 import java.io.Serializable;
 
 /**
- * Classe représentant une époque.
+ * Classe reprÃ©sentant une Ã©poque.
  * Permet de changer le comportement des bateaux du jeu ainsi que leur apparence.
  */
 public abstract class Epoch implements Serializable {
@@ -15,26 +15,26 @@ public abstract class Epoch implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Enumération de nom d'époques.
-	 * Utile pour changer l'apparence du jeu selon l'époque.
+	 * EnumÃ©ration de nom d'Ã©poques.
+	 * Utile pour changer l'apparence du jeu selon l'Ã©poque.
 	 */
 	public enum EpochName { XVI_SIECLE, XX_SIECLE }
 		
 	/**
-	 * Retourne le nom de l'époque.
-	 * @return Le nom de l'époque.
+	 * Retourne le nom de l'Ã©poque.
+	 * @return Le nom de l'Ã©poque.
 	 */
 	public abstract EpochName getEpochName();
 	
 	/**
-	 * Méthode indiquant le comportement à adopter à un bateau
-	 * selon le bateau (sa taille) et l'époque lorsque qu'il subit un tir.
-	 * @param size La longueur du bateau, permet de déterminer de quel type de bateau il s'agit.
-	 * @param hitCount Le nombre de "touchés" du bateau.
-	 * @return L'état du bateau après avoir subi le tir, à vrai si le bateau est détruit.
+	 * MÃ©thode indiquant le comportement Ã  adopter Ã  un bateau
+	 * selon le bateau (sa taille) et l'Ã©poque lorsque qu'il subit un tir.
+	 * @param size La longueur du bateau, permet de dÃ©terminer de quel type de bateau il s'agit.
+	 * @param hitCount Le nombre de "touchÃ©s" du bateau.
+	 * @return L'Ã©tat du bateau aprÃ¨s avoir subi le tir, Ã  vrai si le bateau est dÃ©truit.
 	 */
 	protected boolean takeDamage(int size, int hitCount) {
-		// Si le bateau est "touché partout", il est détruit 
+		// Si le bateau est "touchÃ© partout", il est dÃ©truit 
 		return size == hitCount;
 	}
 		

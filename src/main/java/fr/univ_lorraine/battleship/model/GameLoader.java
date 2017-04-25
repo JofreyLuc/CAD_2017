@@ -24,7 +24,7 @@ public class GameLoader {
 	/**
 	 * Charge une partie depuis un fichier
 	 * @param file Le fichier de sauvegarde.
-	 * @return La partie à sauvegarder.
+	 * @return La partie Ã  sauvegarder.
 	 * @throws ClassNotFoundException, IOException 
 	 */
 	public static Game loadGame(File file) throws ClassNotFoundException, IOException {
@@ -43,7 +43,7 @@ public class GameLoader {
 	
 	/**
 	 * Sauvegarde la partie dans un fichier.
-	 * @param game La partie à sauvegarder.
+	 * @param game La partie Ã  sauvegarder.
 	 * @param file Le fichier de sauvegarde.
 	 * @throws IOException
 	 */

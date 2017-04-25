@@ -13,14 +13,14 @@ import fr.univ_lorraine.battleship.model.Ship;
 
 /**
  * Vue d'un bateau.
- * N'hérite pas de JComponent afin de pouvoir être dessiné à la position souhaitée sur la grille.
+ * N'hÃ©rite pas de JComponent afin de pouvoir Ãªtre dessinÃ© Ã  la position souhaitÃ©e sur la grille.
  * 
  * Observer de Ship.
  */
 public class ShipView implements Observer {
 	
 	/**
-	 * Le bateau modèle de cette vue.
+	 * Le bateau modÃ¨le de cette vue.
 	 */
 	protected Ship ship;
 	
@@ -30,15 +30,15 @@ public class ShipView implements Observer {
 	protected BufferedImage shipImage;
 	
 	/**
-	 * Booléen indiquant si le bateau doit être visible seulement quand le bateau est détruit.
+	 * BoolÃ©en indiquant si le bateau doit Ãªtre visible seulement quand le bateau est dÃ©truit.
 	 */
 	protected boolean shipOnlyVisibleWhenDead;
 	
 	/**
 	 * Construit la vue d'un bateau
-	 * en prenant son image selon son époque et ses caractéristiques
+	 * en prenant son image selon son Ã©poque et ses caractÃ©ristiques
 	 * et se place en tant qu'observer du bateau.
-	 * @param ship Le bateau modèle.
+	 * @param ship Le bateau modÃ¨le.
 	 */
 	public ShipView(Ship ship) {
 		this.ship = ship;
@@ -48,8 +48,8 @@ public class ShipView implements Observer {
 	}
 	
 	/**
-	 * Prend l'image du bateau correspondant à son époque et ses caractéristiques.
-	 * Place l'image à null si le bateau ne doit pas être affiché.
+	 * Prend l'image du bateau correspondant Ã  son Ã©poque et ses caractÃ©ristiques.
+	 * Place l'image Ã  null si le bateau ne doit pas Ãªtre affichÃ©.
 	 */
 	protected void attachImage() {
 		if (ship == null || (shipOnlyVisibleWhenDead && !ship.isDead()) ) {
@@ -138,9 +138,9 @@ public class ShipView implements Observer {
 	}
 	
 	/**
-	 * Change la valeur du booléen indiquant
-	 * si le bateau doit être visible seulement quand le bateau est détruit.
-	 * @param b Le booléen indiquant si le bateau doit être visible seulement quand le bateau est détruit.
+	 * Change la valeur du boolÃ©en indiquant
+	 * si le bateau doit Ãªtre visible seulement quand le bateau est dÃ©truit.
+	 * @param b Le boolÃ©en indiquant si le bateau doit Ãªtre visible seulement quand le bateau est dÃ©truit.
 	 */
 	public void setShipVisibleOnlyWhenDead(boolean b) {
 		shipOnlyVisibleWhenDead = b;
@@ -175,7 +175,7 @@ public class ShipView implements Observer {
 	}
 
 	/**
-	 * Met à jour l'image du bateau.
+	 * Met Ã  jour l'image du bateau.
 	 */
 	@Override
 	public void update(Observable o, Object arg) {

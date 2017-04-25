@@ -40,47 +40,47 @@ public class GameOptionsMenuPanel extends JPanel {
 	private Game game;
 		
 	/**
-	 * Map liant les actions des boutons à leur stratégie de tir correspondante.
+	 * Map liant les actions des boutons Ã  leur stratÃ©gie de tir correspondante.
 	 */
 	private static final Map<String, ShootingStrategy> ACTION_SHOOT_MAP = new HashMap<String, ShootingStrategy>();
 
 	/**
-	 * Groupe de boutons des stratégies de tir.
-	 * Permet de rendre seulement un toggleBouton sélectionnable.
+	 * Groupe de boutons des stratÃ©gies de tir.
+	 * Permet de rendre seulement un toggleBouton sÃ©lectionnable.
 	 */
 	private final ButtonGroup shotGroup;
 	
 	/**
-	 * Bouton de la stratégie de tir aléatoire.
+	 * Bouton de la stratÃ©gie de tir alÃ©atoire.
 	 */
 	private final JToggleButton randShotButton;
 	
 	/**
-	 * Bouton de la stratégie de tir en seek then destroy aléatoire.
+	 * Bouton de la stratÃ©gie de tir en seek then destroy alÃ©atoire.
 	 */
 	private final JToggleButton SAndDRandShotButton;
 
 	/**
-	 * Bouton de la stratégie de tir en seek then destroy en croix.
+	 * Bouton de la stratÃ©gie de tir en seek then destroy en croix.
 	 */
 	private final JToggleButton SAndDCrossShotButton;
 	
 	/**
 	 * Construit le panel.
-	 * Utilise la fenêtre principale pour certains listeners.
-	 * @param gameFrame La fenêtre principale du jeu.
+	 * Utilise la fenÃªtre principale pour certains listeners.
+	 * @param gameFrame La fenÃªtre principale du jeu.
 	 */
 	public GameOptionsMenuPanel(final GameFrame gameFrame) {
-		// GridBagLayout afin que les composants ne s'étendent pas
+		// GridBagLayout afin que les composants ne s'Ã©tendent pas
 		this.setLayout(new GridBagLayout());
 		
-		// Contient tous les éléments du panel
+		// Contient tous les Ã©lÃ©ments du panel
 		JPanel container = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(50, 50, 50, 50);
 		this.add(container, gbc);		
 		
-		// ActionListener qui met à jour les options de jeu.
+		// ActionListener qui met Ã  jour les options de jeu.
 		ActionListener optionChangedAction = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +102,7 @@ public class GameOptionsMenuPanel extends JPanel {
 		gbc.fill = GridBagConstraints.BOTH;
 		container.add(resumeGameButton, gbc);
 
-		// Choix stratégie de tir de l'ordi
+		// Choix stratÃ©gie de tir de l'ordi
 		ACTION_SHOOT_MAP.put(ShootingStrategyName.RANDOM.name(), new RandomShooting());
 		ACTION_SHOOT_MAP.put(ShootingStrategyName.SEEK_THEN_DESTROY_RANDOM.name(), new SeekThenDestroyRandomShooting());
 		ACTION_SHOOT_MAP.put(ShootingStrategyName.SEEK_THEN_DESTROY_CROSS.name(), new SeekThenDestroyCrossShooting());
@@ -114,8 +114,8 @@ public class GameOptionsMenuPanel extends JPanel {
 		gbc.insets = new Insets(0, 0, 10, 0);
 		container.add(shotStrategyLabel, gbc);
 
-		randShotButton = new JToggleButton("Tir aléatoire");
-		randShotButton.setToolTipText("Tirs entièrement aléatoires.");
+		randShotButton = new JToggleButton("Tir alÃ©atoire");
+		randShotButton.setToolTipText("Tirs entiÃ¨rement alÃ©atoires.");
 		randShotButton.setActionCommand(ShootingStrategyName.RANDOM.name());
 		randShotButton.addActionListener(optionChangedAction);
 		gbc.insets = new Insets(0, 0, 0, 10);
@@ -124,10 +124,10 @@ public class GameOptionsMenuPanel extends JPanel {
 		gbc.weightx = 1/3;
 		container.add(randShotButton, gbc);
 				
-		SAndDRandShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir aléatoire</center></html>");
-		SAndDRandShotButton.setToolTipText("<html>Avec cette stratégie, l’ordinateur débute en mode Chasse et tire au hasard jusqu’à ce qu’il trouve une cible.<br>" +
-								"Lorsqu’il a touché, il s’acharne sur les cases adjacentes.<br>" +
-								"Une fois le navire coulé, la chasse reprend jusqu’à l’acquisition d’une nouvelle cible.</html>");
+		SAndDRandShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir alÃ©atoire</center></html>");
+		SAndDRandShotButton.setToolTipText("<html>Avec cette stratÃ©gie, lâ€™ordinateur dÃ©bute en mode Chasse et tire au hasard jusquâ€™Ã  ce quâ€™il trouve une cible.<br>" +
+								"Lorsquâ€™il a touchÃ©, il sâ€™acharne sur les cases adjacentes.<br>" +
+								"Une fois le navire coulÃ©, la chasse reprend jusquâ€™Ã  lâ€™acquisition dâ€™une nouvelle cible.</html>");
 		SAndDRandShotButton.setActionCommand(ShootingStrategyName.SEEK_THEN_DESTROY_RANDOM.name());
 		SAndDRandShotButton.addActionListener(optionChangedAction);
 		gbc.insets = new Insets(0, 0, 0, 10);
@@ -136,9 +136,9 @@ public class GameOptionsMenuPanel extends JPanel {
 		container.add(SAndDRandShotButton, gbc);
 
 		SAndDCrossShotButton = new JToggleButton("<html><center>Chasse/Cible<br>avec tir en croix</center></html>");
-		SAndDCrossShotButton.setToolTipText("<html>Avec cette stratégie, l’ordinateur débute en mode Chasse et tire en croix jusqu’à ce qu’il trouve une cible.<br>" +
-				"Lorsqu’il a touché, il s’acharne sur les cases adjacentes.<br>" +
-				"Une fois le navire coulé, la chasse reprend jusqu’à l’acquisition d’une nouvelle cible.</html>");
+		SAndDCrossShotButton.setToolTipText("<html>Avec cette stratÃ©gie, lâ€™ordinateur dÃ©bute en mode Chasse et tire en croix jusquâ€™Ã  ce quâ€™il trouve une cible.<br>" +
+				"Lorsquâ€™il a touchÃ©, il sâ€™acharne sur les cases adjacentes.<br>" +
+				"Une fois le navire coulÃ©, la chasse reprend jusquâ€™Ã  lâ€™acquisition dâ€™une nouvelle cible.</html>");
 		SAndDCrossShotButton.setActionCommand(ShootingStrategyName.SEEK_THEN_DESTROY_CROSS.name());
 		SAndDCrossShotButton.addActionListener(optionChangedAction);
 		gbc.insets = new Insets(0, 0, 0, 0);
@@ -188,7 +188,7 @@ public class GameOptionsMenuPanel extends JPanel {
 	}
 	
 	/**
-	 * Place le jeu courant afin de pouvoir modifier ses caractéristiques.
+	 * Place le jeu courant afin de pouvoir modifier ses caractÃ©ristiques.
 	 * @param game Le jeu courant.
 	 */
 	public void setGame(Game game) {
@@ -196,8 +196,8 @@ public class GameOptionsMenuPanel extends JPanel {
 	}
 	
 	/**
-	 * Met à jour l'affichage des options selon les caractéristiques du jeu courant
-	 * (les options sélectionnées/désélectionnées).
+	 * Met Ã  jour l'affichage des options selon les caractÃ©ristiques du jeu courant
+	 * (les options sÃ©lectionnÃ©es/dÃ©sÃ©lectionnÃ©es).
 	 */
 	private void updateCurrentOptionsSelected() {
 		if (game != null) {
@@ -213,13 +213,13 @@ public class GameOptionsMenuPanel extends JPanel {
 				SAndDRandShotButton.setSelected(true);
 				break;
 			default:
-				throw new AssertionError("Stratégie de tir inconnue " + shootingStrategy.getShootingStrategyName());
+				throw new AssertionError("StratÃ©gie de tir inconnue " + shootingStrategy.getShootingStrategyName());
 			}
 		}
 	}
 	
 	/**
-	 * Change les caractéristiques du jeu courant par rapport aux options choisies.
+	 * Change les caractÃ©ristiques du jeu courant par rapport aux options choisies.
 	 */
 	private void changeGameOptions() {
 		if (game != null) {
@@ -233,8 +233,8 @@ public class GameOptionsMenuPanel extends JPanel {
 	}
 
 	/**
-	 * Reprend le jeu en affichant la fenêtre de jeu.
-	 * @param gameFrame La fenêtre principale.
+	 * Reprend le jeu en affichant la fenÃªtre de jeu.
+	 * @param gameFrame La fenÃªtre principale.
 	 */
 	private void resumeGame(GameFrame gameFrame) {
 		gameFrame.showPanel(GameFrame.PanelId.GAME_PANEL);
@@ -242,7 +242,7 @@ public class GameOptionsMenuPanel extends JPanel {
 	
 	@Override
 	public void setVisible(boolean aFlag) {
-		// On met à jour les options avant d'afficher le panel
+		// On met Ã  jour les options avant d'afficher le panel
 		updateCurrentOptionsSelected();
 		super.setVisible(aFlag);
 	}

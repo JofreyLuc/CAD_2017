@@ -28,7 +28,7 @@ import fr.univ_lorraine.battleship.model.Game.GameState;
 
 
 /**
- * Panel étant la vue principale du jeu contenant les grilles des deux joueurs
+ * Panel Ã©tant la vue principale du jeu contenant les grilles des deux joueurs
  * ainsi que d'autres informations (tour courant, etc.).
  * 
  * Observer de Game.
@@ -42,7 +42,7 @@ public class GameView extends JPanel implements Observer {
 	private JLabel turnLabel;
 	
 	/**
-	 * Label affichant des instructions/une aide quand nécessaire.
+	 * Label affichant des instructions/une aide quand nÃ©cessaire.
 	 */
 	private JLabel instructionLabel;
 	
@@ -57,32 +57,32 @@ public class GameView extends JPanel implements Observer {
 	private SeaView computerGridView;
 	
 	/**
-	 * Le jeu (modèle).
+	 * Le jeu (modÃ¨le).
 	 */
 	private Game game;
 	
 	/**
-	 * Panel à afficher quand la partie est terminée
-	 * positionné par dessus le panel principal.
+	 * Panel Ã  afficher quand la partie est terminÃ©e
+	 * positionnÃ© par dessus le panel principal.
 	 */
 	private JPanel gameOverPanel;
 	
 	/**
-	 * Label indiquant le résultat de la partie.
+	 * Label indiquant le rÃ©sultat de la partie.
 	 */
 	private JLabel gameOverLabel;
 	
-	private static final String WIN_MESSAGE = "Vous avez gagné !";
+	private static final String WIN_MESSAGE = "Vous avez gagnÃ© !";
 	
 	private static final String LOSE_MESSAGE = "Vous avez perdu !";
 	
 	/**
 	 * Construit le panel.
-	 * Utilise la fenêtre principale pour certains listeners.
-	 * @param gameFrame La fenêtre principale du jeu.
+	 * Utilise la fenÃªtre principale pour certains listeners.
+	 * @param gameFrame La fenÃªtre principale du jeu.
 	 */
 	public GameView(final GameFrame gameFrame) {
-		// Layout afin de pouvoir afficher le panel de game over quand la partie est terminée
+		// Layout afin de pouvoir afficher le panel de game over quand la partie est terminÃ©e
 		this.setLayout(new OverlayLayout(this));
 		GridBagConstraints gbc = new GridBagConstraints();
 
@@ -113,7 +113,7 @@ public class GameView extends JPanel implements Observer {
 		// Restreint la taille du panel de fin de partie pour qu'il ne recouvre pas le panel principal
 		gameOverPanel.setMaximumSize(gameOverPanel.getPreferredSize());
 		
-		// Panel principal du jeu contenant tous les éléments
+		// Panel principal du jeu contenant tous les Ã©lÃ©ments
 		JPanel mainPanel = new JPanel();
 		this.add(mainPanel, 1);
 		mainPanel.setLayout(new GridBagLayout());		
@@ -161,7 +161,7 @@ public class GameView extends JPanel implements Observer {
 		gbc.insets = new Insets(0, 15, 15, 15);
 		mainPanel.add(escapeKeyBox, gbc);
 		
-		// Raffraîchit l'affichage toutes les 17ms ~ 60 fps
+		// RaffraÃ®chit l'affichage toutes les 17ms ~ 60 fps
 		Timer timer = new Timer(17, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -214,7 +214,7 @@ public class GameView extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		Game game = (Game) o;
 		
-		// Si la partie est terminée
+		// Si la partie est terminÃ©e
 		if (game.getGameState() == GameState.COMPUTER_WINS) {
 			gameOverLabel.setText(LOSE_MESSAGE);
 			gameOverPanel.setVisible(true);

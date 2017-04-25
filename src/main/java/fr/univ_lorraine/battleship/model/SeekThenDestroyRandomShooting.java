@@ -1,7 +1,7 @@
 package fr.univ_lorraine.battleship.model;
 
 /**
- * Stratégie de tir "Recherche puis destruction" avec une phase de recherche
+ * StratÃ©gie de tir "Recherche puis destruction" avec une phase de recherche
  * reposant sur des tirs au hasard.
  */
 public class SeekThenDestroyRandomShooting extends AbstractSeekThenDestroyShooting {
@@ -13,7 +13,7 @@ public class SeekThenDestroyRandomShooting extends AbstractSeekThenDestroyShooti
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Utilisation de la stratégie de tir aléatoire pour générer les tirs de la phase de recherche.
+	 * Utilisation de la stratÃ©gie de tir alÃ©atoire pour gÃ©nÃ©rer les tirs de la phase de recherche.
 	 */
 	private static final RandomShooting randomShooting = new RandomShooting();
 	

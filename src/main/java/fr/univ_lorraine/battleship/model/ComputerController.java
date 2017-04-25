@@ -6,7 +6,7 @@ import fr.univ_lorraine.battleship.model.Ship.Orientation;
 
 
 /**
- * Entité contrôlant les actions d'un joueur (l'ordinateur).
+ * EntitÃ© contrÃ´lant les actions d'un joueur (l'ordinateur).
  */
 public class ComputerController implements Serializable {
 
@@ -17,25 +17,25 @@ public class ComputerController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Le joueur contrôlé.
+	 * Le joueur contrÃ´lÃ©.
 	 * @serial
 	 */
 	private Player computer;
 	
 	/**
-	 * Stratégie à adopter pour les tirs de l'ordinateur.
+	 * StratÃ©gie Ã  adopter pour les tirs de l'ordinateur.
 	 * @serial
 	 */
 	private ShootingStrategy shootingStrategy;
 	
 	/**
-	 * La stratégie par défaut.
+	 * La stratÃ©gie par dÃ©faut.
 	 */
 	private static final ShootingStrategy DEFAULT_SHOOTING_STRATEGY = new RandomShooting();
 		
 	/**
-	 * Crée un computerController à partir de l'interface du joueur
-	 * et avec la stratégie de tir par défaut.
+	 * CrÃ©e un computerController Ã  partir de l'interface du joueur
+	 * et avec la stratÃ©gie de tir par dÃ©faut.
 	 * @param iPlayer L'interface du joueur.
 	 */
 	public ComputerController(Player player) {
@@ -44,16 +44,16 @@ public class ComputerController implements Serializable {
 	}
 	
 	/**
-	 * Retourne la stratégie de tir de l'ordinateur.
-	 * @return La stratégie de tir de l'ordinateur.
+	 * Retourne la stratÃ©gie de tir de l'ordinateur.
+	 * @return La stratÃ©gie de tir de l'ordinateur.
 	 */
 	public ShootingStrategy getShootingStrategy() {
 		return shootingStrategy;
 	}
 	
 	/**
-	 * Prend la stratégie de tir passé en paramètre.
-	 * @param shootingStrategy La nouvelle stratégie de tir de l'ordinateur.
+	 * Prend la stratÃ©gie de tir passÃ© en paramÃ¨tre.
+	 * @param shootingStrategy La nouvelle stratÃ©gie de tir de l'ordinateur.
 	 */
 	public void setShootingStrategy(ShootingStrategy shootingStrategy) {
 		this.shootingStrategy = shootingStrategy;
@@ -79,7 +79,7 @@ public class ComputerController implements Serializable {
 	 */
 	public void playShoot() {
 		if(shootingStrategy != null) {
-			// Tire à la position renvoyée par la stratégie de tir
+			// Tire Ã  la position renvoyÃ©e par la stratÃ©gie de tir
 			computer.shoot(shootingStrategy.playShoot(computer.getOpponentGrid()));
 		}
 	}

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Observable;
 
 /**
- * Classe reprÈsentant un bateau.
+ * Classe repr√©sentant un bateau.
  */
 public class Ship extends Observable implements Serializable {
 	
@@ -34,22 +34,22 @@ public class Ship extends Observable implements Serializable {
 	private Orientation orientation;
 	
 	/**
-	 * L'Ètat du bateau, ‡ vrai si il est dÈtruit.
+	 * L'√©tat du bateau, √† vrai si il est d√©truit.
 	 */
 	private boolean dead;
 	
 	/**
-	 * Les dÈg‚ts subis par le bateau ainsi que leurs positions.
+	 * Les d√©g√¢ts subis par le bateau ainsi que leurs positions.
 	 */
 	private boolean[] hits;
 	
 	/**
-	 * L'Èpoque du bateau.
+	 * L'√©poque du bateau.
 	 */
 	private Epoch epoch;
 	
 	/**
-	 * Construit un bateau d'une certaine longueur appartenant ‡ une certaine Èpoque.
+	 * Construit un bateau d'une certaine longueur appartenant √† une certaine √©poque.
 	 * @param size Longueur.
 	 * @param epoch Epoque.
 	 */
@@ -79,7 +79,7 @@ public class Ship extends Observable implements Serializable {
 	/**
 	 * Positionne le bateau.
 	 * @param x L'abscisse.
-	 * @param y L'ordonnÈe.
+	 * @param y L'ordonn√©e.
 	 */
 	public void setPosition(Position position) {
 		this.position = position;
@@ -95,7 +95,7 @@ public class Ship extends Observable implements Serializable {
 
 	
 	/**
-	 * Met l'orientation du bateau ‡ la valeur passÈe en paramËtre
+	 * Met l'orientation du bateau √† la valeur pass√©e en param√®tre
 	 * @param orientation La nouvelle orientaion du bateau.
 	 */
 	public void setOrientation(Orientation orientation) {
@@ -119,24 +119,24 @@ public class Ship extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Renvoie vrai si le bateau est dÈtruit.
-	 * @return Vrai si le bateau est dÈtruit, faux sinon.
+	 * Renvoie vrai si le bateau est d√©truit.
+	 * @return Vrai si le bateau est d√©truit, faux sinon.
 	 */
 	public boolean isDead() {
 		return dead;
 	}
 	
 	/**
-	 * Retourne l'Èpoque du bateau.
-	 * @return L'Èpoque du bateau.
+	 * Retourne l'√©poque du bateau.
+	 * @return L'√©poque du bateau.
 	 */
 	public Epoch getEpoch() {
 		return epoch;
 	}
 	
 	/**
-	 * Compte le nombre de tirs qui ont touchÈs le bateau.
-	 * @return Le nombre de "touchÈs".
+	 * Compte le nombre de tirs qui ont touch√©s le bateau.
+	 * @return Le nombre de "touch√©s".
 	 */
 	public int getHitCount() {
 		int count = 0;
@@ -149,9 +149,9 @@ public class Ship extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Retourne les positions occupÈes par ce bateau sur la grille
+	 * Retourne les positions occup√©es par ce bateau sur la grille
 	 * sous forme de tableau.
-	 * @return Les positions occupÈes.
+	 * @return Les positions occup√©es.
 	 */
 	public Position[] getSeaTilesOccupied() {
 		if (position == null) {
@@ -175,9 +175,9 @@ public class Ship extends Observable implements Serializable {
 	}
 	
 	/**
-	 * VÈrifie si le bateau est touchÈ par le tir et agit en consÈquence.
+	 * V√©rifie si le bateau est touch√© par le tir et agit en cons√©quence.
 	 * @param shotPosition La position du tir.
-	 * @return Vrai si le bateau est touchÈ, faux sinon.
+	 * @return Vrai si le bateau est touch√©, faux sinon.
 	 */
 	public boolean checkShot(Position shotPosition) {
 		int i = 0;
@@ -187,11 +187,11 @@ public class Ship extends Observable implements Serializable {
 			touched = tilesOccupied[i].equals(shotPosition);
 			i++;
 		}
-		if(touched) {			// Si le bateau est touchÈ,
-			hits[i-1] = true;	// on enregistre les dÈg‚ts
-			if (!dead) {		// et si le bateau n'est pas dÈj‡ dÈtruit,
+		if(touched) {			// Si le bateau est touch√©,
+			hits[i-1] = true;	// on enregistre les d√©g√¢ts
+			if (!dead) {		// et si le bateau n'est pas d√©j√† d√©truit,
 				this.dead = epoch.takeDamage(size, getHitCount());
-			}					// on dÈlËgue la gestion de l'Ètat du bateau ‡ l'Èpoque
+			}					// on d√©l√®gue la gestion de l'√©tat du bateau √† l'√©poque
 		}
 		setChanged();
 		notifyObservers();
