@@ -168,7 +168,7 @@ public class Ship extends Observable implements Serializable {
 					tilesOccupied[i] = new Position(position.getX(), position.getY()+i);
 					break;
 				default:
-					throw new AssertionError("Orientation inconnu " + orientation);
+					throw new AssertionError("Orientation inconnue " + orientation);
 			}
 		}
 		return tilesOccupied;

@@ -37,7 +37,7 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	 * @return La position de tir choisie.
 	 */
 	private Position playShootInDestroyPhase(Sea sea) {
-		//TODO
+		//ArrayList<Position> harmed = sea.
 		return null;
 	}
 	
