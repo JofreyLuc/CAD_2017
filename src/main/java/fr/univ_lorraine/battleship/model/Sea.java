@@ -181,7 +181,6 @@ public class Sea extends Observable implements Serializable {
 	 * Regarde si il y a des bateaux blessés mais pas détruits.
 	 * @return Vrai si il existe au moins un bateau blessé, faux sinon.
 	 */
-	
 	public boolean isAnyShipHarmed(){
 		for (Ship s : ships){
 			if (!s.isDead()){
@@ -191,6 +190,22 @@ public class Sea extends Observable implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Retourne les positions où sont touchés les bateaux non-détruits
+	 * @return Les positions où sont touchés les bateaux non-détruits
+	 */
+	public ArrayList<Position> harmedShipPositions() {
+		ArrayList<Position> harmedShipPositions = new ArrayList<>();
+
+		for(Ship s : ships) {
+			if(!s.isDead()) {
+				harmedShipPositions.addAll(s.harmedPositions());
+			}
+		}
+
+		return harmedShipPositions;
 	}
 	
 	/**
