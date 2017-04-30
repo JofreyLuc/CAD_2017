@@ -1,11 +1,7 @@
 package fr.univ_lorraine.battleship.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * Classe représentant la grille d'un joueur.
@@ -121,8 +117,8 @@ public class Sea extends Observable implements Serializable {
 	 * @param y L'ordonnée de la case
 	 * @return Si oui ou non la case est à l'état "NORMAL"
 	 */
-	public boolean isTileNormal(int x, int y) {
-		if(getGridTileState(x, y).equals(SeaTileState.NORMAL)) return true;
+	public boolean isTileNormal(Position p) {
+		if(getGridTileState(p.getX(), p.getY()).equals(SeaTileState.NORMAL)) return true;
 
 		return false;
 	}
@@ -328,4 +324,21 @@ public class Sea extends Observable implements Serializable {
 		grid[position.getX()][position.getY()] = touched ? SeaTileState.TOUCHED : SeaTileState.SHOT; 
 	}
 
+	public ArrayList<Position> getShootablePositions(Position p) {
+        ArrayList<Position> shootablePositions = new ArrayList<>();
+        Position[] testedPositions = new Position[4];
+
+        testedPositions[0] = new Position(p.getX() + 1, p.getY());
+        testedPositions[1] = new Position(p.getX() - 1, p.getY());
+        testedPositions[2] = new Position(p.getX(), p.getY() + 1);
+        testedPositions[3] = new Position(p.getX(), p.getY() - 1);
+
+        for (int i = 0; i < 4; i++) {
+            if (!testedPositions[i].isOutOfBounds(0, getGridWidth(), 0, getGridHeight()) && isTileNormal(testedPositions[i])) {
+                shootablePositions.add(testedPositions[i]);
+            }
+        }
+
+        return shootablePositions;
+    }
 }

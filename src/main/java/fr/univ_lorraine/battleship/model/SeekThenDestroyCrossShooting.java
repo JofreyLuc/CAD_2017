@@ -33,12 +33,13 @@ public class SeekThenDestroyCrossShooting extends AbstractSeekThenDestroyShootin
 			x = i%width;
 			y = (int)Math.floor(i/width);
 
-			if(sea.isTileNormal(x, y)) shootablePositions.add(new Position(x, y));
+			Position p = new Position(x, y);
+
+			if(sea.isTileNormal(p)) shootablePositions.add(p);
 		}
 
 		Random rand = new Random();
 
 		return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 	}
-
 }
