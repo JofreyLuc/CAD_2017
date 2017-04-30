@@ -66,20 +66,23 @@ public class ComputerController implements Serializable {
 	 */
 	public void placeAllShips() {
 		Sea sea = this.computer.getSelfGrid();
-		ArrayList<Position> pos = new ArrayList<>();
+		ArrayList<Position> pos = new ArrayList<>(); //Lisye de toutes les positions, diminuant au fil des essais
 		Random randomizer = new Random();
-		while (!sea.areShipsAllPlaced()) {			
+		while (!sea.areShipsAllPlaced()) {	
+			
 			if (Math.random() < 0.5){
 				sea.getShipOnPlacing().setOrientation(Orientation.VERTICAL);
 			} else {
 				sea.getShipOnPlacing().setOrientation(Orientation.HORIZONTAL);
 			}
+			
 			pos.clear();
 			for (int x = 0; x < sea.getGridWidth(); x++){
 				for (int y = 0; y < sea.getGridHeight(); y++){
 					pos.add(new Position(x, y));
 				}
 			}
+			
 			Position random_pos = pos.get(randomizer.nextInt(pos.size()));
 			while (!computer.placeShip(random_pos)) {
 				pos.remove(random_pos);
