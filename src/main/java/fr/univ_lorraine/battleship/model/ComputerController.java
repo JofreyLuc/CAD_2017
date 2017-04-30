@@ -1,6 +1,8 @@
 package fr.univ_lorraine.battleship.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Random;
 
 import fr.univ_lorraine.battleship.model.Ship.Orientation;
 
@@ -60,17 +62,32 @@ public class ComputerController implements Serializable {
 	}
 
 	/**
-	 * Place tous les bateaux du joueur (de l'ordinateur).
+	 * Place tous les bateaux du joueur (de l'ordinateur) de manière aléatoire.
 	 */
 	public void placeAllShips() {
-		//TODO
-		// Temporaire
 		Sea sea = this.computer.getSelfGrid();
-		int i = 0;
-		while (!sea.areShipsAllPlaced()) {
-			sea.getShipOnPlacing().setOrientation(Orientation.VERTICAL);
-			computer.placeShip(new Position(i, 0));
-			i++;
+		ArrayList<Position> pos = new ArrayList<>(); //Lisye de toutes les positions, diminuant au fil des essais
+		Random randomizer = new Random();
+		while (!sea.areShipsAllPlaced()) {	
+			
+			if (Math.random() < 0.5){
+				sea.getShipOnPlacing().setOrientation(Orientation.VERTICAL);
+			} else {
+				sea.getShipOnPlacing().setOrientation(Orientation.HORIZONTAL);
+			}
+			
+			pos.clear();
+			for (int x = 0; x < sea.getGridWidth(); x++){
+				for (int y = 0; y < sea.getGridHeight(); y++){
+					pos.add(new Position(x, y));
+				}
+			}
+			
+			Position random_pos = pos.get(randomizer.nextInt(pos.size()));
+			while (!computer.placeShip(random_pos)) {
+				pos.remove(random_pos);
+				random_pos = pos.get(randomizer.nextInt(pos.size()));
+			}
 		}
 	}
 

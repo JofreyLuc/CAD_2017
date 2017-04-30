@@ -178,6 +178,22 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
+	 * Regarde si il y a des bateaux blessés mais pas détruits.
+	 * @return Vrai si il existe au moins un bateau blessé, faux sinon.
+	 */
+	
+	public boolean isAnyShipHarmed(){
+		for (Ship s : ships){
+			if (!s.isDead()){
+				if (s.getHitCount() != 0){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Regarde si la case à cette position est libre.
 	 * Retourne faux si la case est hors des limites de la grille.
 	 * @param position La position de la case.

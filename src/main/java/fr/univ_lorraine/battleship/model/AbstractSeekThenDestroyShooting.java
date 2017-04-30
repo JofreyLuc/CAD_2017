@@ -1,5 +1,7 @@
 package fr.univ_lorraine.battleship.model;
 
+import java.util.concurrent.Phaser;
+
 /**
  * Classe implémentant une stratégie de tir de type "Recherche puis destruction" ou "Chasse/Cible".
  * Avec cette stratégie, l’ordinateur débute en mode Chasse –c’est à dire tire au hasard jusqu’à ce qu’il trouve une cible.
@@ -43,7 +45,11 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	 * @param sea La grille de l'adversaire.
 	 */
 	private void updatePhase(Sea sea) {
-		// TODO
+		if (sea.isAnyShipHarmed()){
+			seekPhase = false;
+		} else {
+			seekPhase = true;
+		}
 	}
 	
 	@Override

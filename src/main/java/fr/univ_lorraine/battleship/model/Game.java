@@ -107,8 +107,8 @@ public class Game extends Observable implements Serializable {
 	}
 	
 	/**
-	 * Retourne la grille du joueur.
-	 * @return La grille du joueur.
+	 * Retourne la grille de l'ordinateur.
+	 * @return La grille de l'ordinateur.
 	 */
 	private Sea getComputerSea() {
 		return getPlayer(PlayerId.COMPUTER).getSelfGrid();
