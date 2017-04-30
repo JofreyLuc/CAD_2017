@@ -114,6 +114,18 @@ public class Sea extends Observable implements Serializable {
 	public SeaTileState getGridTileState(int x, int y) {
 		return grid[x][y];
 	}
+
+	/**
+	 * Retourne si l'état de la case est "NORMAL" (aucun tir effectué sur celle-ci)
+	 * @param x L'abscisse de la case.
+	 * @param y L'ordonnée de la case
+	 * @return Si oui ou non la case est à l'état "NORMAL"
+	 */
+	public boolean isTileNormal(int x, int y) {
+		if(getGridTileState(x, y).equals(SeaTileState.NORMAL)) return true;
+
+		return false;
+	}
 	
 	/**
 	 * Retourne la liste des bateaux placés sur la grille.
