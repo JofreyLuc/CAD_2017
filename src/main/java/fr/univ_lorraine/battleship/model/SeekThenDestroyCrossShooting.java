@@ -1,5 +1,8 @@
 package fr.univ_lorraine.battleship.model;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  * Stratégie de tir "Recherche puis destruction" avec une phase de recherche
  * reposant sur des tirs en croix.
@@ -19,8 +22,23 @@ public class SeekThenDestroyCrossShooting extends AbstractSeekThenDestroyShootin
 
 	@Override
 	protected Position playShootInSeekPhase(Sea sea) {
-		// TODO
-		return null;
+
+		ArrayList<Position> shootablePositions = new ArrayList<>();
+
+		int x, y;
+		int width = sea.getGridWidth();
+		int height = sea.getGridHeight();
+
+		for(int i = 0; i < width*height; i += 2) {
+			x = i%width;
+			y = (int)Math.floor(i/width);
+
+			if(sea.isTileNormal(x, y)) shootablePositions.add(new Position(x, y));
+		}
+
+		Random rand = new Random();
+
+		return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 	}
 
 }

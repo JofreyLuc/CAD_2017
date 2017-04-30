@@ -37,6 +37,19 @@ public class Position implements Serializable {
 	public int getY() {
 		return y;
 	}
+	
+	/**
+	 * Regarde si p est à côté de this.
+	 * @param p Position à tester.
+	 * @return Vrai si p est à côté de this, faux sinon.
+	 */
+	public boolean nextTo(Position p){
+		if (this.x == p.getX()+1) return true;
+		if (this.x == p.getX()-1) return true;
+		if (this.y == p.getY()+1) return true;
+		if (this.y == p.getY()-1) return true;
+		return false;
+	}
 
 	/**
 	 * Regarde si la position est en-dehors des limites.

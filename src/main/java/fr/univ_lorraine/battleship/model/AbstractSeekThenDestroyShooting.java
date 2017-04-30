@@ -1,5 +1,6 @@
 package fr.univ_lorraine.battleship.model;
 
+import java.util.ArrayList;
 import java.util.concurrent.Phaser;
 
 /**
@@ -37,8 +38,28 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	 * @return La position de tir choisie.
 	 */
 	private Position playShootInDestroyPhase(Sea sea) {
-		//ArrayList<Position> harmed = sea.
-		return null;
+		ArrayList<Position> harmed = sea.harmedShipPositions();
+		Position target = harmed.remove(0);
+		if (harmed.isEmpty()){
+			//tirer au hasard autour de target
+		}
+		
+		ArrayList<Position> closeOnes = new ArrayList<>();
+		for (Position p : harmed) {
+			if (p.nextTo(target)){
+				closeOnes.add(p);
+			}			
+		}		
+		if (closeOnes.isEmpty()){
+			//tirer au hasard autour de target
+		}
+		
+		Position lineTail = tail(target, closeOnes.get(0)); //TODO tail
+		if (lineTail == null){
+			//tirer au hasard autour de target
+		}
+		
+		return lineTail;
 	}
 	
 	/**

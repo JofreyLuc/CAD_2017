@@ -1,6 +1,7 @@
 package fr.univ_lorraine.battleship.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -32,7 +33,7 @@ public class Ship extends Observable implements Serializable {
 	 * L'orientation du bateau.
 	 */
 	private Orientation orientation;
-	
+
 	/**
 	 * L'état du bateau, à vrai si il est détruit.
 	 */
@@ -197,5 +198,18 @@ public class Ship extends Observable implements Serializable {
 		notifyObservers();
 		return touched;
 	}
-	
+
+	/** Retourne les positions touchées du bateau
+	 * @return Positions touchées du bateau
+	 */
+	public ArrayList<Position> harmedPositions() {
+		Position[] p = getSeaTilesOccupied();
+		ArrayList<Position> harmedPositions = new ArrayList<>();
+
+		for(int i = 0; i < size; i++) {
+			if(hits[i]) harmedPositions.add(p[i]);
+		}
+
+		return harmedPositions;
+	}
 }

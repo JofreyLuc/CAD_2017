@@ -114,6 +114,18 @@ public class Sea extends Observable implements Serializable {
 	public SeaTileState getGridTileState(int x, int y) {
 		return grid[x][y];
 	}
+
+	/**
+	 * Retourne si l'état de la case est "NORMAL" (aucun tir effectué sur celle-ci)
+	 * @param x L'abscisse de la case.
+	 * @param y L'ordonnée de la case
+	 * @return Si oui ou non la case est à l'état "NORMAL"
+	 */
+	public boolean isTileNormal(int x, int y) {
+		if(getGridTileState(x, y).equals(SeaTileState.NORMAL)) return true;
+
+		return false;
+	}
 	
 	/**
 	 * Retourne la liste des bateaux placés sur la grille.
@@ -169,7 +181,6 @@ public class Sea extends Observable implements Serializable {
 	 * Regarde si il y a des bateaux blessés mais pas détruits.
 	 * @return Vrai si il existe au moins un bateau blessé, faux sinon.
 	 */
-	
 	public boolean isAnyShipHarmed(){
 		for (Ship s : ships){
 			if (!s.isDead()){
@@ -179,6 +190,22 @@ public class Sea extends Observable implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Retourne les positions où sont touchés les bateaux non-détruits
+	 * @return Les positions où sont touchés les bateaux non-détruits
+	 */
+	public ArrayList<Position> harmedShipPositions() {
+		ArrayList<Position> harmedShipPositions = new ArrayList<>();
+
+		for(Ship s : ships) {
+			if(!s.isDead()) {
+				harmedShipPositions.addAll(s.harmedPositions());
+			}
+		}
+
+		return harmedShipPositions;
 	}
 	
 	/**
