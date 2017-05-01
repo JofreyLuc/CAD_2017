@@ -113,8 +113,7 @@ public class Sea extends Observable implements Serializable {
 
 	/**
 	 * Retourne si l'état de la case est "NORMAL" (aucun tir effectué sur celle-ci)
-	 * @param x L'abscisse de la case.
-	 * @param y L'ordonnée de la case
+	 * @param p Position de la case à tester
 	 * @return Si oui ou non la case est à l'état "NORMAL"
 	 */
 	public boolean isTileNormal(Position p) {
@@ -125,8 +124,7 @@ public class Sea extends Observable implements Serializable {
 	
 	/**
 	 * Retourne si l'état de la case est "SHOT" (tir manqué effectué sur celle-ci)
-	 * @param x L'abscisse de la case.
-	 * @param y L'ordonnée de la case
+	 * @param p Position de la case à tester
 	 * @return Si oui ou non la case est à l'état "SHOT"
 	 */
 	public boolean isTileShot(Position p) {
@@ -137,8 +135,7 @@ public class Sea extends Observable implements Serializable {
 	
 	/**
 	 * Retourne si l'état de la case est "TOUCHED" (tir touchant effectué sur celle-ci)
-	 * @param x L'abscisse de la case.
-	 * @param y L'ordonnée de la case
+	 * @param p Position de la case à tester
 	 * @return Si oui ou non la case est à l'état "TOUCHED"
 	 */
 	public boolean isTileTouched(Position p) {
@@ -348,6 +345,11 @@ public class Sea extends Observable implements Serializable {
 		grid[position.getX()][position.getY()] = touched ? SeaTileState.TOUCHED : SeaTileState.SHOT; 
 	}
 
+	/** Renvoie les positions sur lesquelles on peut tirer (positions ni touchées ni hors de la grille) autour d'une position donnée
+	 *
+	 * @param p Position autour de laquelle on veut tirer
+	 * @return Les positions sur lesquelles on peut tirer
+	 */
 	public ArrayList<Position> getShootablePositions(Position p) {
         ArrayList<Position> shootablePositions = new ArrayList<>();
         Position[] testedPositions = new Position[4];

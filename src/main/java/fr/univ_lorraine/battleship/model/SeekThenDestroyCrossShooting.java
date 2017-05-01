@@ -24,7 +24,7 @@ public class SeekThenDestroyCrossShooting extends AbstractSeekThenDestroyShootin
 	protected Position playShootInSeekPhase(Sea sea) {
 
 		ArrayList<Position> shootablePositions = new ArrayList<>();
-
+		Random rand = new Random();
 		int xInit = 0;
 		Position p;
 
@@ -33,11 +33,9 @@ public class SeekThenDestroyCrossShooting extends AbstractSeekThenDestroyShootin
 				p = new Position(x, y);
 				if(sea.isTileNormal(p)) shootablePositions.add(p);
 			}
-			xInit = (xInit+1)%2;
+			xInit = (xInit+1)%2; // Pour commencer à la case 2 (en x) une ligne sur deux
 		}
-
-		Random rand = new Random();
-
+		
 		return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 	}
 }
