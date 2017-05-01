@@ -358,8 +358,10 @@ public class Sea extends Observable implements Serializable {
         testedPositions[3] = new Position(p.getX(), p.getY() - 1);
 
         for (int i = 0; i < 4; i++) {
-            if (!testedPositions[i].isOutOfBounds(0, getGridWidth(), 0, getGridHeight()) && isTileNormal(testedPositions[i])) {
-                shootablePositions.add(testedPositions[i]);
+            if (!testedPositions[i].isOutOfBounds(0, getGridWidth(), 0, getGridHeight())) {
+            	if(isTileNormal(testedPositions[i])) {
+					shootablePositions.add(testedPositions[i]);
+				}
             }
         }
 
