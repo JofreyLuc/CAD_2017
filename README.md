@@ -7,10 +7,10 @@
 
 - Lancement du projet :
   - Afin de lancer le projet, placez vous à la racine et, en ligne de commande, faites :
-    gradlew run
+    ```gradlew run``` ou ```./gradlew run``` (rendre ```gradlew``` exécutable avant si besoin) 
     
   - Afin de lancer les tests du projet, placez vous à la racine et, en ligne de commande, faites :
-    gradlew test
+    ```gradlew test``` ou ```./gradlew test``` (rendre ```gradlew``` exécutable avant si besoin) 
 
 - Contenu :
   - Le dossier de conception dans "Dossier conception"
