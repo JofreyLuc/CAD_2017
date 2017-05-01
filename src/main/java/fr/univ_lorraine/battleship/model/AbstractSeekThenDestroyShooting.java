@@ -40,25 +40,29 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	 */
 	private Position playShootInDestroyPhase(Sea sea) {
 		ArrayList<Position> harmed = sea.harmedShipPositions();
-		Position target = harmed.remove(0);
+		Position target = harmed.remove(0); //Cible à viser
 		Random rand = new Random();
 		ArrayList<Position> shootablePositions = sea.getShootablePositions(target);
 
+		//Si il n'y a qu'une seule cible
 		if (harmed.isEmpty()){
-			return shootablePositions.get(rand.nextInt(shootablePositions.size()));
+			return shootablePositions.get(rand.nextInt(shootablePositions.size())); //Tir au hasard autour de la cible
 		}
 		
-		ArrayList<Position> closeOnes = new ArrayList<>();
+		ArrayList<Position> closeOnes = new ArrayList<>(); //Cibles qui sont contigues à la cible de base
 		for (Position p : harmed) {
 			if (p.nextTo(target)){
 				closeOnes.add(p);
 			}			
 		}		
+		//Si la cible est isolée des autres
 		if (closeOnes.isEmpty()){
 			return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 		}
 		
-		Position lineTail = tail(target, closeOnes.get(0), sea); //TODO tail
+		//Sinon, on cherche à continuer une "ligne" de cibles
+		Position lineTail = tail(target, closeOnes.get(0), sea);
+		//Si ça n'est pas possible
 		if (lineTail == null){
 			return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 		}
@@ -66,74 +70,90 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 		return lineTail;
 	}
 	
+	/**
+	 * Retourne une des positions pouvant continuer une ligne de cases touchées entamées, et null si les deux
+	 * positions possibles ont été déjà touchées / sont out of bounds.
+	 * Ex, grille de 4*4 :
+	 * [      ]
+	 * [   X  ]
+	 * [   X  ]
+	 * [      ]
+	 * Positions possibles : (0,3) et (3,3)
+	 * @param target La position du tir d'origine.
+	 * @param nextOne La position du tir touchant à côté de l'origine.
+	 * @param sea La mer actuelle.
+	 * @return Une deux deux positions possibles, null si aucune possible.
+	 */
 	private Position tail(Position target, Position nextOne, Sea sea){
-		int hori = Math.abs(target.getX() - nextOne.getX());
+		boolean hori = (Math.abs(target.getX() - nextOne.getX()) == 1); //Détermine le sens de la ligne
+		
 		int x = target.getX(), y = target.getY();
 		int xMin = 0, xMax = sea.getGridWidth() - 1, yMin = 0, yMax = sea.getGridHeight()-1;
 		
 		boolean outOfBounds = false;
-		Position aimed = new Position(x, y);
-		if (hori == 1) {			
-			while (sea.isTileTouched(aimed)) {
+		Position aimedAt = new Position(x, y);
+		
+		if (hori) {
+			//Parcours des x vers la droite
+			while (sea.isTileTouched(aimedAt)) {
 				x++;
-				aimed = new Position(x, y);
-				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+				aimedAt = new Position(x, y);
+				if (aimedAt.isOutOfBounds(xMin, xMax, yMin, yMax)) {
 					outOfBounds = true;
 					break;
 				}
-			}
-			
+			}			
 			if (!outOfBounds) {
-				if (sea.isTileNormal(aimed)) return aimed;
+				if (sea.isTileNormal(aimedAt)) return aimedAt;
 			}
 			
 			outOfBounds = false;
 			x = target.getX();
-			aimed = new Position(x, y);
+			aimedAt = new Position(x, y);
 			
-			while (sea.isTileTouched(aimed)) {
+			//Parcours des x vers la gauche
+			while (sea.isTileTouched(aimedAt)) {
 				x--;
-				aimed = new Position(x, y);
-				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+				aimedAt = new Position(x, y);
+				if (aimedAt.isOutOfBounds(xMin, xMax, yMin, yMax)) {
 					outOfBounds = true;
 					break;
 				}
-			}
-			
+			}			
 			if (!outOfBounds){ 
-				if (sea.isTileNormal(aimed)) return aimed;
+				if (sea.isTileNormal(aimedAt)) return aimedAt;
 			}
 		
 		} else {
 			
-			while (sea.isTileTouched(aimed)) {
+			//Parcours des y vers le bas
+			while (sea.isTileTouched(aimedAt)) {
 				y++;
-				aimed = new Position(x, y);
-				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+				aimedAt = new Position(x, y);
+				if (aimedAt.isOutOfBounds(xMin, xMax, yMin, yMax)) {
 					outOfBounds = true;
 					break;
 				}
-			}
-			
+			}			
 			if (!outOfBounds) {
-				if (sea.isTileNormal(aimed)) return aimed;
+				if (sea.isTileNormal(aimedAt)) return aimedAt;
 			}
 			
 			outOfBounds = false;
 			y = target.getY();
-			aimed = new Position(x, y);
+			aimedAt = new Position(x, y);
 			
-			while (sea.isTileTouched(aimed)) {
+			//Parcours des y vers le haut
+			while (sea.isTileTouched(aimedAt)) {
 				y--;
-				aimed = new Position(x, y);
-				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+				aimedAt = new Position(x, y);
+				if (aimedAt.isOutOfBounds(xMin, xMax, yMin, yMax)) {
 					outOfBounds = true;
 					break;
 				}
 			}
-			
 			if (!outOfBounds){
-				if (sea.isTileNormal(aimed)) return aimed;
+				if (sea.isTileNormal(aimedAt)) return aimedAt;
 			}
 		}
 		
