@@ -25,17 +25,15 @@ public class SeekThenDestroyCrossShooting extends AbstractSeekThenDestroyShootin
 
 		ArrayList<Position> shootablePositions = new ArrayList<>();
 
-		int x, y;
-		int width = sea.getGridWidth();
-		int height = sea.getGridHeight();
+		int xInit = 0;
+		Position p;
 
-		for(int i = 0; i < width*height; i += 2) {
-			x = i%width;
-			y = (int)Math.floor(i/width);
-
-			Position p = new Position(x, y);
-
-			if(sea.isTileNormal(p)) shootablePositions.add(p);
+		for(int y = 0; y < sea.getGridHeight(); y+= 1) {
+			for(int x = xInit; x < sea.getGridWidth(); x+=2) {
+				p = new Position(x, y);
+				if(sea.isTileNormal(p)) shootablePositions.add(p);
+			}
+			xInit = (xInit+1)%2;
 		}
 
 		Random rand = new Random();
