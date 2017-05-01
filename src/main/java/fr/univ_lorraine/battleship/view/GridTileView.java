@@ -2,6 +2,7 @@ package fr.univ_lorraine.battleship.view;
 
 
 import java.awt.Graphics;
+
 import javax.swing.JComponent;
 
 import fr.univ_lorraine.battleship.model.Sea;

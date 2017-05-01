@@ -50,6 +50,10 @@ public class GameFrame extends JFrame {
 	 */
 	private CardLayout cardLayout;
 	
+	public GameView getGamePanel() {
+		return gamePanel;
+	}
+
 	/**
 	 * Crée la fenêtre ainsi que les différents panels du CardLayout.
 	 */

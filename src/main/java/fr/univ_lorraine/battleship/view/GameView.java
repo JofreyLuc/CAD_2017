@@ -251,4 +251,5 @@ public class GameView extends JPanel implements Observer {
 		playerGridView.setNonLoopingAnimationsToEnd();
 		computerGridView.setNonLoopingAnimationsToEnd();
 	}
+	
 }

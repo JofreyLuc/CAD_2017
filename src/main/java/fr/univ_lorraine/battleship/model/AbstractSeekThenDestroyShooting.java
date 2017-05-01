@@ -2,7 +2,6 @@ package fr.univ_lorraine.battleship.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.Phaser;
 
 /**
  * Classe implémentant une stratégie de tir de type "Recherche puis destruction" ou "Chasse/Cible".
