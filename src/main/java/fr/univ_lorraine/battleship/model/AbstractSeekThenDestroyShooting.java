@@ -83,8 +83,11 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 				}
 			}
 			
-			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
+			if (!outOfBounds) {
+				if (sea.isTileNormal(aimed)) return aimed;
+			}
 			
+			outOfBounds = false;
 			x = target.getX();
 			aimed = new Position(x, y);
 			
@@ -97,7 +100,9 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 				}
 			}
 			
-			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
+			if (!outOfBounds){ 
+				if (sea.isTileNormal(aimed)) return aimed;
+			}
 		
 		} else {
 			
@@ -110,8 +115,11 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 				}
 			}
 			
-			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
+			if (!outOfBounds) {
+				if (sea.isTileNormal(aimed)) return aimed;
+			}
 			
+			outOfBounds = false;
 			y = target.getY();
 			aimed = new Position(x, y);
 			
@@ -124,7 +132,9 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 				}
 			}
 			
-			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
+			if (!outOfBounds){
+				if (sea.isTileNormal(aimed)) return aimed;
+			}
 		}
 		
 		return null;
