@@ -69,19 +69,64 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	private Position tail(Position target, Position nextOne, Sea sea){
 		int hori = Math.abs(target.getX() - nextOne.getX());
 		int x = target.getX(), y = target.getY();
-		if (hori == 1) {
-			while (sea.isTileTouched(new Position(x, y))) x++;
-			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+		int xMin = 0, xMax = sea.getGridWidth() - 1, yMin = 0, yMax = sea.getGridHeight()-1;
+		
+		boolean outOfBounds = false;
+		Position aimed = new Position(x, y);
+		if (hori == 1) {			
+			while (sea.isTileTouched(aimed)) {
+				x++;
+				aimed = new Position(x, y);
+				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+					outOfBounds = true;
+					break;
+				}
+			}
+			
+			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
+			
 			x = target.getX();
-			while (sea.isTileTouched(new Position(x, y))) x--;
-			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+			aimed = new Position(x, y);
+			
+			while (sea.isTileTouched(aimed)) {
+				x--;
+				aimed = new Position(x, y);
+				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+					outOfBounds = true;
+					break;
+				}
+			}
+			
+			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
+		
 		} else {
-			while (sea.isTileTouched(new Position(x, y))) y++;
-			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+			
+			while (sea.isTileTouched(aimed)) {
+				y++;
+				aimed = new Position(x, y);
+				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+					outOfBounds = true;
+					break;
+				}
+			}
+			
+			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
+			
 			y = target.getY();
-			while (sea.isTileTouched(new Position(x, y))) y--;
-			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+			aimed = new Position(x, y);
+			
+			while (sea.isTileTouched(aimed)) {
+				y--;
+				aimed = new Position(x, y);
+				if (aimed.isOutOfBounds(xMin, xMax, yMin, yMax)) {
+					outOfBounds = true;
+					break;
+				}
+			}
+			
+			if (!outOfBounds && sea.isTileNormal(aimed)) return aimed;
 		}
+		
 		return null;
 	}
 	
