@@ -124,6 +124,30 @@ public class Sea extends Observable implements Serializable {
 	}
 	
 	/**
+	 * Retourne si l'état de la case est "SHOT" (tir manqué effectué sur celle-ci)
+	 * @param x L'abscisse de la case.
+	 * @param y L'ordonnée de la case
+	 * @return Si oui ou non la case est à l'état "SHOT"
+	 */
+	public boolean isTileShot(Position p) {
+		if(getGridTileState(p.getX(), p.getY()).equals(SeaTileState.SHOT)) return true;
+
+		return false;
+	}
+	
+	/**
+	 * Retourne si l'état de la case est "TOUCHED" (tir touchant effectué sur celle-ci)
+	 * @param x L'abscisse de la case.
+	 * @param y L'ordonnée de la case
+	 * @return Si oui ou non la case est à l'état "TOUCHED"
+	 */
+	public boolean isTileTouched(Position p) {
+		if(getGridTileState(p.getX(), p.getY()).equals(SeaTileState.TOUCHED)) return true;
+
+		return false;
+	}
+	
+	/**
 	 * Retourne la liste des bateaux placés sur la grille.
 	 * @return La liste des bateaux placés sur la grille.
 	 */

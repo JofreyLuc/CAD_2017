@@ -54,12 +54,31 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 			//tirer au hasard autour de target
 		}
 		
-		Position lineTail = tail(target, closeOnes.get(0)); //TODO tail
+		Position lineTail = tail(target, closeOnes.get(0), sea); //TODO tail
 		if (lineTail == null){
 			//tirer au hasard autour de target
 		}
 		
 		return lineTail;
+	}
+	
+	private Position tail(Position target, Position nextOne, Sea sea){
+		int hori = Math.abs(target.getX() - nextOne.getX());
+		int x = target.getX(), y = target.getY();
+		if (hori == 1) {
+			while (sea.isTileTouched(new Position(x, y))) x++;
+			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+			x = target.getX();
+			while (sea.isTileTouched(new Position(x, y))) x--;
+			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+		} else {
+			while (sea.isTileTouched(new Position(x, y))) y++;
+			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+			y = target.getY();
+			while (sea.isTileTouched(new Position(x, y))) y--;
+			if (sea.isTileNormal(new Position(x, y))) return new Position(x, y);
+		}
+		return null;
 	}
 	
 	/**
