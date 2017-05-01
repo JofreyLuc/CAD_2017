@@ -1,6 +1,7 @@
 package fr.univ_lorraine.battleship.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.Phaser;
 
 /**
@@ -40,8 +41,11 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 	private Position playShootInDestroyPhase(Sea sea) {
 		ArrayList<Position> harmed = sea.harmedShipPositions();
 		Position target = harmed.remove(0);
+		Random rand = new Random();
+		ArrayList<Position> shootablePositions = sea.getShootablePositions(target);
+
 		if (harmed.isEmpty()){
-			//tirer au hasard autour de target
+			return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 		}
 		
 		ArrayList<Position> closeOnes = new ArrayList<>();
@@ -51,12 +55,12 @@ public abstract class AbstractSeekThenDestroyShooting implements ShootingStrateg
 			}			
 		}		
 		if (closeOnes.isEmpty()){
-			//tirer au hasard autour de target
+			return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 		}
 		
 		Position lineTail = tail(target, closeOnes.get(0), sea); //TODO tail
 		if (lineTail == null){
-			//tirer au hasard autour de target
+			return shootablePositions.get(rand.nextInt(shootablePositions.size()));
 		}
 		
 		return lineTail;
