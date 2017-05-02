@@ -6,10 +6,10 @@
   - Build réalisé avec Gradle
 
 - Lancement du projet :
-  - Afin de lancer le projet, placez vous à la racine et, en ligne de commande, faites :
+  - Afin de lancer le projet, placez vous à la racine et faites :
     ```gradlew run``` ou ```./gradlew run``` (rendre ```gradlew``` exécutable avant si besoin) 
     
-  - Afin de lancer les tests du projet, placez vous à la racine et, en ligne de commande, faites :
+  - Afin de lancer les tests du projet, placez vous à la racine et faites :
     ```gradlew test``` ou ```./gradlew test``` (rendre ```gradlew``` exécutable avant si besoin) 
 
 - Contenu :
@@ -19,5 +19,22 @@
     - "main/resources" : les ressources principales (images, etc.)
     - "test/java"      : les classes de test
 
+- Fonctionnalités :
+  - Interface graphique complète avec :
+    - Menu principal
+    - Ecran de chargement/sauvegarde de partie
+    - Ecran de sélection des options du jeu
+    - Ecran de jeu
+    - Options en jeu
+  - 2 époques sélectionnables :
+    - Une avec les règles classiques de la bataille navale
+    - Une autre où les bateaux disposent de moins de points de vie (comme demandé dans le sujet)
+  - 3 stratégies de tirs (ordinateur) sélectionnables (avec changement possible en cours de partie) :
+    - Tir entièrement aléatoire
+    - Mode chasse/cible (voir détails en tooltip du bouton) avec tir aléatoire
+    - Mode chasse/cible (voir détails en tooltip du bouton) avec tir en croix
+  - Chargement/sauvegarde de partie (dans le fichier de son choix)
+  
 - Détails de conception :
+  - Pattern MVC pour la structure générale
   - Pattern Strategy pour les époques et pour la technique de tir de l'ordinateur
