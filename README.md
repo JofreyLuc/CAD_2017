@@ -48,5 +48,7 @@
 ## Ajout de fonctionnalités au projet d'une autre équique
 
 Équipe 4 : Parwany Aschmat, Mondy Flavien, Nosari Florent
+
 Dépôt GitHub : https://github.com/nosari20/bataille_navale
+
 Notre fork (sera fusionné) : https://github.com/Sudiukil/bataille_navale
