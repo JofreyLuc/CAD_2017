@@ -61,6 +61,22 @@ public class ImageFactory {
 	private BufferedImage oldShip5RedImage;
 	private BufferedImage oldShip5HilightImage;
 	
+	private BufferedImage Ship2Image;
+	private BufferedImage Ship2RedImage;
+	private BufferedImage Ship2HilightImage;
+	
+	private BufferedImage Ship3Image;
+	private BufferedImage Ship3RedImage;
+	private BufferedImage Ship3HilightImage;
+	
+	private BufferedImage Ship4Image;
+	private BufferedImage Ship4RedImage;
+	private BufferedImage Ship4HilightImage;
+	
+	private BufferedImage Ship5Image;
+	private BufferedImage Ship5RedImage;
+	private BufferedImage Ship5HilightImage;
+	
 	// Images diverses
 	private BufferedImage escapeKeyImage;
 	
@@ -108,6 +124,22 @@ public class ImageFactory {
 			oldShip5Image = loadImage("/images/battleship/oldShip5.png");
 			oldShip5RedImage = loadImage("/images/battleship/oldShip5Red.png");
 			oldShip5HilightImage = loadImage("/images/battleship/oldShip5Hilight.png");
+			
+			Ship2Image = loadImage("/images/battleship/2.png");
+			Ship2RedImage = loadImage("/images/battleship/2Red.png");
+			Ship2HilightImage = loadImage("/images/battleship/2Hilight.png");
+			
+			Ship3Image = loadImage("/images/battleship/3.png");
+			Ship3RedImage = loadImage("/images/battleship/3Red.png");
+			Ship3HilightImage = loadImage("/images/battleship/3Hilight.png");
+			
+			Ship4Image = loadImage("/images/battleship/4.png");
+			Ship4RedImage = loadImage("/images/battleship/4Red.png");
+			Ship4HilightImage = loadImage("/images/battleship/4Hilight.png");
+			
+			Ship5Image = loadImage("/images/battleship/5.png");
+			Ship5RedImage = loadImage("/images/battleship/5Red.png");
+			Ship5HilightImage = loadImage("/images/battleship/5Hilight.png");
 			
 			escapeKeyImage = loadImage("/images/misc/escapeKey.png");
 			
@@ -233,6 +265,7 @@ public class ImageFactory {
 		return oldShip5HilightImage;
 	}
 	
+	
 	public BufferedImage getEscapeKeyImage() {
 		return escapeKeyImage;
 	}
@@ -252,6 +285,55 @@ public class ImageFactory {
 	public Animation getSeaXVIBackgroundAnimation() {
 		return seaXVIBackgroundAnimation;
 	}
+	
+	public BufferedImage getShip2Image() {
+		return Ship2Image;
+	}
+
+	public BufferedImage getShip2RedImage() {
+		return Ship2RedImage;
+	}
+
+	public BufferedImage getShip2HilightImage() {
+		return Ship2HilightImage;
+	}
+
+	public BufferedImage getShip3Image() {
+		return Ship3Image;
+	}
+
+	public BufferedImage getShip3RedImage() {
+		return Ship3RedImage;
+	}
+
+	public BufferedImage getShip3HilightImage() {
+		return Ship3HilightImage;
+	}
+
+	public BufferedImage getShip4Image() {
+		return Ship4Image;
+	}
+
+	public BufferedImage getShip4RedImage() {
+		return Ship4RedImage;
+	}
+
+	public BufferedImage getShip4HilightImage() {
+		return Ship4HilightImage;
+	}
+
+	public BufferedImage getShip5Image() {
+		return Ship5Image;
+	}
+
+	public BufferedImage getShip5RedImage() {
+		return Ship5RedImage;
+	}
+
+	public BufferedImage getShip5HilightImage() {
+		return Ship5HilightImage;
+	}
+
 	
 	/**
 	 * Retourne l'instance du singleton.

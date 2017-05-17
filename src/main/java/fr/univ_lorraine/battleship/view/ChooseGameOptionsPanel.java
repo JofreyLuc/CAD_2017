@@ -24,6 +24,7 @@ import fr.univ_lorraine.battleship.model.SeekThenDestroyCrossShooting;
 import fr.univ_lorraine.battleship.model.SeekThenDestroyRandomShooting;
 import fr.univ_lorraine.battleship.model.ShootingStrategy;
 import fr.univ_lorraine.battleship.model.Epoch.EpochName;
+import fr.univ_lorraine.battleship.model.EpochX;
 import fr.univ_lorraine.battleship.model.Game.PlayerId;
 import fr.univ_lorraine.battleship.model.ShootingStrategy.ShootingStrategyName;
 
@@ -54,6 +55,11 @@ public class ChooseGameOptionsPanel extends JPanel {
 	 * Bouton de l'époque XVI.
 	 */
 	private final JToggleButton epochXVIButton;
+	
+	/**
+	 * Bouton de l'époque X.
+	 */
+	private final JToggleButton epochXButton;
 	
 	/**
 	 * Map liant les actions des boutons à leur stratégie de tir correspondante.
@@ -164,6 +170,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 		this.add(container, gbc);
 
 		// Choix époque
+		ACTION_EPOCH_MAP.put(EpochName.X_SIECLE.name(), new EpochX());
 		ACTION_EPOCH_MAP.put(EpochName.XVI_SIECLE.name(), new EpochXVI());
 		ACTION_EPOCH_MAP.put(EpochName.XX_SIECLE.name(), new EpochXX());
 		
@@ -174,13 +181,23 @@ public class ChooseGameOptionsPanel extends JPanel {
 		gbc.gridx = gbc.gridy = 0;
 		container.add(epochLabel, gbc);
 		
+		epochXButton = new JToggleButton("Xème siècle");
+		epochXButton.setToolTipText("Les bateaux sont peu résistants.");
+		epochXButton.setActionCommand(EpochName.X_SIECLE.name());
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0, 0, 0, 10);
+		gbc.gridwidth = 1;
+		gbc.gridy++;
+		gbc.weightx = 1/3;
+		container.add(epochXButton, gbc);
+		
 		epochXVIButton = new JToggleButton("XVIème siècle");
 		epochXVIButton.setToolTipText("A cette époque, les bateaux sont moins résistants et coulent en moins de tirs.");
 		epochXVIButton.setActionCommand(EpochName.XVI_SIECLE.name());
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 0, 0, 10);
 		gbc.gridwidth = 1;
-		gbc.gridy++;
+		gbc.gridx++;
 		gbc.weightx = 1/3;
 		container.add(epochXVIButton, gbc);
 		
@@ -193,6 +210,7 @@ public class ChooseGameOptionsPanel extends JPanel {
 		container.add(epochXXButton, gbc);
 				
 		epochGroup = new ButtonGroup();
+		epochGroup.add(epochXButton);
 		epochGroup.add(epochXVIButton);
 		epochGroup.add(epochXXButton);
 		

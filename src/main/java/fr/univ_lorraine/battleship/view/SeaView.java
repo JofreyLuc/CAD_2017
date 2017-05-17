@@ -116,6 +116,10 @@ public abstract class SeaView extends JPanel implements Observer {
 		
 		// Animation de la mer en fond
 		switch(game.getEpoch().getEpochName()) {
+		
+		case X_SIECLE:
+			backgroundAnim = ImageFactory.getInstance().getSeaXVIBackgroundAnimation();
+			break;
 		case XVI_SIECLE:
 			backgroundAnim = ImageFactory.getInstance().getSeaXVIBackgroundAnimation();
 			break;

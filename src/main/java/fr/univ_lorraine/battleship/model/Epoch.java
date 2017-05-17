@@ -18,7 +18,7 @@ public abstract class Epoch implements Serializable {
 	 * Enumération de nom d'époques.
 	 * Utile pour changer l'apparence du jeu selon l'époque.
 	 */
-	public enum EpochName { XVI_SIECLE, XX_SIECLE }
+	public enum EpochName { XVI_SIECLE, XX_SIECLE, X_SIECLE }
 		
 	/**
 	 * Retourne le nom de l'époque.

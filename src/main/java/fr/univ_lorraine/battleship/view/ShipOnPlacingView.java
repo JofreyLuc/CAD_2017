@@ -47,43 +47,44 @@ public class ShipOnPlacingView extends ShipView {
 		
 		ImageFactory imgFac = ImageFactory.getInstance();
 		switch(ship.getEpoch().getEpochName()) {
-			case XX_SIECLE:
-				switch(ship.getSize()) {
-					case 5: 
-						if (!validPlacement) {
-							shipImage = imgFac.getShipCarrierRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipCarrierHilightImage();
-						}
-						break;
-					case 4: 
-						if (!validPlacement) {
-							shipImage = imgFac.getShipBattleshipRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipBattleshipHilightImage();
-						}
-						break;
-					case 3: 
-						if (!validPlacement) {
-							shipImage = imgFac.getShipSubmarineRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipSubmarineHilightImage();
-						}
-						break;
-					case 2: 
-						if (!validPlacement) {
-							shipImage = imgFac.getShipPtBoatRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipPtBoatHilightImage();
-						}
-						break;
-					default:
+		case X_SIECLE:
+			switch(ship.getSize()) {
+			case 5: 
+				if (!validPlacement) {
+					shipImage = imgFac.getShip5RedImage();
+				}
+				else {
+					shipImage = imgFac.getShip5Image();
 				}
 				break;
+			case 4: 
+				if (!validPlacement) {
+					shipImage = imgFac.getShip4RedImage();
+				}
+				else {
+					shipImage = imgFac.getShip4Image();
+				}
+				break;
+			case 3: 
+				if (!validPlacement) {
+					shipImage = imgFac.getShip3RedImage();
+				}
+				else {
+					shipImage = imgFac.getShip3Image();
+				}
+				break;
+			case 2: 
+				if (!validPlacement) {
+					shipImage = imgFac.getShip2RedImage();
+				}
+				else {
+					shipImage = imgFac.getShip2Image();
+				}
+				break;
+			default:
+		}
+		break;
+		
 			case XVI_SIECLE:
 				switch(ship.getSize()) {
 					case 5: 
@@ -116,6 +117,43 @@ public class ShipOnPlacingView extends ShipView {
 						}
 						else {
 							shipImage = imgFac.getOldShip2HilightImage();
+						}
+						break;
+					default:
+				}
+				break;
+			case XX_SIECLE:
+				switch(ship.getSize()) {
+					case 5: 
+						if (!validPlacement) {
+							shipImage = imgFac.getShipCarrierRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipCarrierHilightImage();
+						}
+						break;
+					case 4: 
+						if (!validPlacement) {
+							shipImage = imgFac.getShipBattleshipRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipBattleshipHilightImage();
+						}
+						break;
+					case 3: 
+						if (!validPlacement) {
+							shipImage = imgFac.getShipSubmarineRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipSubmarineHilightImage();
+						}
+						break;
+					case 2: 
+						if (!validPlacement) {
+							shipImage = imgFac.getShipPtBoatRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipPtBoatHilightImage();
 						}
 						break;
 					default:

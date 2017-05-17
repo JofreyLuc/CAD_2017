@@ -58,43 +58,43 @@ public class ShipView implements Observer {
 		}
 		ImageFactory imgFac = ImageFactory.getInstance();
 		switch(ship.getEpoch().getEpochName()) {
-			case XX_SIECLE:
+			case X_SIECLE:
 				switch(ship.getSize()) {
-					case 5: 
-						if (ship.isDead()) {
-							shipImage = imgFac.getShipCarrierRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipCarrierImage();
-						}
-						break;
-					case 4: 
-						if (ship.isDead()) {
-							shipImage = imgFac.getShipBattleshipRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipBattleshipImage();
-						}
-						break;
-					case 3: 
-						if (ship.isDead()) {
-							shipImage = imgFac.getShipSubmarineRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipSubmarineImage();
-						}
-						break;
-					case 2: 
-						if (ship.isDead()) {
-							shipImage = imgFac.getShipPtBoatRedImage();
-						}
-						else {
-							shipImage = imgFac.getShipPtBoatImage();
-						}
-						break;
-					default:
-				}
-				break;
+				case 5: 
+					if (ship.isDead()) {
+						shipImage = imgFac.getShip5RedImage();
+					}
+					else {
+						shipImage = imgFac.getShip5Image();
+					}
+					break;
+				case 4: 
+					if (ship.isDead()) {
+						shipImage = imgFac.getShip4RedImage();
+					}
+					else {
+						shipImage = imgFac.getShip4Image();
+					}
+					break;
+				case 3: 
+					if (ship.isDead()) {
+						shipImage = imgFac.getShip3RedImage();
+					}
+					else {
+						shipImage = imgFac.getShip3Image();
+					}
+					break;
+				case 2: 
+					if (ship.isDead()) {
+						shipImage = imgFac.getShip2RedImage();
+					}
+					else {
+						shipImage = imgFac.getShip2Image();
+					}
+					break;
+				default:
+			}
+			break;
 			case XVI_SIECLE:
 				switch(ship.getSize()) {
 					case 5: 
@@ -132,6 +132,44 @@ public class ShipView implements Observer {
 					default:
 				}
 				break;
+			case XX_SIECLE:
+				switch(ship.getSize()) {
+					case 5: 
+						if (ship.isDead()) {
+							shipImage = imgFac.getShipCarrierRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipCarrierImage();
+						}
+						break;
+					case 4: 
+						if (ship.isDead()) {
+							shipImage = imgFac.getShipBattleshipRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipBattleshipImage();
+						}
+						break;
+					case 3: 
+						if (ship.isDead()) {
+							shipImage = imgFac.getShipSubmarineRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipSubmarineImage();
+						}
+						break;
+					case 2: 
+						if (ship.isDead()) {
+							shipImage = imgFac.getShipPtBoatRedImage();
+						}
+						else {
+							shipImage = imgFac.getShipPtBoatImage();
+						}
+						break;
+					default:
+				}
+				break;
+			
 			default:
 				throw new AssertionError("Epoque inconnu " + ship.getEpoch().getEpochName());
 		}
